@@ -8,8 +8,13 @@
 
 ``` python -m pip install twilio ```
 
+
+### Install Telethon (telegram client)
+
+``` python -m pip install telethon ```
+
+
 #### set environ variables
 
-``` set TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ```
-
-``` set TWILIO_AUTH_TOKEN=your_auth_token ```
+``` TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 
+    TWILIO_AUTH_TOKEN=your_auth_token  ```
