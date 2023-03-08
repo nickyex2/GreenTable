@@ -17,6 +17,8 @@
 #### set environ variables
 
 ``` 
-    TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 
-    TWILIO_AUTH_TOKEN=your_auth_token  
+TELEGRAM_API_SESSION='xxxxxxxxxxxxxxxxxxxxx'
+TELEGRAM_API_ID='xxxxxxxx'
+TELEGRAM_API_HASH='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+SENDGRID_API_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  
 ```
