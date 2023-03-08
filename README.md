@@ -8,8 +8,17 @@
 
 ``` python -m pip install twilio ```
 
+
+### Install Telethon (telegram client)
+
+``` python -m pip install telethon ```
+
+
 #### set environ variables
 
-``` set TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ```
-
-``` set TWILIO_AUTH_TOKEN=your_auth_token ```
+``` 
+TELEGRAM_API_SESSION='xxxxxxxxxxxxxxxxxxxxx'
+TELEGRAM_API_ID='xxxxxxxx'
+TELEGRAM_API_HASH='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+SENDGRID_API_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  
+```
