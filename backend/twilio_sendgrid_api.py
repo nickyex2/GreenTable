@@ -23,6 +23,7 @@ def send_email(message):
         print(response.status_code)
         print(response.body)
         print(response.headers)
+        return {'message': 'Email Sent with no errors'}, response.status_code
     except Exception as e:
         return {'message': e}, e['code']
 
@@ -71,4 +72,4 @@ def send_payment():
 
 # main driver function
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    app.run(debug=True, port=5014, host='0.0.0.0')
