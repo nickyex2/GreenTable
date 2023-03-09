@@ -1,0 +1,9 @@
+# here states the dependencies for the project
+Flask==2.2.3
+Flask-SQLAlchemy==3.0.3 #might remove this
+mysql-connector-python==8.0.32 #might remove this
+requests==2.28.2
+sendgrid==6.9.7
+python_dotenv==1.0.0
+telethon==1.27.0
+quart==0.18.3
