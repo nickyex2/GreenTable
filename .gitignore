@@ -1,3 +1,5 @@
 .env
 /*.session
 /backend/*.session
+/*adminsdk.json
+/backend/*adminsdk.json

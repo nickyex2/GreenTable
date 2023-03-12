@@ -24,6 +24,11 @@ async def send_message(user_details, message_content):
     # Disconnect the client
     client.disconnect()
 
+"""
+    data = {
+        "phone": "12345678"
+    }
+"""
 @app.route('/api/sendbooking', methods=['POST'])
 async def send_booking():
     data = await request.get_json()
@@ -32,8 +37,8 @@ async def send_booking():
     await send_message(user_details, message_content)
     return jsonify({'message': 'Message sent successfully'}), 200
 
-@app.route('/api/sendcancel', methods=['POST'])
-async def send_cancel():
+@app.route('/api/sendnoti', methods=['POST'])
+async def send_noti():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = "this is a test message"
@@ -49,5 +54,5 @@ async def send_payment():
     return jsonify({'message': 'Message sent successfully'}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='0.0.0.0', use_reloader=True)
+    app.run(debug=True, port=5015, host='0.0.0.0', use_reloader=True)
 

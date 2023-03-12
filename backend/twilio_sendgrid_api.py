@@ -9,13 +9,6 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# message = Mail(
-#     from_email='nicholasgbr99@gmail.com',
-#     to_emails='zellaex128@gmail.com',
-#     subject='Sending with Twilio SendGrid is Fun',
-#     html_content='<strong>and easy to do anywhere, even with Python</strong>')
-
-
 def send_email(message):
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -27,9 +20,17 @@ def send_email(message):
     except Exception as e:
         return {'message': e}, e['code']
 
+"""
+    data = {
+        "email": "
+        "subject": "Booking Confirmation",
+        "name": "Nicholas",
+        "booking": "12345678",
+        "restaurant_name": "Restaurant 1",
+        "date_time": "2021-01-01 12:00:00"
+    }
+"""
 # 1. send booking confirmation email
-
-
 @app.route('/api/sendbooking', methods=['POST'])
 def send_booking():
     data = request.get_json()
@@ -42,9 +43,7 @@ def send_booking():
     return jsonify({'message': 'Email sent successfully'}), 200
 
 # 2. send booking cancellation email
-
-
-@app.route('/api/sendcancel', methods=['POST'])
+@app.route('/api/sendnoti', methods=['POST'])
 def send_cancel():
     data = request.get_json()
     message = Mail(
@@ -56,8 +55,6 @@ def send_cancel():
     return jsonify({'message': 'Email sent successfully'}), 200
 
 # 3. send payment confirmation email
-
-
 @app.route('/api/sendpayment', methods=['POST'])
 def send_payment():
     data = request.get_json()
