@@ -7,3 +7,5 @@ sendgrid==6.9.7
 python_dotenv==1.0.0
 telethon==1.27.0
 quart==0.18.3
+quart-cors==0.6.0
+stripe==5.2.0
