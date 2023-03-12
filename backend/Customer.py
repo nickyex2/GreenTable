@@ -23,7 +23,7 @@ def getAll():
 
     return jsonify(restaurants)
 
-@Customer.route('customer/<string:id>', methods=['GET'])
+@Customer.route('/customer/<string:id>', methods=['GET'])
 def getCustomer(id):
     doc_ref = db.collection(u'Customers').document(id).get()
 
