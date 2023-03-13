@@ -71,4 +71,4 @@ def processUpdateAvailability(obj):
     return "Update Successful"        
 
 if __name__ == '__main__':
-    Catalog.run(port=5000, debug=True)
+    Catalog.run(port=5002, debug=True)

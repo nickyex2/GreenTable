@@ -22,3 +22,6 @@ def getWaitList(restaurant_name):
         waitlist.append(doc.to_dict())
 
     return jsonify(waitlist)
+
+if __name__ == '__main__':
+    WaitList.run(debug=True, host='0.0.0.0', port=5010)
