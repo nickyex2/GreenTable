@@ -29,7 +29,8 @@ services:
     # image: 
     restart: always
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
@@ -49,7 +50,8 @@ services:
     # image: 
     restart: always
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
@@ -66,6 +68,9 @@ services:
       dockerfile: telegram_send_api.Dockerfile
     # image: 
     restart: always
+    depends_on:
+      notification:
+        condition: service_healthy
     environment:
       TELEGRAM_API_ID: ${TELEGRAM_API_ID}
       TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
@@ -82,6 +87,9 @@ services:
       dockerfile: twilio_sendgrid_api.Dockerfile
     # image: 
     restart: always
+    depends_on:
+      notification:
+        condition: service_healthy
     environment:
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       PYTHONUNBUFFERED: 1
