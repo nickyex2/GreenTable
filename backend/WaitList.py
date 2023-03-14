@@ -2,11 +2,14 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pymongo
 from bson.json_util import dumps, loads
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-client = pymongo.MongoClient("mongodb+srv://WaitList:waitlist@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority")
+client = pymongo.MongoClient(os.environ.get('WAITLIST_DB_URL'))
 db = client["WaitList"]
 collection = db["WaitList"]
 # query data
