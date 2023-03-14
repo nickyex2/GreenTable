@@ -30,4 +30,4 @@ def getCustomer(id):
     return jsonify(doc_ref.to_dict())
 
 if __name__ == '__main__':
-    Customer.run(port=5000, debug=True)
+    Customer.run(port=5001, debug=True)
