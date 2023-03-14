@@ -22,7 +22,7 @@ def send_email(message):
 
 """
     data = {
-        "email": "
+        "email": "abc@example.com"
         "subject": "Booking Confirmation",
         "name": "Nicholas",
         "booking": "12345678",
@@ -44,7 +44,7 @@ def send_booking():
 
 # 2. send booking cancellation email
 @app.route('/api/sendnoti', methods=['POST'])
-def send_cancel():
+def send_noti():
     data = request.get_json()
     message = Mail(
         from_email='nicholasgbr99@gmail.com',
