@@ -37,7 +37,7 @@ services:
   #################################################
   # WaitList: The WaitList microservice
   #################################################
-  catalog:
+  waitlist:
     build:
       context: ./backend
       dockerfile: waitlist.Dockerfile
