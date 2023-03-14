@@ -20,11 +20,22 @@ collection = db["WaitList"]
 # collection.insert_one({"_id":"kFC", "restaurant_name": "test2", "name": "tes2t", "size": 2, "status": "waiting"})
 # collection.insert_many([{"name": "test1", "age": 18}, {"name": "test2", "age": 18}])
 
+
 @app.route('/waitlist/<string:restaurant_name>', methods=['GET'])
 def getWaitList(restaurant_name):
     items = collection.find({"_id": restaurant_name})
     result = loads(dumps(items))
-    return result[0]["customers"]["Nicky_goh"]
+    return result[0]["customers"], 200
+
+"""
+    data = {
+        "restaurant_name": "Restaurant 1",
+        "customer": "Customer 1",
+        "phone": "12345678",
+        "email": "abc@example.com",
+        "date": "2021-01-01",
+        "time": "1200HRS"
+"""
 
 @app.route('/waitlist', methods=['POST'])
 def postWaitList():
