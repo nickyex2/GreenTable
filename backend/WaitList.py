@@ -19,11 +19,46 @@ collection = db["WaitList"]
 
 @app.route('/waitlist/<string:restaurant_name>', methods=['GET'])
 def getWaitList(restaurant_name):
-    print("here")
-    items = collection.find({"restaurant_name": restaurant_name})
-    
+    items = collection.find({"_id": restaurant_name})
     result = loads(dumps(items))
-    return result
+    return result[0]["customers"]["Nicky_goh"]
+
+@app.route('/waitlist', methods=['POST'])
+def postWaitList():
+    data = request.get_json()
+    # search if restaurant exists
+    result = loads(dumps(collection.find({"_id": data["restaurant_name"]})))
+    if len(result) == 0:
+        data_put = {
+            "_id": data["restaurant_name"],
+            "customers": {
+                data["customer"]: {
+                    "phone": data["phone"],
+                    "email": data["email"],
+                    "date": data["date"],
+                    "time": data["time"],
+                }
+            }
+        }
+        try:
+            collection.insert_one(data_put)
+        except Exception as e:
+            return jsonify({'message': str(e)}), e['code']
+    else:
+        data_put = {
+                "phone": data["phone"],
+                "email": data["email"],
+                "date": data["date"],
+                "time": data["time"],
+            }
+        result[0]["customers"][data["customer"]] = data_put
+        result_put = result[0]["customers"]
+        try:
+            collection.update_one({"_id": data["restaurant_name"]}, {"$set": {"customers": result_put}})
+        except Exception as e:
+            return jsonify({'message': str(e)}), e['code']
+        
+    return jsonify({'message': 'WaitList added successfully'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5010)
