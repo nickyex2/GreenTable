@@ -35,6 +35,20 @@ services:
     # networks:
     #   - kong-net
   #################################################
+  # WaitList: The WaitList microservice
+  #################################################
+  catalog:
+    build:
+      context: ./backend
+      dockerfile: waitlist.Dockerfile
+    # image: 
+    restart: always
+    environment:
+      PYTHONUNBUFFERED: 1
+      DB_URL: ${WAITLIST_DB_URL}
+    # networks:
+    #   - kong-net
+  #################################################
   # Notification: The Notification microservice
   #################################################
   notification:

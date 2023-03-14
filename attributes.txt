@@ -1,6 +1,6 @@
 // WaitList Attributes
 {
-    "id": "restaurant_name",
+    "_id": "restaurant_name",
     "customers": {
         "customer_name": {
             "phone": "phone_number",
