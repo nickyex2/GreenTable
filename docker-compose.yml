@@ -17,6 +17,21 @@ services:
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
+      DB_URL: ${CUSTOMER_DB_URL}
+    # networks:
+    #   - kong-net
+  #################################################
+  # Catalog: The Catalog microservice
+  #################################################
+  catalog:
+    build:
+      context: ./backend
+      dockerfile: catalog.Dockerfile
+    # image: 
+    restart: always
+    environment:
+      PYTHONUNBUFFERED: 1
+      DB_URL: ${CATALOG_DB_URL}
     # networks:
     #   - kong-net
   #################################################
