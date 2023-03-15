@@ -12,7 +12,7 @@ services:
   customer:
     build:
       context: ./backend
-      dockerfile: customer.Dockerfile
+      dockerfile: ./Customer/customer.Dockerfile
     # image: 
     restart: always
     environment:
@@ -26,7 +26,7 @@ services:
   catalog:
     build:
       context: ./backend
-      dockerfile: catalog.Dockerfile
+      dockerfile: ./Catalog/catalog.Dockerfile
     # image: 
     restart: always
     environment:
@@ -35,12 +35,26 @@ services:
     # networks:
     #   - kong-net
   #################################################
+  # Booking: The Booking microservice
+  #################################################
+  booking:
+    build:
+      context: ./backend
+      dockerfile: ./Booking/booking.Dockerfile
+    # image: 
+    restart: always
+    environment:
+      PYTHONUNBUFFERED: 1
+      DB_URL: ${BOOKING_DB_URL}
+    # networks:
+    #   - kong-net
+  #################################################
   # WaitList: The WaitList microservice
   #################################################
   waitlist:
     build:
       context: ./backend
-      dockerfile: waitlist.Dockerfile
+      dockerfile: ./WaitList/waitlist.Dockerfile
     # image: 
     restart: always
     environment:
@@ -54,7 +68,7 @@ services:
   payment:
     build:
       context: ./backend
-      dockerfile: payment.Dockerfile
+      dockerfile: ./Payment/payment.Dockerfile
     # image: 
     restart: always
     environment:
@@ -68,7 +82,7 @@ services:
   notification:
     build:
       context: ./backend
-      dockerfile: notification.Dockerfile
+      dockerfile: ./Notification/notification.Dockerfile
     # image: 
     restart: always
     depends_on:
@@ -89,7 +103,7 @@ services:
   error:
     build:
       context: ./backend
-      dockerfile: error.Dockerfile
+      dockerfile: ./Error/error.Dockerfile
     # image: 
     restart: always
     depends_on:
@@ -108,7 +122,7 @@ services:
   telegram-send-api:
     build:
       context: ./backend
-      dockerfile: telegram_send_api.Dockerfile
+      dockerfile: ./APIs/telegram_send_api.Dockerfile
     # image: 
     restart: always
     depends_on:
@@ -127,7 +141,7 @@ services:
   twilio-sendgrid-api:
     build:
       context: ./backend
-      dockerfile: twilio_sendgrid_api.Dockerfile
+      dockerfile: ./APIs/twilio_sendgrid_api.Dockerfile
     # image: 
     restart: always
     depends_on:
@@ -145,7 +159,7 @@ services:
   stripe-api:
     build:
       context: ./backend
-      dockerfile: stripe_api.Dockerfile
+      dockerfile: ./APIs/stripe_api.Dockerfile
     # image: 
     restart: always
     # depends_on:

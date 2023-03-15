@@ -2,5 +2,5 @@ FROM python:3-slim
 WORKDIR /usr/src/app
 COPY http.reqs.txt ./
 RUN python -m pip install --no-cache-dir -r http.reqs.txt
-COPY ./Catalog.py ./esd-project-g6-firebase-adminsdk.json ./
-CMD [ "python", "./Catalog.py" ]
+COPY ./Booking/Booking.py ./
+CMD [ "python", "./Booking.py" ]

@@ -175,7 +175,7 @@ def processUpdateAvailability(obj):
         # Subtract 1 from the availability for the specified date and time
         doc["availability"][date][time] -= 1
         # Update the document in the database
-        collection.update_one({"_id": "Elemen"}, {"$set": {"availability": doc["availability"]}})
+        collection.update_one({"_id": restaurant_name}, {"$set": {"availability": doc["availability"]}})
     else:
         return "No availability"
 
@@ -183,4 +183,4 @@ def processUpdateAvailability(obj):
     return "Updated"
 
 if __name__ == '__main__':
-    Catalog.run(port=5002, debug=True)
+    Catalog.run(port=5002, debug=True, host="0.0.0.0")
