@@ -26,14 +26,18 @@ async def send_message(user_details, message_content):
 
 """
     data = {
-        "phone": "12345678"
+        "phone": "12345678",
+        "name": "Nicholas",
+        "booking": "12345678",
+        "restaurant_name": "Restaurant 1",
+        "date_time": "2021-01-01 12:00:00"
     }
 """
 @app.route('/api/sendbooking', methods=['POST'])
 async def send_booking():
     data = await request.get_json()
     user_details = "+65" + data['phone']
-    message_content = "this is a test message"
+    message_content = f'Dear {data["name"]}, this message is to inform you that your booking {data["booking"]} is confirmed. Name of Restaurant: \n {data["restaurant_name"]} \n Date & Time: {data["date_time"]}'
     await send_message(user_details, message_content)
     return jsonify({'message': 'Message sent successfully'}), 200
 

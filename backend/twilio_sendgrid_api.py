@@ -42,7 +42,7 @@ def send_booking():
     send_email(message)
     return jsonify({'message': 'Email sent successfully'}), 200
 
-# 2. send booking cancellation email
+# 2. send waitlist available email
 @app.route('/api/sendnoti', methods=['POST'])
 def send_noti():
     data = request.get_json()
@@ -62,7 +62,7 @@ def send_payment():
         from_email='nicholasgbr99@gmail.com',
         to_emails=data['email'],
         subject=data['subject'],
-        html_content='<strong>and easy to do anywhere, even with Python</strong>')  # edit this message
+        html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} payment is successful. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]}')  # edit this message
     send_email(message)
     return jsonify({'message': 'Email sent successfully'}), 200
 
