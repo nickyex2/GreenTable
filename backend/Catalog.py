@@ -32,8 +32,10 @@ def search(query):
 @Catalog.route('/catalog/add', methods=['POST'])
 def addRestaurant():
     json = request.get_json()
-    collection.insert_one(json)
-    return "Added"
+    try:
+        collection.insert_one(json)
+    except Exception as e:
+        return jsonify({'message': str(e)}), e['code']
 
 @Catalog.route('/catalog/all', methods=['GET'])
 def getAll():
