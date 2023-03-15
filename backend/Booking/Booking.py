@@ -86,7 +86,7 @@ def updateOrder():
             booking_id = json["booking_id"]
             order = json["order"]
 
-            collection.find_one_and_update({"_id": booking_id}, {"$set": {"order": order}})
+            collection.find_one_and_update({"_id": booking_id}, {"$set": {"items_ordered": order}})
 
             return jsonify({"message": "Order successfully updated"}), 200
         
@@ -110,4 +110,4 @@ def updatePaymentStatus():
 
 
 if __name__ == '__main__':
-    Booking.run(port=5003, debug=True)
+    Booking.run(port=5003, debug=True, host="0.0.0.0")

@@ -3,7 +3,7 @@ from flask_cors import CORS
 import pymongo
 from bson.json_util import dumps, loads
 from dotenv import load_dotenv
-from password_hash import hash_password
+from password_hash import hash_password, check_password
 import os
 load_dotenv()
 
@@ -24,7 +24,7 @@ def addCustomer():
     except Exception as e:
         return jsonify({'message': str(e)}), e['code']
 
-@Customer.route('/customer/all')
+@Customer.route('/customer/all', methods=['GET'])
 def getAll():
     items = collection.find({ })
     result = loads(dumps(items))
@@ -59,6 +59,16 @@ def getCustomer(customer_id):
         return jsonify({"message": "Invalid Customer ID"}), 404
     
 
+@Customer.route('/customer/login', methods=['POST'])
+def login(customer_id):
+    data = request.get_json()
+    customers = collection.find({"_id": customer_id})
+    result = loads(dumps(customers))
+    if len(result) > 0:
+        if check_password(data["password"], result[0]["password"]):
+            return jsonify({"message": "Login Successful", "login_status": True}), 200
+        else:
+            return jsonify({"message": "Invalid Password", "login_status": False}), 400
 
 if __name__ == '__main__':
-    Customer.run(port=5001, debug=True)
+    Customer.run(port=5001, debug=True, host="0.0.0.0")
