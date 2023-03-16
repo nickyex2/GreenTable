@@ -25,7 +25,7 @@ collection = db["WaitList"]
 def getWaitList(restaurant_name):
     items = collection.find({"_id": restaurant_name})
     result = loads(dumps(items))
-    return result[0]["customers"], 200
+    return jsonify({"code": 200, "data": result[0]["customers"]}), 200
 
 """
     data = {
@@ -35,6 +35,7 @@ def getWaitList(restaurant_name):
         "email": "abc@example.com",
         "date": "2021-01-01",
         "time": "1200HRS"
+        }
 """
 
 @app.route('/waitlist', methods=['POST'])
@@ -57,7 +58,7 @@ def postWaitList():
         try:
             collection.insert_one(data_put)
         except Exception as e:
-            return jsonify({'message': str(e)}), e['code']
+            return jsonify({"code": 500, "data":{'message': str(e)}}), 500
     else:
         data_put = {
                 "phone": data["phone"],
@@ -70,9 +71,9 @@ def postWaitList():
         try:
             collection.update_one({"_id": data["restaurant_name"]}, {"$set": {"customers": result_put}})
         except Exception as e:
-            return jsonify({'message': str(e)}), e['code']
+            return jsonify({"code": 500, "data":{'message': str(e)}}), 500
         
-    return jsonify({'message': 'WaitList added successfully'}), 200
+    return jsonify({"code": 200, "data": {'message': 'WaitList added successfully'}}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5010)

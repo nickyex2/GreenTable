@@ -44,9 +44,11 @@ def stripepay():
             currency='sgd',
             confirm=True,
             payment_method=pm_string['id'])
-        return jsonify(result), 200
+        print(result)
+        return jsonify({"code":200, "data":result}), 200
     except Exception as e:
-        return {"message": f'{e}', "status": "failed"}, 400
+        print(e)
+        return jsonify({"code":400, "data":{"message": f'{e}', "status": "failed"}}), 400
 
 if __name__ == "__main__":
     app.run(debug=True, port=5016, host='0.0.0.0')

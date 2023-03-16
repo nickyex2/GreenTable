@@ -21,9 +21,9 @@ def send_email(message):
         return {'message': e}, e['code']
 
 """
+    # for booking confirmation
     data = {
         "email": "abc@example.com"
-        "subject": "Booking Confirmation",
         "name": "Nicholas",
         "booking": "12345678",
         "restaurant_name": "Restaurant 1",
@@ -37,11 +37,20 @@ def send_booking():
     message = Mail(
         from_email='nicholasgbr99@gmail.com',
         to_emails=data['email'],
-        subject=data['subject'],
+        subject=f'Booking Confirmation for {data["restaurant_name"]}',
         html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} is confirmed. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]}')  # edit this message
     send_email(message)
-    return jsonify({'message': 'Email sent successfully'}), 200
+    return jsonify({"code": 200, "data":{'message': 'Email sent successfully'}}), 200
 
+"""
+    # for waitlist available
+    data = {
+        "email": "abc@example.com"
+        "name": "Nicholas",
+        "restaurant_name": "Restaurant 1",
+        "date_time": "2021-01-01 12:00:00"
+    }
+"""
 # 2. send waitlist available email
 @app.route('/api/sendnoti', methods=['POST'])
 def send_noti():
@@ -52,8 +61,19 @@ def send_noti():
         subject=data['subject'],
         html_content='<strong>and easy to do anywhere, even with Python</strong>')  # edit this message
     send_email(message)
-    return jsonify({'message': 'Email sent successfully'}), 200
+    return jsonify({"code": 200, "data":{'message': 'Email sent successfully'}}), 200
 
+"""
+    # for payment confirmation
+    data = {
+        "email": "abc@example.com"
+        "name": "Nicholas",
+        "booking": "12345678",
+        "restaurant_name": "Restaurant 1",
+        "date_time": "2021-01-01 12:00:00",
+        "amount": "100"
+    }
+"""
 # 3. send payment confirmation email
 @app.route('/api/sendpayment', methods=['POST'])
 def send_payment():
@@ -61,10 +81,10 @@ def send_payment():
     message = Mail(
         from_email='nicholasgbr99@gmail.com',
         to_emails=data['email'],
-        subject=data['subject'],
+        subject=f'Payment Confirmation for {data["booking"]}',
         html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} payment is successful. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]}')  # edit this message
     send_email(message)
-    return jsonify({'message': 'Email sent successfully'}), 200
+    return jsonify({"code": 200, "data":{'message': 'Email sent successfully'}}), 200
 
 
 # main driver function
