@@ -2,4 +2,4 @@
 /*.session
 /backend/*.session
 /*adminsdk.json
-/backend/*adminsdk.json
+/backend/APIs/*.session
