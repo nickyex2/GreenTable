@@ -39,23 +39,43 @@ async def send_booking():
     user_details = "+65" + data['phone']
     message_content = f'Dear {data["name"]}, this message is to inform you that your booking {data["booking"]} is confirmed. Name of Restaurant: \n {data["restaurant_name"]} \n Date & Time: {data["date_time"]}'
     await send_message(user_details, message_content)
-    return jsonify({'message': 'Message sent successfully'}), 200
+    return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
+"""
+    # for waitlist available
+    data = {
+        "email": "abc@example.com"
+        "name": "Nicholas",
+        "restaurant_name": "Restaurant 1",
+        "date_time": "2021-01-01 12:00:00"
+    }
+"""
 @app.route('/api/sendnoti', methods=['POST'])
 async def send_noti():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = "this is a test message"
     await send_message(user_details, message_content)
-    return jsonify({'message': 'Message sent successfully'}), 200
+    return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
+"""
+    # for payment confirmation
+    data = {
+        "phone": "12345678"
+        "name": "Nicholas",
+        "booking": "12345678",
+        "restaurant_name": "Restaurant 1",
+        "date_time": "2021-01-01 12:00:00",
+        "amount": "100"
+    }
+"""
 @app.route('/api/sendpayment', methods=['POST'])
 async def send_payment():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = "this is a test message"
     await send_message(user_details, message_content)
-    return jsonify({'message': 'Message sent successfully'}), 200
+    return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5015, host='0.0.0.0', use_reloader=True)

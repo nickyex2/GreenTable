@@ -6,11 +6,19 @@ import json
 import os
 
 import amqp_setup
-
+from invokes import invoke_http
 """
     notificationData = {
-        type_of_notification: "booking",    #sendbooking, sendpayment, sendnoti
-        rest of the data....
+        "type_of_notification": "booking",    #sendbooking, sendpayment, sendnoti
+        "data": {
+            "phone": "12345678",
+            "email": "abc@example.com",
+            "name": "Nicholas",
+            "restaurant_name": "Restaurant 1",
+            "date_time": "2021-01-01 12:00:00",
+            "booking": "12345678", #only appear in sendbooking and sendpayment
+            "amount": "100" #only appear in sendpayment
+        }
 """
 
 monitorBindingKey='*.notification'
@@ -29,18 +37,23 @@ def callback(channel, method, properties, body): # required signature for the ca
     print("\nReceived a Notification by " + __file__)
     processNotification(body)
     print() # print a new line feed
-
 def processNotification(notificationMsg):
     print("Sending the notification message:")
     try:
         notificationData = json.loads(notificationMsg)
         if notificationData['type_of_notification'] == 'sendbooking':
-            print("Sending booking notification")
+            URL = "/api/sendbooking"            
         elif notificationData['type_of_notification'] == 'sendpayment':
-            print("Sending payment notification")
+            URL = "/api/sendpayment"
         elif notificationData['type_of_notification'] == 'sendnoti':
-            print("Sending notification")
+            URL = "/api/sendnoti"
+            
+        tele_response = invoke_http(os.environ.get("telegram_url")+URL, method='POST', json=notificationData['data'])
+        email_respose = invoke_http(os.environ.get("twilio_url")+URL, method='POST', json=notificationData['data'])
+        
         print("--Notification sent out (JSON):", notificationData)
+        print("--Telegram response:", tele_response)
+        print("--Email response:", email_respose)
     except Exception as e:
         print("--NOT JSON:", e)
         print("--DATA:", notificationMsg)
