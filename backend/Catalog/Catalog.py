@@ -5,6 +5,7 @@ import pymongo
 from bson.json_util import dumps, loads
 from dotenv import load_dotenv
 import os
+from restaurants import restaurants
 load_dotenv()
 
 Catalog = Flask(__name__)
@@ -15,8 +16,8 @@ db = client["Catalog"]
 collection = db["Catalog"]
 
 
-@Catalog.route('/catalog/<string:query>')
 # Takes a string query and returns JSON object with the fields formatted_address, name, geometry, and photo
+@Catalog.route('/catalog/<string:query>')
 def search(query):
     fields = ['formatted_address', 'name', 'geometry','photo']
     fields_str = ",".join(fields)
@@ -29,19 +30,136 @@ def search(query):
 
     return response_json['candidates'][0]
 
-@Catalog.route('/catalog/add', methods=['POST'])
-def addRestaurant():
-    json = request.get_json()
-    try:
-        collection.insert_one(json)
-    except Exception as e:
-        return jsonify({'message': str(e)}), e['code']
 
+# Add a restaurant
+@Catalog.route('/catalog/add', methods=['GET'])
+def addRestaurant():
+    # json = request.get_json()
+    # try:
+    #     # collection.insert_one(json)
+    #     collection.insert_many(json)
+    # except Exception as e:
+    #     return jsonify({'message': str(e)}), e['code']
+    collection.insert_many(restaurants)
+    return jsonify({"code": 200, 'data': 'success'}), 200
+    
+"""
+{
+    "_id": "Elemen",
+    "location": {
+        "formatted_address": "9 Raffles Blvd #01-75/75A/76 Millenia Walk",
+        "postal_code": "039596"
+    },
+    "description": "elemen is a dining concept focused on a modern interpretation of natural and meatless cuisine. It is dedicated to fostering the well-being of our customers through our wholesome meatless recipes and use of natural ingredients. Our elemen restaurants offer a pleasant dining experience and our brand motto 'Love Self, Love Earth' explains our focus of serving healthy and natural food, without compromising the sustainability of the environment.",
+    "category": "category",
+    "image": ["image"],
+    "website": "elemengroup.com.sg",
+    "cuisine": ["Vegetarian"],
+    "availability": {
+        "270322": {
+            "1100": 5,
+            "1200": 5,
+            "1300": 5,
+            "1400": 5,
+            "1500": 5,
+            "1600": 5,
+            "1700": 5,
+            "1800": 5,
+            "1900": 5,
+            "2000": 5,
+            "2100": 5
+        },
+        "280322": {
+            "1100": 5,
+            "1200": 5,
+            "1300": 5,
+            "1400": 5,
+            "1500": 5,
+            "1600": 5,
+            "1700": 5,
+            "1800": 5,
+            "1900": 5,
+            "2000": 5,
+            "2100": 5
+        },
+        "290322": {
+            "1100": 5,
+            "1200": 5,
+            "1300": 5,
+            "1400": 5,
+            "1500": 5,
+            "1600": 5,
+            "1700": 5,
+            "1800": 5,
+            "1900": 5,
+            "2000": 5,
+            "2100": 5
+        },
+        "300322": {
+            "1100": 5,
+            "1200": 5,
+            "1300": 5,
+            "1400": 5,
+            "1500": 5,
+            "1600": 5,
+            "1700": 5,
+            "1800": 5,
+            "1900": 5,
+            "2000": 5,
+            "2100": 5
+        },
+        "310322": {
+            "1100": 5,
+            "1200": 5,
+            "1300": 5,
+            "1400": 5,
+            "1500": 5,
+            "1600": 5,
+            "1700": 5,
+            "1800": 5,
+            "1900": 5,
+            "2000": 5,
+            "2100": 5
+        },
+        "010422": {
+            "1100": 5,
+            "1200": 5,
+            "1300": 5,
+            "1400": 5,
+            "1500": 5,
+            "1600": 5,
+            "1700": 5,
+            "1800": 5,
+            "1900": 5,
+            "2000": 5,
+            "2100": 5
+        },
+        "020422": {
+            "1100": 5,
+            "1200": 5,
+            "1300": 5,
+            "1400": 5,
+            "1500": 5,
+            "1600": 5,
+            "1700": 5,
+            "1800": 5,
+            "1900": 5,
+            "2000": 5,
+            "2100": 5
+        }
+    },
+    "avg_rating": 4.0,
+    "number_of_ratings": 893
+}
+
+"""
+
+# Get all restaurants
 @Catalog.route('/catalog/all', methods=['GET'])
 def getAll():
     items = collection.find({ })
     result = loads(dumps(items))
-    return result, 200
+    return jsonify({"code": 200, "data": result}), 200
 
 """
 {
@@ -154,6 +272,8 @@ def getAll():
 
 """
 
+
+# Takes in a JSON object with restaurant name ("r_name"), date ("date") and time ("time") and subtracts one from the availability for that date and time
 @Catalog.route('/catalog/updateAvailability', methods=['PUT'])
 def updateAvailability():
     if request.is_json:
@@ -176,11 +296,18 @@ def processUpdateAvailability(obj):
         doc["availability"][date][time] -= 1
         # Update the document in the database
         collection.update_one({"_id": restaurant_name}, {"$set": {"availability": doc["availability"]}})
+        return jsonify({"code": 200, "data": "Availability updated"}), 200
     else:
-        return "No availability"
+        return jsonify({"code": 400, "data": "No availability for this time slot"}), 200
 
-
-    return "Updated"
+"""
+data
+{
+    "r_name": "Elemen",
+    "date": "270322",
+    "time": "1100"
+}
+"""
 
 if __name__ == '__main__':
     Catalog.run(port=5002, debug=True, host="0.0.0.0")
