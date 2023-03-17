@@ -5,13 +5,13 @@ import pymongo
 from bson.json_util import dumps, loads
 from dotenv import load_dotenv
 import os
-from restaurants import restaurants
 load_dotenv()
 
 Catalog = Flask(__name__)
 CORS(Catalog)
 
 client = pymongo.MongoClient(os.environ.get('CATALOG_DB_URL'))
+print(client)
 db = client["Catalog"]
 collection = db["Catalog"]
 
@@ -30,18 +30,6 @@ def search(query):
 
     return response_json['candidates'][0]
 
-
-# Add a restaurant
-@Catalog.route('/catalog/add', methods=['POST'])
-def addRestaurant():
-    json = request.get_json()
-    try:
-        collection.insert_one(json)
-        # collection.insert_many(json)
-        return jsonify({"code": 200, 'data': {"message": 'Restaurant added successfully'}}), 200
-    except Exception as e:
-        return jsonify({"code": 500, "data": {'message': str(e)}}), 500
-    
 """
 {
     "_id": "Elemen",
@@ -151,6 +139,16 @@ def addRestaurant():
     "number_of_ratings": 893
 }
 """
+# Add a restaurant
+@Catalog.route('/catalog/add', methods=['POST'])
+def addRestaurant():
+    json = request.get_json()
+    try:
+        collection.insert_one(json)
+        # collection.insert_many(json)
+        return jsonify({"code": 200, 'data': {"message": 'Restaurant added successfully'}}), 200
+    except Exception as e:
+        return jsonify({"code": 500, "data": {'message': str(e)}}), 500
 
 # Get all restaurants
 @Catalog.route('/catalog/all', methods=['GET'])
@@ -160,13 +158,20 @@ def getAll():
     return jsonify({"code": 200, "data": result}), 200
 
 # Get a restaurant by name
-@Catalog.route('/catalog/<string:restaurant_name>', methods=['GET'])
+@Catalog.route('/catalog/find/<string:restaurant_name>', methods=['GET'])
 def getRestaurant(restaurant_name):
     items = collection.find({"_id": restaurant_name})
     result = loads(dumps(items))
     return jsonify({"code": 200, "data": result[0]}), 200
 
-# Takes in a JSON object with restaurant name ("r_name"), date ("date") and time ("time") and subtracts one from the availability for that date and time
+"""
+data = {
+    "restaurant_name": "Elemen",
+    "date": "270322",
+    "time": "1100",
+    "update": 1/-1
+}
+"""
 @Catalog.route('/catalog/updateAvailability', methods=['PUT'])
 def updateAvailability():
     if request.is_json:
@@ -176,30 +181,30 @@ def updateAvailability():
         return {"code": 400, "data": {"message": "Request was not JSON"}}, 400
 
 def processUpdateAvailability(obj):
-    restaurant_name = obj['r_name']
+    restaurant_name = obj['restaurant_name']
     # customer_name = obj['c_name']
     date = obj['date']
     time = obj['time']
 
     doc = collection.find_one({"_id": restaurant_name})
     # Check if the availability for the specified date and time is greater than 0
-    if doc["availability"][date][time] > 0:
-        # Subtract 1 from the availability for the specified date and time
-        doc["availability"][date][time] -= 1
+    # update == 1 means add 1 to the availability, update == -1 means subtract 1 from the availability
+    add_message = ""
+    if obj["update"] == -1:
+        if doc["availability"][date][time] > 0:
+            # Subtract 1 from the availability for the specified date and time
+            doc["availability"][date][time] -= 1
+        else:
+            return jsonify({"code": 406, "data": {"message": "No availability for this time slot"}}), 406 # Not Acceptable due to no availability
         # Update the document in the database
-        collection.update_one({"_id": restaurant_name}, {"$set": {"availability": doc["availability"]}})
-        return jsonify({"code": 200, "data": {"message": "Availability updated"}}), 200
-    else:
-        return jsonify({"code": 400, "data": {"message": "No availability for this time slot"}}), 400
-
-"""
-data
-{
-    "r_name": "Elemen",
-    "date": "270322",
-    "time": "1100"
-}
-"""
+    elif obj["update"] == 1:
+        if doc["availability"][date][time] == 0:
+            # include a message to state that restaurant has new availability
+            add_message = "New availability added"
+        doc["availability"][date][time] += 1
+    collection.update_one({"_id": restaurant_name}, {"$set": {"availability": doc["availability"]}})
+    return jsonify({"code": 200, "data": {"message": "Availability updated", "new_avail": add_message}}), 200
+        
 
 if __name__ == '__main__':
     Catalog.run(port=5002, debug=True, host="0.0.0.0")

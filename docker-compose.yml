@@ -17,7 +17,7 @@ services:
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
-      DB_URL: ${CUSTOMER_DB_URL}
+      CUSTOMER_DB_URL: ${CUSTOMER_DB_URL}
     ports:
     - "5001:5001"
     # networks:
@@ -33,9 +33,11 @@ services:
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
-      DB_URL: ${CATALOG_DB_URL}
+      CATALOG_DB_URL: ${CATALOG_DB_URL}
     ports:
     - "5002:5002"
+    expose:
+    - "27017"
     # networks:
     #   - kong-net
   #################################################
@@ -49,7 +51,7 @@ services:
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
-      DB_URL: ${BOOKING_DB_URL}
+      BOOKING_DB_URL: ${BOOKING_DB_URL}
     ports:
     - "5003:5003"
     # networks:
@@ -65,7 +67,7 @@ services:
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
-      DB_URL: ${WAITLIST_DB_URL}
+      WAITLIST_DB_URL: ${WAITLIST_DB_URL}
     ports:
     - "5010:5010"
     # networks:
