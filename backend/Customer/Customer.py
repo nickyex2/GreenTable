@@ -14,7 +14,22 @@ client = pymongo.MongoClient(os.environ.get('CUSTOMER_DB_URL'))
 db = client["Customer"]
 collection = db["Customer"]
 
-
+"""
+data = {
+    "_id": "bobbybob",
+    "password": "bobthebuilder",
+    "phone": "666",
+    "telegram": "@bobthebuilder",
+    "email": "bob@bob.com",
+    "first_name": "Bobby",
+    "last_name": "Bob",
+    "credit_card": {
+        "card_number": "card_number",
+        "expiration_date": "expiration_date",
+        "security_code": "security_code"
+    }
+}
+"""
 @Customer.route('/customer/add', methods=['POST'])
 def addCustomer():
     json = request.get_json()
@@ -33,25 +48,6 @@ def addCustomer():
 #     return result, 200
 
 
-"""
-data
-{
-    "_id": "bobbybob",
-    "password": "bobthebuilder",
-    "phone": "666",
-    "telegram": "@bobthebuilder",
-    "email": "bob@bob.com",
-    "first_name": "Bobby",
-    "last_name": "Bob",
-    "credit_card": {
-        "card_number": "card_number",
-        "expiration_date": "expiration_date",
-        "security_code": "security_code"
-    }
-}
-"""
-
-
 @Customer.route('/customer/<string:customer_id>', methods=['GET'])
 def getCustomer(customer_id):
     customers = collection.find({"_id": customer_id})
@@ -61,7 +57,12 @@ def getCustomer(customer_id):
     else:
         return jsonify({"code": 404, "data": {"message": "Invalid Customer ID"}}), 404
 
-
+"""
+data = {
+    "customer_id": "bobbybob",
+    "password": "bobthebuilder"
+    }
+"""
 @Customer.route('/customer/login', methods=['POST'])
 def login(customer_id):
     data = request.get_json()

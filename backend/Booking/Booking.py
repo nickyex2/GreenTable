@@ -21,19 +21,8 @@ def getAll(restaurant_name):
     result = loads(dumps(items))
     return jsonify({"code": 200, "data": result}), 200
 
-# Add booking
-@Booking.route('/booking/add', methods=['POST'])
-def addBooking():
-    json = request.get_json()
-    try:
-        collection.insert_one(json)
-        return jsonify({"code": 200, "data":json}), 200
-    except Exception as e:
-        return jsonify({"code": 500, "data":{'message': str(e)}}), 500
-    
 """
-data
-{
+data = {
     "_id": "1",
     "restaurant": "Elemen",
     "customer": "bobbybob",
@@ -47,6 +36,16 @@ data
 }
 
 """
+# Add booking
+@Booking.route('/booking/add', methods=['POST'])
+def addBooking():
+    json = request.get_json()
+    try:
+        collection.insert_one(json)
+        return jsonify({"code": 200, "data":json}), 200
+    except Exception as e:
+        return jsonify({"code": 500, "data":{'message': str(e)}}), 500
+    
 
 # Delete booking based on booking_id string
 @Booking.route('/booking/delete/<string:booking_id>', methods=['DELETE'])
@@ -99,7 +98,19 @@ def getBooking(booking_id):
 
 ###################################################################################
 
-
+"""
+data = {
+    "booking_id": "1",
+    "order": {
+        "items": {
+            "item1": ["quantity", "price"],
+            "item2": ["quantity", "price"],
+            "item3": ["quantity", "price"]
+        }
+        "total": "total price"
+    }
+}
+"""
 # Takes in JSON object with booking_id ("booking_id") and order array ["order"] and updates the booking with order array
 @Booking.route('/booking/updateOrder', methods=['POST'])
 def updateOrder():
@@ -116,14 +127,14 @@ def updateOrder():
         except Exception as e:
             return jsonify({"code": 500, "data":{'message': str(e)}}), 500
         
+
+
 """
-data
-{
+data = {
     "booking_id": "1",
-    "order": []
+    "payment_status": true
 }
 """
-
 # Takes in JSON object with booking_id ("booking_id") and payment_status boolean ("payment_status") and updates the booking with payment_status
 @Booking.route('/booking/updatePaymentStatus', methods=['PUT'])
 def updatePaymentStatus():
@@ -139,14 +150,6 @@ def updatePaymentStatus():
         
         except Exception as e:
             return jsonify({"code": 500, "data":{'message': str(e)}}), 500
-        
-"""
-data
-{
-    "booking_id": "1",
-    "payment_status": true
-}
-"""
 
 
 if __name__ == '__main__':
