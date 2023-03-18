@@ -64,15 +64,15 @@ data = {
     }
 """
 @Customer.route('/customer/login', methods=['POST'])
-def login(customer_id):
+def login():
     data = request.get_json()
-    customers = collection.find({"_id": customer_id})
+    customers = collection.find({"_id": data["customer_id"]})
     result = loads(dumps(customers))
     if len(result) > 0:
         if check_password(data["password"], result[0]["password"]):
             return jsonify({"code": 200, "data": {"message": "Login Successful", "login_status": True}}), 200
         else:
-            return jsonify({"code": 200, "data": {"message": "Invalid Password", "login_status": False}}), 400
+            return jsonify({"code": 401, "data": {"message": "Invalid Password", "login_status": False}}), 401
 
 
 if __name__ == '__main__':
