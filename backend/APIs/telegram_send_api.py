@@ -37,7 +37,7 @@ async def send_message(user_details, message_content):
 async def send_booking():
     data = await request.get_json()
     user_details = "+65" + data['phone']
-    message_content = f'Dear {data["name"]}, this message is to inform you that your booking {data["booking"]} is confirmed. Name of Restaurant: \n {data["restaurant_name"]} \n Date & Time: {data["date_time"]}'
+    message_content = f'Dear {data["name"]}, this message is to inform you that your booking {data["booking"]} is confirmed. \n Name of Restaurant: {data["restaurant_name"]} \n Date & Time: {data["date_time"]}'
     await send_message(user_details, message_content)
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 

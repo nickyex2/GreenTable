@@ -143,6 +143,7 @@ services:
     environment:
       TELEGRAM_API_ID: ${TELEGRAM_API_ID}
       TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
+      TELEGRAM_API_SESSION: ${TELEGRAM_API_SESSION}
       PYTHONUNBUFFERED: 1
     ports:
       - "5015:5015"
