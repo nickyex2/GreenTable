@@ -37,7 +37,6 @@ def getWaitList(restaurant_name):
         "time": "1200HRS"
         }
 """
-
 @app.route('/waitlist', methods=['POST'])
 def postWaitList():
     data = request.get_json()
