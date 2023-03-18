@@ -19,7 +19,7 @@ collection = db["Booking"]
 def getAll(restaurant_name):
     items = collection.find({"restaurant": restaurant_name})
     result = loads(dumps(items))
-    return result, 200
+    return jsonify({"code": 200, "data": result}), 200
 
 # Add booking
 @Booking.route('/booking/add', methods=['POST'])
@@ -27,9 +27,9 @@ def addBooking():
     json = request.get_json()
     try:
         collection.insert_one(json)
-        return json, 200
+        return jsonify({"code": 200, "data":json}), 200
     except Exception as e:
-        return jsonify({'message': str(e)}), e['code']
+        return jsonify({"code": 500, "data":{'message': str(e)}}), 500
     
 """
 data
@@ -53,9 +53,9 @@ data
 def deleteBooking(booking_id):
     try:
         collection.delete_one({"_id": booking_id})
-        return jsonify({"message": "Booking successfully deleted"}), 200
+        return jsonify({"code": 200, "data": {"message": "Booking successfully deleted"}}), 200
     except Exception as e:
-        return jsonify({'message': str(e)}), e['code']
+        return jsonify({"code": 500, "data":{'message': str(e)}}), 500
 
 
 # Get booking based on booking_id string
@@ -66,12 +66,12 @@ def getBooking(booking_id):
         result = loads(dumps(booking))
     
         if len(result) > 0:
-            return result[0], 200
+            return jsonify({"code": 200, "data": result[0]}), 200
         else:
-            return jsonify({"message": "Invalid Customer ID"}), 404
+            return jsonify({"code": 404, "data": {"message": "Invalid Customer ID"}}), 404
         
     except Exception as e:
-        return jsonify({'message': str(e)}), e['code']
+        return jsonify({"code": 500, "data":{'message': str(e)}}), 500
     
     
 ################################ If got time ####################################
@@ -111,10 +111,10 @@ def updateOrder():
 
             collection.find_one_and_update({"_id": booking_id}, {"$set": {"items_ordered": order}})
 
-            return jsonify({"message": "Order successfully updated"}), 200
+            return jsonify({"code": 200, "data": {"message": "Order successfully updated"}}), 200
         
         except Exception as e:
-            return jsonify({'message': str(e)}), e['code']
+            return jsonify({"code": 500, "data":{'message': str(e)}}), 500
         
 """
 data
@@ -135,10 +135,10 @@ def updatePaymentStatus():
 
             collection.find_one_and_update({"_id": booking_id}, {"$set": {"paid_status": payment_status}})
 
-            return jsonify({"message": "Payment status successfully updated"}), 200
+            return jsonify({"code": 200, "data": {"message": "Payment status successfully updated"}}), 200
         
         except Exception as e:
-            return jsonify({'message': str(e)}), e['code']
+            return jsonify({"code": 500, "data":{'message': str(e)}}), 500
         
 """
 data
