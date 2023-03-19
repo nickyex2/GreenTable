@@ -34,7 +34,6 @@ data = {
     "items_ordered": [],
     "paid_status": false
 }
-
 """
 # Add booking
 @Booking.route('/booking/add', methods=['POST'])

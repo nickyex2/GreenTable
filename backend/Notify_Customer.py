@@ -7,13 +7,15 @@ import os
 
 import amqp_setup
 from invokes import invoke_http
+
 """
     data = {
         restaurant_name: "Restaurant 1",
-        
+        date: "2021-05-01",
+        time: "12:00",
     }
 """
-
+waitlist = os.environ.get("waitlist_url") or "http://localhost:5010/waitlist"
 monitorBindingKey='*.avanotify'
 
 def receiveAvailNotification():
@@ -37,9 +39,21 @@ def processAvailNotification(avaNotifyMsg):
             "type_of_notification": "sendnoti",
             "data": {}
         }
-        # retrieve 
-        amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.notification", body=json.dumps(data))
-        print("--Notification sent out (JSON):", notificationData)
+        # retrieve wait list of the restaurant and compare the date and time
+        # if the date and time match, send notification to the customer
+        waitlist = invoke_http(waitlist+notificationData["restaurant_name"], method='GET')
+        if waitlist["code"] == 200:
+            for customer, value in waitlist["data"]:
+                if value["date"] == notificationData["date"] and value["time"] == notificationData["time"]:
+                    data["data"] = {
+                        "name": customer,
+                        "phone": value["phone"],
+                        "email": value["email"],
+                        "restaurant_name": notificationData["restaurant_name"],
+                        "date_time": notificationData["date"] + " " + notificationData["time"],
+                    }
+                amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.notification", body=json.dumps(data))
+                print("--Notification sent out (JSON):", notificationData)
 
     except Exception as e:
         print("--NOT JSON:", e)
