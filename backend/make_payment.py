@@ -46,7 +46,7 @@ def processPayment(data):
             "message": "Booking not found"
         }
 
-    #check if customers exist
+    #3. Retrieve All Customer Profiles
     main_customer = data["main_customer"]["name"]
     main_customer = invoke_http(f"{customer_url}/{main_customer}", method='GET')
     if main_customer["code"] != 200:
@@ -89,7 +89,7 @@ def processPayment(data):
             "exp_date": customer["data"]["credit_card"]["security_code"],
             "cvc": customer["data"]["credit_card"]["security_code"]
         }
-
+    #5. Send payment request
     payment = invoke_http(payment_url, method='POST', json=data_to_send)
     if payment["code"] != 200:
         return {
@@ -97,6 +97,19 @@ def processPayment(data):
             "message": "Payment failed",
             "data": payment
         }
+    booking_data = {
+        "booking_id": booking_id,
+        "payment_status": True
+    }
+    #7. Update Booking with Successful Payment
+    updatePaymentStatus = invoke_http(f"{booking_url}/updatePaymentStatus", method='PUT', json=booking_data)
+    if updatePaymentStatus["code"] != 200:
+        return {
+            "code": 500,
+            "message": "Payment failed",
+            "data": updatePaymentStatus
+        }
+    
     return {
         "code": 200,
         "message": "Payment successful",
