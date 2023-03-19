@@ -58,8 +58,8 @@ def send_noti():
     message = Mail(
         from_email='nicholasgbr99@gmail.com',
         to_emails=data['email'],
-        subject=data['subject'],
-        html_content='<strong>and easy to do anywhere, even with Python</strong>')  # edit this message
+        subject=f"Notification of New {data['restaurant_name']} Availability",
+        html_content=f'Dear {data["name"]}, <br><br> There is a new availability for {data["restaurant_name"]} on {data["date_time"]}. Go and Book now before it gets taken up!')  # edit this message
     send_email(message)
     return jsonify({"code": 200, "data":{'message': 'Email sent successfully'}}), 200
 
@@ -82,7 +82,7 @@ def send_payment():
         from_email='nicholasgbr99@gmail.com',
         to_emails=data['email'],
         subject=f'Payment Confirmation for {data["booking"]}',
-        html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} payment is successful. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]}')  # edit this message
+        html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} payment is successful. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]} <br> Amount Paid: {data["amount"]}')  # edit this message
     send_email(message)
     return jsonify({"code": 200, "data":{'message': 'Email sent successfully'}}), 200
 
