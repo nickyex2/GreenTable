@@ -12,10 +12,10 @@ from invokes import invoke_http
     data = {
         restaurant_name: "Restaurant 1",
         date: "2021-05-01",
-        time: "12:00",
+        time: "1200",
     }
 """
-waitlist = os.environ.get("waitlist_url") or "http://localhost:5010/waitlist"
+waitlist_url = os.environ.get("waitlist_url") or "http://localhost:5010/waitlist"
 monitorBindingKey='*.avanotify'
 
 def receiveAvailNotification():
@@ -41,9 +41,10 @@ def processAvailNotification(avaNotifyMsg):
         }
         # retrieve wait list of the restaurant and compare the date and time
         # if the date and time match, send notification to the customer
-        waitlist = invoke_http(waitlist+notificationData["restaurant_name"], method='GET')
+        waitlist = invoke_http(waitlist_url+ "/" +notificationData["restaurant_name"], method='GET')
+        # waitlist = json.loads(waitlist)
         if waitlist["code"] == 200:
-            for customer, value in waitlist["data"]:
+            for customer, value in waitlist["data"].items():
                 if value["date"] == notificationData["date"] and value["time"] == notificationData["time"]:
                     data["data"] = {
                         "name": customer,
