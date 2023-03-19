@@ -34,7 +34,6 @@ data = {
     "items_ordered": [],
     "paid_status": false
 }
-
 """
 # Add booking
 @Booking.route('/booking/add', methods=['POST'])
@@ -56,6 +55,24 @@ def deleteBooking(booking_id):
     except Exception as e:
         return jsonify({"code": 500, "data":{'message': str(e)}}), 500
 
+# get bookings by customer name
+@Booking.route('/booking/getBookings/<string:customer_name>', methods=['GET'])
+def getBookings(customer_name):
+    try:
+        booking = collection.find({"customer": customer_name})
+        result = loads(dumps(booking))
+        # use collection.find to get all bookings with pax_details(array) containing customer_name
+        booking = collection.find({"pax_details": customer_name})
+        # add into result
+        result += loads(dumps(booking))
+    
+        if len(result) > 0:
+            return jsonify({"code": 200, "data": result}), 200
+        else:
+            return jsonify({"code": 404, "data": {"message": "Invalid Customer ID"}}), 404
+        
+    except Exception as e:
+        return jsonify({"code": 500, "data":{'message': str(e)}}), 500
 
 # Get booking based on booking_id string
 @Booking.route('/booking/getBooking/<string:booking_id>', methods=['GET'])

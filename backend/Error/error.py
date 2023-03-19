@@ -9,6 +9,13 @@ import amqp_setup
 
 monitorBindingKey='*.error'
 
+"""
+errorData = {
+    "code": "500",
+    "message": "Internal Server Error",
+    from: <error service>
+}
+"""
 def receiveError():
     amqp_setup.check_setup()
     
@@ -29,10 +36,9 @@ def processError(errorMsg):
     print("Writing error to text file")
     try:
         error = json.loads(errorMsg) # json.loads converts to python dictionary
-       
         
         f = open("error_logs.txt", "a+") 
-        f.write("Error Code: " + str(error['code']) + '\t' + 'Error data: ' + error['message'] + '\n')
+        f.write("Error Code: " + str(error['code']) + '\t' + 'Error data: ' + error['message'] + f' FROM {error["from"]}' + '\n')
         f.close()
 
         print("--JSON:", error)

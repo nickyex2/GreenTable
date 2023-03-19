@@ -36,8 +36,6 @@ services:
       CATALOG_DB_URL: ${CATALOG_DB_URL}
     ports:
     - "5002:5002"
-    expose:
-    - "27017"
     # networks:
     #   - kong-net
   #################################################
@@ -143,6 +141,7 @@ services:
     environment:
       TELEGRAM_API_ID: ${TELEGRAM_API_ID}
       TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
+      TELEGRAM_API_SESSION: ${TELEGRAM_API_SESSION}
       PYTHONUNBUFFERED: 1
     ports:
       - "5015:5015"
@@ -200,5 +199,49 @@ services:
       - "15672:15672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    # networks:
+    #   - kong-net
+  #################################################
+  # START OF COMPLEX MICROSERVICES CONFIGURATION
+  #################################################
+  ###################################################
+  # Cancel Booking API: The Complex Microservice API
+  ###################################################
+  cancel-booking:
+    build:
+      context: ./backend
+      dockerfile: ./cancel_booking.Dockerfile
+    # image: 
+    restart: always
+    depends_on:
+      rabbitmq:
+        condition: service_started
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      booking_url: http://booking:5003/booking
+      catalog_url: http://catalog:5002/catalog
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5005:5005"
+    # networks:
+    #   - kong-net
+  ####################################################
+  # Notify Customer API: The Complex microservice API
+  ####################################################
+  notify-customer:
+    build:
+      context: ./backend
+      dockerfile: ./notify_customer.Dockerfile
+    # image: 
+    restart: always
+    depends_on:
+      rabbitmq:
+        condition: service_started
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      waitlist_url: http://waitlist:5010/waitlist
+      PYTHONUNBUFFERED: 1
     # networks:
     #   - kong-net
