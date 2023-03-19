@@ -206,5 +206,8 @@ def processUpdateAvailability(obj):
     return jsonify({"code": 200, "data": {"message": "Availability updated", "new_avail": add_message}}), 200
         
 
+# rating to be updated in the database (shelved)
+
+
 if __name__ == '__main__':
     Catalog.run(port=5002, debug=True, host="0.0.0.0")
