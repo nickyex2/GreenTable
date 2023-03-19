@@ -7,9 +7,36 @@ html, div{
 }
 
 /* NAVBAR */
-nav{
-  background-color: none !important;
-  color: #fff;
+.navbar {
+  position: fixed !important;
+  z-index: 100;
+  width: 100%;
+  padding: 10px !important;
+}
+
+.navbar .container-fluid{
+  background: none !important;
+  color: white !important;
+  font-weight: 700;
+}
+
+.navbar-brand{
+  font-size: 25px !important;
+  font-weight: 700;
+  color: #fff !important;
+  padding-right: 30px;
+}
+
+.navbarlinks{
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff !important;
+  text-decoration: none;
+  padding-right: 30px;
+}
+
+.links{
+  background: none;
 }
 
 /* HOME */
@@ -461,4 +488,323 @@ nav{
 
 .signup div{
   background-color: #fff !important;
+}
+
+/* PDP */
+
+.pdp{
+  padding: 50px;
+}
+
+.pdprow{
+  display: flex;
+  justify-content: center;
+}
+
+.pdpmain, .pdpdesc{
+  background-color: #fff;
+  color: black;
+  padding: 50px;
+  opacity: 0.9;
+  margin-bottom: 30px
+}
+
+.pdpimg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.pdpbooking{
+  background-color: #fff;
+  color: black;
+  padding: 40px;
+  opacity: 0.9;
+  position: fixed;
+  width: 22%;
+}
+
+.pdpbooking h5{
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  padding-bottom: 20px;
+}
+
+.pdpbox{
+  background-color: #fff;
+}
+
+.pdpbox input, .pdpbox select{
+  width: 100%;
+  /* center */
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 0px;
+  border: none;
+  /* make input opacity */
+  background-color: rgba(0,0,0,0.1);
+}
+
+.pdpbox button{
+  width: 100%;
+  /* center */
+  margin: 0 auto;
+  display: block;
+  margin-top: 30px;
+  padding: 10px;
+  font-size: 15px;
+  background-color: #122526;
+  color: #fff;
+  border: none;
+}
+
+.pdpheaders{
+  font-size: 25px;
+  font-weight: 700;
+  color: #000;
+  padding-bottom: 20px;
+}
+
+.pdpdesc-title{
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+  padding-bottom: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.pdpdesc-desc{
+  font-size: 15px;
+  color: #000;
+  padding-bottom: 30px;
+  margin-bottom: 0px !important;
+}
+
+.tt .col-8, .tt .col-4, .tt .col, .confirmation .card-body, .checkout .card-body, .tt .col-2, .tt .col-3, .tt .col-4, .tt .col-7{
+  background-color: #fff !important;
+  color: black !important;
+}
+
+.pdpmoney{
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  padding-bottom: 10px;
+}
+
+/* CONFIRMATION */
+.confirmation{
+  text-align: center;
+}
+
+.confirmation img{
+  width: 100px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.confirmation h4{
+  font-size: 35px;
+  font-weight: 700;
+}
+
+.carded{
+  margin-top: 40px !important;
+  margin: 0 auto;
+  width: 50%;
+  text-align: left;
+  left: 10%;
+  margin-bottom: 40px !important;
+}
+
+.cardbd{
+  margin-top: 40px !important;
+  margin: 0 auto;
+  width: 50%;
+  text-align: left;
+  right: 10%;
+  margin-bottom: 40px !important;
+}
+
+.confirmation .card{
+  transform: none !important;
+  box-shadow: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  width: 65%;
+  opacity: 0.9;
+}
+
+.confirmation .card p{
+  margin-top: 20px;
+}
+
+.confirmation .card-title{
+  font-size: 25px;
+  font-weight: 600;
+  margin-top: 0px;
+  padding-top: 0px !important;
+  margin-bottom: 15px;
+}
+
+.confirmation .card-body{
+  padding: 20px !important;  
+  border-radius: 0px !important;
+  opacity: 0.9;
+}
+
+.cancelbooking{
+  background-color: red;
+  color: white;
+  padding: 10px;
+  opacity: 0.9;
+  width: 22%;
+  right: 0;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 50px;
+  font-weight: 600;
+}
+
+/* CANCEL */
+.cancel{
+  text-align: center;
+}
+
+.cancel img{
+  width: 100px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.cancel h4{
+  font-size: 35px;
+  font-weight: 700;
+}
+
+/* CHECKOUT */
+.checkout .card{
+  margin-top: 50px;
+  padding: 10px;
+}
+
+.receiptbold p{
+  font-weight: 700;
+}
+
+.checkout .card-title{
+  font-size: 25px;
+  font-weight: 600;
+  margin-top: 0px;
+  padding-top: 0px !important;
+  margin-bottom: 15px;
+}
+
+.checkout input{
+  width: 25%;
+  /* center */
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 0px;
+  border: none;
+  text-align: center;
+  /* make input opacity */
+  background-color: rgba(0,0,0,0.1);
+}
+
+.cn{
+  margin-top: 10px;
+}
+
+.checkout .row{
+  margin-bottom:8px;
+}
+
+.splitbtn{
+  background-color: #122526 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  padding: 15px !important;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.paybtn{
+  background-color: #122526 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  padding: 10px !important;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.btndiv{
+  background-color: #fff;
+}
+
+.rsname{
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: underline;
+}
+
+/* PAID */
+.paid{
+  text-align: center;
+}
+
+.paid .container{
+  text-align: left !important;
+}
+
+.paid img{
+  width: 100px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.paid h4{
+  font-size: 35px;
+  font-weight: 700;
+}
+
+.paid .card{
+  margin-top: 50px;
+  padding: 10px;
+}
+
+.receiptbold p{
+  font-weight: 700;
+}
+
+.paid .card-title{
+  font-size: 25px;
+  font-weight: 600;
+  margin-top: 0px;
+  padding-top: 0px !important;
+  margin-bottom: 15px;
+}
+
+.paid .row{
+  margin-bottom:8px;
+}
+
+.paid .card-body{
+  background-color: #fff;
+  color: #000;
 }

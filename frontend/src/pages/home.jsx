@@ -16,7 +16,7 @@ function Home() {
                     <input class="form-control" type="text" placeholder="Type of cuisine"/>
                     <input class="form-control" type="text" placeholder="Date"/>
                     <input class="form-control" type="text" placeholder="Time"/>
-                    <input class="form-control" type="text" placeholder="No. of pax"/>
+                    <input class="form-control" type="select" placeholder="No. of pax"/>
                     <button type="submit" className="search-button">Search</button>
                 </form>
             </div>
