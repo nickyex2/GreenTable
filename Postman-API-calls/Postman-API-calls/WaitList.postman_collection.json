@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "0b5b481b-fcc6-46ac-872b-1eaa900d29cb",
+		"name": "WaitList",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23439501"
+	},
+	"item": [
+		{
+			"name": "Find a Wait List by Restaurant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5010/waitlist/BurgerKing",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5010",
+					"path": [
+						"waitlist",
+						"BurgerKing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a Customer into a wait list",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"restaurant_name\": \"Restaurant 1\",\r\n    \"customer\": \"Customer 1\",\r\n    \"phone\": \"12345678\",\r\n    \"email\": \"abc@example.com\",\r\n    \"date\": \"2021-01-01\",\r\n    \"time\": \"1200HRS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5010/waitlist",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5010",
+					"path": [
+						"waitlist"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
