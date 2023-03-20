@@ -34,6 +34,7 @@ services:
     environment:
       PYTHONUNBUFFERED: 1
       CATALOG_DB_URL: ${CATALOG_DB_URL}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
     ports:
     - "5002:5002"
     # networks:
@@ -242,6 +243,28 @@ services:
       rabbit_host: rabbitmq
       rabbit_port: 5672
       waitlist_url: http://waitlist:5010/waitlist
+      PYTHONUNBUFFERED: 1
+    # networks:
+    #   - kong-net
+  ####################################################
+  # Place Booking API: The Complex microservice API
+  ####################################################
+  place-booking:
+    build:
+      context: ./backend
+      dockerfile: ./place_booking.Dockerfile
+    # image: 
+    restart: always
+    depends_on:
+      rabbitmq:
+        condition: service_started
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      waitlist_url: http://waitlist:5010/waitlist
+      booking_url: http://booking:5003/booking
+      catalog_url: http://catalog:5002/catalog
+      customer_url: http://customer:5001/customer
       PYTHONUNBUFFERED: 1
     # networks:
     #   - kong-net
