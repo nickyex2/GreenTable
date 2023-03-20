@@ -9,7 +9,6 @@ import amqp_setup
 import pika
 import json
 import random
-from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -65,11 +64,8 @@ def processPlaceBooking(booking):
     restaurant_name = booking["restaurant"]
 
     date = booking["date"]
-    split_date =[date[i:i+2] for i in range(0, len(date), 2)]
-    converted_date = "20" + split_date[2] + "-" + split_date[1] + "-" + split_date[0]
 
     time = booking["time"]
-    converted_time = time[:2] + ":" + time[2:] + ":00"
 
     # Check restaurant availability
     availability = invoke_http(check_restaurant_availability_url.replace("<string:restaurant_name>", restaurant_name), "GET")
@@ -125,7 +121,7 @@ def processPlaceBooking(booking):
                     "email": customer_info["email"],
                     "name": customer_info["first_name"],
                     "restaurant_name": restaurant_name,
-                    "date_time": converted_date + " " + converted_time,
+                    "date_time": date + " " + time,
                     "booking": booking['_id'], #only appear in sendbooking and sendpayment
                 }
             }
@@ -156,8 +152,8 @@ def processPlaceBooking(booking):
             "customer": customer_id,
             "phone": customer_info["phone"],
             "email": customer_info["email"],
-            "date": converted_date,
-            "time": booking["time"] + "HRS"
+            "date": date,
+            "time": time
         }
         post_waitlist_result = invoke_http(waitlist_url, "POST", waitlist_data)
         code = post_waitlist_result["code"]
