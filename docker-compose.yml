@@ -243,5 +243,26 @@ services:
       rabbit_port: 5672
       waitlist_url: http://waitlist:5010/waitlist
       PYTHONUNBUFFERED: 1
+  ###################################################
+  # Make Payment: The Complex Microservice API
+  ###################################################
+  make-payment:
+    build:
+      context: ./backend
+      dockerfile: ./make_payment.Dockerfile
+    # image:
+    restart: always
+    depends_on:
+      rabbitmq:
+        condition: service_started
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      payment_url: http://payment:5004/payment
+      booking_url: http://booking:5003/booking
+      customer_url: http://customer:5001/customer
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5007:5007"
     # networks:
     #   - kong-net
