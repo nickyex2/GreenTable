@@ -61,9 +61,15 @@ def place_booking():
 def processPlaceBooking(booking):
     print("\n\n ----- Processing the booking -----")
     message = json.dumps(booking)
+
     restaurant_name = booking["restaurant"]
+
     date = booking["date"]
+    split_date =[date[i:i+2] for i in range(0, len(date), 2)]
+    converted_date = "20" + split_date[2] + "-" + split_date[1] + "-" + split_date[0]
+
     time = booking["time"]
+    converted_time = time[:2] + ":" + time[2:] + ":00"
 
     # Check restaurant availability
     availability = invoke_http(check_restaurant_availability_url.replace("<string:restaurant_name>", restaurant_name), "GET")
@@ -112,7 +118,6 @@ def processPlaceBooking(booking):
             ("<string:customer_id>", customer_id), "GET")
             print("customer_info:", get_customer_result)
             customer_info = get_customer_result["data"]
-            now = datetime.now()
             send_booking_data = {
                 "type_of_notification": "sendbooking",
                 "data": {
@@ -120,7 +125,7 @@ def processPlaceBooking(booking):
                     "email": customer_info["email"],
                     "name": customer_info["first_name"],
                     "restaurant_name": restaurant_name,
-                    "date_time": now.strftime("%Y/%m/%d %H:%M:%S"),
+                    "date_time": converted_date + " " + converted_time,
                     "booking": booking['_id'], #only appear in sendbooking and sendpayment
                 }
             }
@@ -146,15 +151,12 @@ def processPlaceBooking(booking):
         get_customer_result = invoke_http(get_customer_url.replace
         ("<string:customer_id>", customer_id), "GET")
         customer_info = get_customer_result["data"]
-        date = booking["date"]
-        split_date =[date[i:i+2] for i in range(0, len(date), 2)]
-        waitlist_date = "20" + split_date[2] + "-" + split_date[1] + "-" + split_date[0]
         waitlist_data = {
             "restaurant_name": restaurant_name,
             "customer": customer_id,
             "phone": customer_info["phone"],
             "email": customer_info["email"],
-            "date": waitlist_date,
+            "date": converted_date,
             "time": booking["time"] + "HRS"
         }
         post_waitlist_result = invoke_http(waitlist_url, "POST", waitlist_data)
