@@ -16,6 +16,7 @@ function Login() {
             customer_id: username.current.value,
             password: password.current.value
         };
+        console.log(data)
         axios.post(booking_url, data)
             .then((res) => {
                 console.log(res);
