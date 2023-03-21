@@ -19,13 +19,13 @@ function Home() {
     
     const ShowPosts = () => {
 
-        if (data[0] != undefined) {
+        if (data[0] !== undefined) {
             return ( 
                 <div className="row">
     
                     <div className="col">
                     <div className="card card-smaller" >
-                        <img src={require('../images/home-banner.jpeg')} />
+                        <img src={require('../images/home-banner.jpeg')} alt=""/>
                         <div className="card-body">
                             <div className="row w-100 m-0 hi">
                                 <div className="col-6 p-0 hi">
@@ -45,7 +45,7 @@ function Home() {
     
                     <div className="col">
                     <div className="card card-bigger" >
-                        <img src={require('../images/home-banner.jpeg')}  />
+                        <img src={require('../images/home-banner.jpeg')} alt=""  />
                         <div className="card-body">
                             <div className="row w-100 m-0 hi">
                                 <div className="col-6 p-0 hi">
@@ -65,7 +65,7 @@ function Home() {
     
                     <div className="col">
                     <div className="card card-smaller" >
-                        <img src={require('../images/home-banner.jpeg')} />
+                        <img src={require('../images/home-banner.jpeg')} alt="" />
                         <div className="card-body">
                             <div className="row w-100 m-0 hi">
                                 <div className="col-6 p-0 hi">
@@ -91,7 +91,7 @@ function Home() {
     return (
         <div className="home">
             <div className="home-banner">
-                <img src={require('../images/home-banner.jpeg')} alt="home" />
+                <img src={require('../images/home-banner.jpeg')} alt="" />
             </div>
             <div className="banner-text">
                 <h1>Welcome</h1>
@@ -117,27 +117,27 @@ function Home() {
                     <p className="header-desc">This is a mini description of what our team is blah blah something cute bah</p>
                     <div className="row">
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Nicholas Goh</p>
                             <p className="role">Role</p>
                         </div>
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Daniel Lai</p>
                             <p className="role">Role</p>
                         </div>
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Daryl Yoon</p>
                             <p className="role">Role</p>
                         </div>
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Nickolaus Chiok</p>
                             <p className="role">Role</p>
                         </div>
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Colin Mok</p>
                             <p className="role">Role</p>
                         </div>

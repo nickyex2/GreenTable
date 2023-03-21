@@ -25,7 +25,7 @@ function Browse() {
             return ( 
                 <div className="col-4">
                 <div class="card card-smaller" >
-                    <img src={require('../images/home-banner.jpeg')} />
+                    <img src={require('../images/home-banner.jpeg')} alt="" />
                     <div class="card-body">
                         <div className="row w-100 m-0">
                             <div className="col-6 p-0">

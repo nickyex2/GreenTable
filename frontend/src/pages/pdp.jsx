@@ -20,11 +20,11 @@ function Pdp() {
             response => setData(response.data.data))
         }
         all();
-    }, []);
+    }, [restaurant_name]);
 
     console.log(data);
 
-    if (data.length != 0) {
+    if (data.length !== 0) {
         return (
             <div className="pdp">
                 <div className="container">
@@ -39,7 +39,7 @@ function Pdp() {
                                         <p className="float-end pdpmoney">$$</p>
                                     </div>
                                 </div>
-                                <img src={require('../images/home-banner.jpeg')} className='pdpimg' />
+                                <img src={require('../images/home-banner.jpeg')} className='pdpimg' alt=""/>
                             </div>
                             <div className="pdpdesc">
                                 <h4 className="pdpheaders">About</h4>
