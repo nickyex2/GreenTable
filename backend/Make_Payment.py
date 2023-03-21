@@ -5,20 +5,23 @@ import pika
 import amqp_setup
 import json
 from invokes import invoke_http
+import sys
 
 app = Flask(__name__)
 CORS(app)
 
-booking_url = os.environ.get('booking_url', 'http://localhost:5003/booking')
-payment_url = os.environ.get('payment_url', 'http://localhost:5004/payment')
-customer_url = os.environ.get('customer_url', 'http://localhost:5001/customer')
+booking_url = os.environ.get('booking_url') or 'http://localhost:5003/booking'
+payment_url = os.environ.get('payment_url') or 'http://localhost:5004/payment'
+customer_url = os.environ.get('customer_url') or 'http://localhost:5001/customer'
 
 @app.route("/make_payment", methods=['POST'])
 def make_payment():
     if not request.is_json:
         return jsonify({
             "code": 400,
-            "message": "Invalid JSON input: " + str(request.get_data())
+            "data": {
+                "message": "Invalid JSON input: " + str(request.get_data())
+            },
         }), 400
     #2. Customer splits the bill
     data = request.get_json()
@@ -47,8 +50,9 @@ def make_payment():
         return jsonify(
             {
                 "code": 500,
-                "message": "Unexpected error in make_payment service",
-                "data": ex_str
+                "data": {
+                    "message": f'{ex_str} Unexpected error in make_payment service' 
+                }
             }
         ), 500
 
@@ -70,8 +74,9 @@ def processPayment(data):
         return jsonify(
             {
                 "code": 404,
-                "message": "Booking not found",
-                "data": booking
+                "data": {
+                    "message": "Booking not found"
+                }
             }
         )
 
@@ -92,10 +97,21 @@ def processPayment(data):
         return {
             "code": 404,
             #include the name of the person that is not found
-            "message": f"Customer {main_customer_name} not found",
-            "data": main_customer
+            "data": {
+                "message": f"Customer {main_customer_name} not found"
+            }
         }
-
+    data_to_send = {
+        "total_amount": data["total_amount"],
+        "maincustomer": {
+            "name": data["main_customer"]["name"],
+            "amount": data["main_customer"]["amount"],
+            "card_no": main_customer["data"]["credit_card"]["card_number"],
+            "exp_date": main_customer["data"]["credit_card"]["expiration_date"],
+            "cvc": main_customer["data"]["credit_card"]["security_code"]
+        },
+        "customer_details": {}
+    }
     other_customers = data["other_customers"]
     for customer in other_customers:
         name = customer["name"]
@@ -113,25 +129,10 @@ def processPayment(data):
             print("\nCustomer not found:", name)
             return {
                 "code": 404,
-                "message": f"Customer {name} not found",
-                "data": customer
+                "data": {
+                    "message": f"Customer {name} not found",
+                }
             }
-
-    data_to_send = {
-        "total_amount": data["total_amount"],
-        "maincustomer": {
-            "name": data["main_customer"]["name"],
-            "amount": data["main_customer"]["amount"],
-            "card_no": main_customer["data"]["credit_card"]["card_number"],
-            "exp_date": main_customer["data"]["credit_card"]["expiration_date"],
-            "cvc": main_customer["data"]["credit_card"]["security_code"]
-        },
-        "customer_details": {}
-    }
-    #4. Return all customer profiles
-    for customer in other_customers:
-        name = customer["name"]
-        customer = invoke_http(f"{customer_url}/{name}", method='GET')
         data_to_send["customer_details"][name] = {
             "amount": customer["data"]["credit_card"]["card_number"],
             "card_no": customer["data"]["credit_card"]["expiration_date"],
@@ -153,8 +154,9 @@ def processPayment(data):
         print("\nPayment failed:", payment)
         return {
             "code": 500,
-            "message": "Payment failed",
-            "data": payment
+            "data": {
+                "message": "Payment failed",
+            }
         }
     booking_data = {
         "booking_id": booking_id,
@@ -162,31 +164,35 @@ def processPayment(data):
     }
     #7. Update Booking with Successful Payment
     updatePaymentStatus = invoke_http(f"{booking_url}/updatePaymentStatus", method='PUT', json=booking_data)
+    # this block of code should never happen because the booking has already been checked
     if updatePaymentStatus["code"] != 200:
         error_data = {
             "code": 500,
-            "message": "Payment failed",
+            "message": "Payment Update Status Failed",
             "from": "make_payment service",
             "data": updatePaymentStatus
         }
         amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.error", body=json.dumps(error_data), properties=pika.BasicProperties(delivery_mode=2))
         #print error to console
         print('\n------------------------')
-        print("\nPayment failed:", updatePaymentStatus)
-        return {
-            "code": 500,
-            "message": "Payment failed",
-            "data": updatePaymentStatus
-        }
+        print("\nPayment Update Status failed:", updatePaymentStatus)
     #8 send notification to customer via amqp
     amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.notification", body=json.dumps(data), properties=pika.BasicProperties(delivery_mode=2))
     print('\n------------------------')
     print("\nPayment successful:", payment)
+    if updatePaymentStatus["code"] != 200:
+        return {
+            "code": 200,
+            "data": {
+                "message": "Payment successful but update payment status failed",
+            }
+        }
     #9. Return payment status
     return {
         "code": 200,
-        "message": "Payment successful",
-        "data": payment
+        "data": {
+            "message": "Payment successful",
+        }
     }
 
     

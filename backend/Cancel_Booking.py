@@ -24,6 +24,8 @@ data = {
 def cancelBooking(booking_id):
     # delete the booking from booking url
     response = request.get_json()
+    # retrieve the booking details and hold it for any errors to revert change
+    booking_result = invoke_http(booking_url + "/getBooking/" + booking_id, method="GET")
     del_booking_result = invoke_http(booking_url + "/delete/" + booking_id, method="DELETE")
     code = del_booking_result["code"]
     if code == 200:
@@ -40,6 +42,17 @@ def cancelBooking(booking_id):
             if update_result["data"]["add_message"] == "New availability added":
                 amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.avanotify", body=json.dumps(response))
             return jsonify({"code": 200, "data": {"message": "Booking successfully deleted"}}), 200
+        else:
+            # revert the booking deletion 
+            addbooking_result = invoke_http(booking_url + "/booking/add", method="POST", json=booking_result["data"])
+            if addbooking_result["code"] == 200:
+                errorData = {
+                    "code": 500,
+                    "message": "Error updating restaurant availability",
+                    "from": "Cancel_Booking service"
+                }
+                amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.error", body=json.dumps(errorData))
+                return jsonify({"code": 500, "data":{'message': "Error updating restaurant availability"}}), 500
     else:
         errorData = {
             "code": 500,

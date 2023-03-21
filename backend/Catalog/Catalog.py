@@ -23,7 +23,7 @@ def search(query):
     fields_str = ",".join(fields)
 
     search_endpoint = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json'
-    payload = {'input': query, 'inputtype': 'textquery', 'fields': fields_str, 'key': 'AIzaSyA6ju8_1Q2zuf3DomUOFVplprJHuKpJHtw'}
+    payload = {'input': query, 'inputtype': 'textquery', 'fields': fields_str, 'key': os.environ.get('GOOGLE_API_KEY')}
 
     response = requests.get(search_endpoint, params=payload)
     response_json = response.json()
