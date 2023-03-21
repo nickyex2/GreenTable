@@ -44,7 +44,7 @@ async def send_booking():
 """
     # for waitlist available
     data = {
-        "email": "abc@example.com"
+        "phone": "12345678"
         "name": "Nicholas",
         "restaurant_name": "Restaurant 1",
         "date_time": "2021-01-01 12:00:00"
@@ -54,7 +54,7 @@ async def send_booking():
 async def send_noti():
     data = await request.get_json()
     user_details = "+65" + data['phone']
-    message_content = "this is a test message"
+    message_content = f'Dear {data["name"]}, \n\n There is a new availability for {data["restaurant_name"]} on {data["date_time"]}. \n\n Go and Book now before it gets taken up!'
     await send_message(user_details, message_content)
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
@@ -73,7 +73,7 @@ async def send_noti():
 async def send_payment():
     data = await request.get_json()
     user_details = "+65" + data['phone']
-    message_content = "this is a test message"
+    message_content = f'Dear {data["name"]}, \n\n your booking {data["booking"]} payment is successful. \n Name of Restaurant: {data["restaurant_name"]} \n Date & Time: {data["date_time"]} \n Amount Paid: {data["amount"]}'
     await send_message(user_details, message_content)
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
