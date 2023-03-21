@@ -2,14 +2,14 @@ import React from "react";
 
 function Navbar() {
     return (
-        <nav class="navbar">
-        <div class="container-fluid">
+        <nav className="navbar">
+        <div className="container-fluid">
           <div className="links">
-            <a class="navbar-brand" href="/">GreenTable</a>
-            <a class="navbarlinks" href="/">Home</a>
-            <a class="navbarlinks" href="/browse">Booking</a>
-            <a class="navbarlinks" href="/login">Login</a>
-            <a class="navbarlinks" href="/signup">Signup</a>
+            <a className="navbar-brand" href="/">GreenTable</a>
+            <a className="navbarlinks" href="/">Home</a>
+            <a className="navbarlinks" href="/browse">Booking</a>
+            <a className="navbarlinks" href="/login">Login</a>
+            <a className="navbarlinks" href="/signup">Signup</a>
           </div>
           {/* <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
