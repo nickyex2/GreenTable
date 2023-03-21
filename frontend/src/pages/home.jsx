@@ -1,6 +1,93 @@
 import React from "react";
+import axios from "axios";
+import {useState, useEffect} from "react";
 
 function Home() {
+
+    const booking_url = "http://localhost:5002/catalog/all";
+    
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const all = async () => {
+            await axios.get(booking_url)
+            .then(
+            response => setData(response.data.data))
+        }
+        all();
+    }, []);
+    
+    const ShowPosts = () => {
+
+        if (data[0] != undefined) {
+            return ( 
+                <div className="row">
+    
+                    <div className="col">
+                    <div className="card card-smaller" >
+                        <img src={require('../images/home-banner.jpeg')} />
+                        <div className="card-body">
+                            <div className="row w-100 m-0 hi">
+                                <div className="col-6 p-0 hi">
+                                    <p className="card-text hi">{data[1].avg_rating} &#9733;</p>
+                                </div>
+                                <div className="col-6 float-end p-0 hi">
+                                    <p className="card-text float-end hi">$$</p>
+                                </div>
+                            </div>
+                            <h5 className="card-title">{data[1]._id}</h5>
+                            <p className="card-text">{data[1].location.formatted_address}</p>
+                            <p className="card-desc">{data[1].description}</p>
+                            <button type="submit" className="search-button">Find out more</button>
+                        </div>
+                    </div>
+                    </div>
+    
+                    <div className="col">
+                    <div className="card card-bigger" >
+                        <img src={require('../images/home-banner.jpeg')}  />
+                        <div className="card-body">
+                            <div className="row w-100 m-0 hi">
+                                <div className="col-6 p-0 hi">
+                                    <p className="card-text hi">{data[0].avg_rating} &#9733;</p>
+                                </div>
+                                <div className="col-6 float-end p-0 hi">
+                                    <p className="card-text float-end hi">$$</p>
+                                </div>
+                            </div>
+                            <h5 className="card-title">{data[0]._id}</h5>
+                            <p className="card-text">{data[0].location.formatted_address}</p>
+                            <p className="card-desc">{data[0].description}</p>
+                            <button type="submit" className="search-button">Find out more</button>
+                        </div>
+                    </div>
+                    </div>
+    
+                    <div className="col">
+                    <div className="card card-smaller" >
+                        <img src={require('../images/home-banner.jpeg')} />
+                        <div className="card-body">
+                            <div className="row w-100 m-0 hi">
+                                <div className="col-6 p-0 hi">
+                                    <p className="card-text hi">{data[2].avg_rating} &#9733;</p>
+                                </div>
+                                <div className="col-6 float-end p-0 hi">
+                                    <p className="card-text float-end hi">$$</p>
+                                </div>
+                            </div>
+                            <h5 className="card-title">{data[2]._id}</h5>
+                            <p className="card-text">{data[2].location.formatted_address}</p>
+                            <p className="card-desc">{data[2].description}</p>
+                            <button type="submit" className="search-button">Find out more</button>
+                        </div>
+                    </div>
+                    </div>
+    
+                </div>
+            )
+        }
+    }
+
     return (
         <div className="home">
             <div className="home-banner">
@@ -13,78 +100,17 @@ function Home() {
             <div className="searchbox">
                 <p>Make a booking now!</p>
                 <form className="search-form">
-                    <input class="form-control" type="text" placeholder="Type of cuisine"/>
-                    <input class="form-control" type="text" placeholder="Date"/>
-                    <input class="form-control" type="text" placeholder="Time"/>
-                    <input class="form-control" type="select" placeholder="No. of pax"/>
+                    <input className="form-control" type="text" placeholder="Type of cuisine"/>
+                    <input className="form-control" type="text" placeholder="Date"/>
+                    <input className="form-control" type="text" placeholder="Time"/>
+                    <input className="form-control" type="select" placeholder="No. of pax"/>
                     <button type="submit" className="search-button">Search</button>
                 </form>
             </div>
             <div className="latest">
                 <p className="header">Check out our latest</p>
-                <div className="row">
-
-                    <div className="col">
-                    <div class="card card-smaller" >
-                        <img src={require('../images/home-banner.jpeg')} />
-                        <div class="card-body">
-                            <div className="row w-100 m-0 hi">
-                                <div className="col-6 p-0 hi">
-                                    <p className="card-text hi">4.5 &#9733;</p>
-                                </div>
-                                <div className="col-6 float-end p-0 hi">
-                                    <p className="card-text float-end hi">$$</p>
-                                </div>
-                            </div>
-                            <h5 class="card-title">Restoran Makanan</h5>
-                            <p class="card-text">Kampong Glam, Singapore</p>
-                            <p class="card-desc">A short description of what the restaurant is about, what food they sell and the vibes and idk what else maybe abience</p>
-                            <button type="submit" className="search-button">Find out more</button>
-                        </div>
-                    </div>
-                    </div>
-
-                    <div className="col">
-                    <div class="card card-bigger" >
-                        <img src={require('../images/home-banner.jpeg')}  />
-                        <div class="card-body">
-                            <div className="row w-100 m-0 hi">
-                                <div className="col-6 p-0 hi">
-                                    <p className="card-text hi">4.5 &#9733;</p>
-                                </div>
-                                <div className="col-6 float-end p-0 hi">
-                                    <p className="card-text float-end hi">$$</p>
-                                </div>
-                            </div>
-                            <h5 class="card-title">Restoran Makanan</h5>
-                            <p class="card-text">Kampong Glam, Singapore</p>
-                            <p class="card-desc">A short description of what the restaurant is about, what food they sell and the vibes and idk what else maybe abience</p>
-                            <button type="submit" className="search-button">Find out more</button>
-                        </div>
-                    </div>
-                    </div>
-
-                    <div className="col">
-                    <div class="card card-smaller" >
-                        <img src={require('../images/home-banner.jpeg')} />
-                        <div class="card-body">
-                            <div className="row w-100 m-0 hi">
-                                <div className="col-6 p-0 hi">
-                                    <p className="card-text hi">4.5 &#9733;</p>
-                                </div>
-                                <div className="col-6 float-end p-0 hi">
-                                    <p className="card-text float-end hi">$$</p>
-                                </div>
-                            </div>
-                            <h5 class="card-title">Restoran Makanan</h5>
-                            <p class="card-text">Kampong Glam, Singapore</p>
-                            <p class="card-desc">A short description of what the restaurant is about, what food they sell and the vibes and idk what else maybe abience</p>
-                            <button type="submit" className="search-button">Find out more</button>
-                        </div>
-                    </div>
-                    </div>
-
-                </div>
+    
+                <ShowPosts/>
 
                 <div className="who">
                     <p className="header">Who are we?</p>
