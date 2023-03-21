@@ -42,6 +42,7 @@ def search(query):
     "image": ["image"],
     "website": "elemengroup.com.sg",
     "cuisine": ["Vegetarian"],
+    "phone": "63378888",
     "availability": {
         "270322": {
             "1100": 5,
