@@ -24,6 +24,7 @@ check_restaurant_availability_url = catalog_url + "find/<string:restaurant_name>
 
 customer_url = os.environ.get("customer_url") or "http://localhost:5001/customer/"
 get_customer_url = customer_url + "<string:customer_id>"
+update_availability_url = catalog_url + "updateAvailability"
 
 waitlist_url = os.environ.get("waitlist_url") or "http://localhost:5010/waitlist/"
 
@@ -59,12 +60,10 @@ def place_booking():
 
 def processPlaceBooking(booking):
     print("\n\n ----- Processing the booking -----")
+    print("\nBooking details:", booking)
     message = json.dumps(booking)
-
     restaurant_name = booking["restaurant"]
-
     date = booking["date"]
-
     time = booking["time"]
 
     # Check restaurant availability
@@ -72,8 +71,56 @@ def processPlaceBooking(booking):
 
     if availability["data"]["availability"][date][time] > 0:
         
-        # Available
-        print("\n\n ----- Table available -----")
+        # Available, update availability
+        print("\n\n ----- Table available, updating availability -----")
+        update_availability_data = {
+            "restaurant_name": restaurant_name,
+            "date": date,
+            "time": time,
+            "update": -1
+        }
+        update_availability_result = invoke_http(update_availability_url, "PUT", update_availability_data)
+        update_availability_code = update_availability_result["code"]
+        print("Update availability result:", update_availability_result)
+        if update_availability_code not in range(200, 300):
+            # Update availability unsuccessful, inform error microservice
+            print("\n\n ----- Update availability unsuccessful, sending error message -----")
+            amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.error", body=message, properties=pika.BasicProperties(delivery_mode=2))
+
+            # Print status even if invocation fails
+            print("\nUpdate availability status ({:d}) published to the RabbitMQ Exchange:".format(update_availability_code), update_availability_result)
+
+            # Add booking to waitlist
+            print("\n\n ----- Adding to waitlist -----")
+            customer_id = booking["customer"]
+            get_customer_result = invoke_http(get_customer_url.replace("<string:customer_id>", customer_id), "GET")
+            customer_info = get_customer_result["data"]
+            waitlist_data = {
+                "restaurant_name": restaurant_name,
+                "customer": customer_id,
+                "phone": customer_info["phone"],
+                "email": customer_info["email"],
+                "date": date,
+                "time": time
+            }
+            post_waitlist_result = invoke_http(waitlist_url, "POST", waitlist_data)
+            code = post_waitlist_result["code"]
+            if code not in range(200,300):
+                # Waitlist unsuccessful, inform error microservice
+                print("\n\n ----- Waitlist unsuccessful, sending error message -----")
+                amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.error", body=message, properties=pika.BasicProperties(delivery_mode = 2))
+
+                # Print status even if invocation fails
+                print("\nWaitlist status ({:d}) published to the RabbitMQ Exchange:".format(code), post_waitlist_result)
+                return {
+                    "code": 500,
+                    "message": "Waitlist failed"
+                }
+            return {
+                "code": update_availability_code,
+                "message": "Update availability unsuccessful"
+            }
+        
 
         # Generate 8 digit id
         int_id = 0
@@ -95,13 +142,45 @@ def processPlaceBooking(booking):
         if code not in range(200,300):
             # Booking unsuccessful, inform error microservice
             print("\n\n ----- Booking unsuccessful, sending error message -----")
-            amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="booking.error", body=message, properties=pika.BasicProperties(delivery_mode = 2))
+            amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.error", body=message, properties=pika.BasicProperties(delivery_mode = 2))
 
             # Print status even if invocation fails
             print("\nBooking status ({:d}) published to the RabbitMQ Exchange:".format(code), add_booking_result)
+
+            # Add booking to waitlist
+            print("\n\n ----- Adding to waitlist -----")
+            customer_id = booking["customer"]
+            get_customer_result = invoke_http(get_customer_url.replace
+            ("<string:customer_id>", customer_id), "GET")
+            customer_info = get_customer_result["data"]
+            waitlist_data = {
+                "restaurant_name": restaurant_name,
+                "customer": customer_id,
+                "phone": customer_info["phone"],
+                "email": customer_info["email"],
+                "date": date,
+                "time": time
+            }
+            post_waitlist_result = invoke_http(waitlist_url, "POST", waitlist_data)
+            code = post_waitlist_result["code"]
+            if code not in range(200,300):
+                # Waitlist unsuccessful, inform error microservice
+                print("\n\n ----- Waitlist unsuccessful, sending error message -----")
+                amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.error", body=message, properties=pika.BasicProperties(delivery_mode = 2))
+
+                # Print status even if invocation fails
+                print("\nWaitlist status ({:d}) published to the RabbitMQ Exchange:".format(code), post_waitlist_result)
+                return {
+                    "code": 500,
+                    "message": "Waitlist failed"
+                }
+            
             return {
-                "code": 500,
-                "message": "Booking failed"
+                "code": 200,
+                "data": {
+                    "waitlist_result": post_waitlist_result,
+                    "message": "Booking unsuccessful, added to waitlist"
+                }
             }
         
         else:
@@ -122,11 +201,11 @@ def processPlaceBooking(booking):
                     "name": customer_info["first_name"],
                     "restaurant_name": restaurant_name,
                     "date_time": date + " " + time,
-                    "booking": booking['_id'], #only appear in sendbooking and sendpayment
+                    "booking": booking['_id']
                 }
             }
             send_booking_message = json.dumps(send_booking_data)
-            amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="booking.notification", body=send_booking_message, properties=pika.BasicProperties(delivery_mode = 2))
+            amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.notification", body=send_booking_message, properties=pika.BasicProperties(delivery_mode = 2))
 
             # Print status even if invocation fails
             print("\nBooking status ({:d}) published to the RabbitMQ Exchange:".format(code), add_booking_result)
@@ -144,8 +223,7 @@ def processPlaceBooking(booking):
         # Add booking to waitlist
         print("\n\n ----- Adding to waitlist -----")
         customer_id = booking["customer"]
-        get_customer_result = invoke_http(get_customer_url.replace
-        ("<string:customer_id>", customer_id), "GET")
+        get_customer_result = invoke_http(get_customer_url.replace("<string:customer_id>", customer_id), "GET")
         customer_info = get_customer_result["data"]
         waitlist_data = {
             "restaurant_name": restaurant_name,
@@ -160,7 +238,7 @@ def processPlaceBooking(booking):
         if code not in range(200,300):
             # Waitlist unsuccessful, inform error microservice
             print("\n\n ----- Waitlist unsuccessful, sending error message -----")
-            amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="booking.error", body=message, properties=pika.BasicProperties(delivery_mode = 2))
+            amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.error", body=message, properties=pika.BasicProperties(delivery_mode = 2))
 
             # Print status even if invocation fails
             print("\nWaitlist status ({:d}) published to the RabbitMQ Exchange:".format(code), post_waitlist_result)
