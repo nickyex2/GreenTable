@@ -66,7 +66,7 @@ function Signup() {
                             <input className="form-control" type="text" placeholder="@Telegram_handle" ref={telegram}/>
                         </div>
                         <div className="col-6">
-                            <input className="form-control" type="text" placeholder="Credit Card No." ref={cardno}/>
+                            <input className="form-control" type="text" placeholder="Credit Card No." minLength={16} ref={cardno}/>
                             <div className="row">
                                 <div className="col-6">
                                     <input className="form-control" type="numbers" placeholder="Expiry Date" ref={expiry}/>

@@ -1,5 +1,5 @@
 .env
 /*.session
 /backend/*.session
-/*adminsdk.json
 /backend/APIs/*.session
+/node_modules
