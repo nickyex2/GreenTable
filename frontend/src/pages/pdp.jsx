@@ -20,11 +20,41 @@ function Pdp() {
             response => setData(response.data.data))
         }
         all();
-    }, []);
+    }, [restaurant_name]);
 
-    console.log(data);
+    // format date to dd/mm/yyyy
+    const formatDate = (date) => {
+        const day = date.slice(0,2);   
+        const month = date.slice(2,4);
+        const year = date.slice(4,6);
+        return day + '/' + month + '/' + year;
+    }
 
-    if (data.length != 0) {
+    const [chosenDate, setChosenDate] = useState('');
+
+    // functions to render time based on the date selected
+
+    function renderDates(){
+        return Object.keys(data.availability).map((key, index) => {
+           return <option value={key}>{formatDate(key)}</option>
+        })
+    }
+
+    function renderTimes(check){
+        if (check !== '')
+            return Object.keys(data.availability[chosenDate]).map((key, index) => {
+                return <option value={key}>{key}</option>
+        })
+        else{
+            return <option selected value="null" disabled>Please Select A Time</option>
+        }
+    }
+
+    function handleChange(e){
+        setChosenDate(e.target.value);
+    }
+
+    if (data.length !== 0) {
         return (
             <div className="pdp">
                 <div className="container">
@@ -39,7 +69,7 @@ function Pdp() {
                                         <p className="float-end pdpmoney">$$</p>
                                     </div>
                                 </div>
-                                <img src={require('../images/home-banner.jpeg')} className='pdpimg' />
+                                <img src={require('../images/home-banner.jpeg')} className='pdpimg' alt="/"/>
                             </div>
                             <div className="pdpdesc">
                                 <h4 className="pdpheaders">About</h4>
@@ -68,9 +98,13 @@ function Pdp() {
                                 <h5>Find a table</h5>
                                 <div className="pdpbox">
                                     <form className="search-form">
-                                        <input className="form-control" type="text" placeholder="Date"/>
-                                        <input className="form-control" type="text" placeholder="Time"/>
-                                        <input className="form-control" type="number" placeholder="No. of pax" min='1' max='10'/>
+                                        <select onChange={handleChange}>
+                                            <option selected value="null" disabled>Please Select A Date</option>
+                                            {renderDates()}
+                                        </select>
+                                        <select>
+                                            {renderTimes(chosenDate)}
+                                        </select>
                                         <button type="submit" className="search-button">Book Now</button>
                                     </form>
                                 </div>
