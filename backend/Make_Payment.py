@@ -14,6 +14,26 @@ booking_url = os.environ.get('booking_url') or 'http://localhost:5003/booking'
 payment_url = os.environ.get('payment_url') or 'http://localhost:5004/payment'
 customer_url = os.environ.get('customer_url') or 'http://localhost:5001/customer'
 
+"""
+data = {
+    "booking_id": "2",
+    "total_amount": 600,
+    "main_customer": {
+        "name": "nicholas",
+        "amount": 100
+    },
+    "other_customers": [
+        {
+            "name": "daryl",
+            "amount": 200
+        },
+        {
+            "name": "chiok",
+            "amount": 300
+        }
+    ]
+}
+"""
 @app.route("/make_payment", methods=['POST'])
 def make_payment():
     if not request.is_json:
