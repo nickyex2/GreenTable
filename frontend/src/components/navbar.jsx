@@ -1,6 +1,12 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 function Navbar() {
+  const location = useLocation()
+
+    if(location.pathname === '/login' || location.pathname === '/signup') {
+      return null
+    }
     return (
         <nav className="navbar">
         <div className="container-fluid">
