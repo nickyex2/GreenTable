@@ -38,6 +38,7 @@
     "category": "category",
     "image": ["image"],
     "website": "website",
+    "phone": "phone"
     "cuisine": ["cuisine"],
     "availability": {
         "date": {

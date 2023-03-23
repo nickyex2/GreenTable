@@ -83,8 +83,10 @@ services:
     environment:
       PYTHONUNBUFFERED: 1
       stripe_url: http://stripe-api:5016/api/stripepay
-    ports:
-      - "5004:5004"
+    # ports:
+    #   - "5004:5004"
+    expose:
+      - "5004"
     # networks:
     #   - kong-net
   #################################################
@@ -144,8 +146,10 @@ services:
       TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
       TELEGRAM_API_SESSION: ${TELEGRAM_API_SESSION}
       PYTHONUNBUFFERED: 1
-    ports:
-      - "5015:5015"
+    # ports:
+    #   - "5015:5015"
+    expose:
+      - "5015"
     # networks:
     #   - kong-net
 
@@ -164,8 +168,10 @@ services:
     environment:
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       PYTHONUNBUFFERED: 1
-    ports:
-      - "5014:5014"
+    # ports:
+    #   - "5014:5014"
+    expose:
+      - "5014"
     # networks:
     #   - kong-net
 
@@ -184,8 +190,10 @@ services:
     environment:
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
       PYTHONUNBUFFERED: 1
-    ports:
-      - "5016:5016"
+    # ports:
+    #   - "5016:5016"
+    expose:
+      - "5016"
     # networks:
     #   - kong-net
   ####################################
@@ -287,5 +295,7 @@ services:
       catalog_url: http://catalog:5002/catalog
       customer_url: http://customer:5001/customer
       PYTHONUNBUFFERED: 1
+    ports:
+      - "5006:5006"
     # networks:
     #   - kong-net
