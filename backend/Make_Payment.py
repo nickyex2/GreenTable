@@ -98,7 +98,7 @@ def processPayment(data):
                     "message": "Booking not found"
                 }
             }
-        )
+        ), 404
 
     #3. Retrieve All Customer Profiles
     main_customer_name = data["main_customer"]["name"]
@@ -114,13 +114,13 @@ def processPayment(data):
         #print error to console
         print('\n------------------------')
         print("\nCustomer not found:", main_customer_name)
-        return {
+        return jsonify({
             "code": 404,
             #include the name of the person that is not found
             "data": {
                 "message": f"Customer {main_customer_name} not found"
             }
-        }
+        }), 404
     data_to_send = {
         "total_amount": data["total_amount"],
         "maincustomer": {
@@ -147,12 +147,12 @@ def processPayment(data):
             #print error to console
             print('\n------------------------')
             print("\nCustomer not found:", name)
-            return {
+            return jsonify({
                 "code": 404,
                 "data": {
                     "message": f"Customer {name} not found",
                 }
-            }
+            }), 404
         data_to_send["customer_details"][name] = {
             "amount": customer["data"]["credit_card"]["card_number"],
             "card_no": customer["data"]["credit_card"]["expiration_date"],
@@ -172,12 +172,12 @@ def processPayment(data):
         #print error to console
         print('\n------------------------')
         print("\nPayment failed:", payment)
-        return {
+        return jsonify({
             "code": 500,
             "data": {
                 "message": "Payment failed",
             }
-        }
+        }), 500
     booking_data = {
         "booking_id": booking_id,
         "payment_status": True
@@ -201,19 +201,19 @@ def processPayment(data):
     print('\n------------------------')
     print("\nPayment successful:", payment)
     if updatePaymentStatus["code"] != 200:
-        return {
+        return jsonify({
             "code": 200,
             "data": {
                 "message": "Payment successful but update payment status failed",
             }
-        }
+        }), 200
     #9. Return payment status
-    return {
+    return jsonify({
         "code": 200,
         "data": {
             "message": "Payment successful",
         }
-    }
+    }), 200
 
     
 if __name__ == "__main__":
