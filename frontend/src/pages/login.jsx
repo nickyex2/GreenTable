@@ -12,8 +12,6 @@ function Login() {
     const password = useRef("");
     const booking_url = "http://localhost:5001/customer/login";
 
-    sessionStorage.setItem('name', 'Guest')
-
     function storeRedirect() {
         sessionStorage.setItem('name', username.current.value)
         window.location.href = "http://localhost:3000/";

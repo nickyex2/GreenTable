@@ -9,6 +9,8 @@ import {Link} from "react-router-dom";
 function Pdp() {
 
     const booking_url = "http://localhost:5002/catalog/find";
+
+    const add_url = "http://localhost:5003//booking/add";
     
     const {restaurant_name} = useParams();
 
@@ -61,6 +63,38 @@ function Pdp() {
         return phone.slice(0,4) + ' ' + phone.slice(4,8);
     }
 
+    function checkLogin(){
+        if (!sessionStorage.getItem("name")){
+            return <Link to={"/login"}><button type="submit" className="search-button align-self-end mt-auto">Login to Book</button></Link>
+        }
+        else{
+            return <Link to={`/confirmation/${data._id}`}><button type="submit" className="search-button align-self-end mt-auto" onClick={addBooking}>Book Now</button></Link>
+        }
+    }
+
+    function formatBD(date){
+        var temp = date.split('/');
+        return temp[0] + temp[1] + temp[2][2]+ temp[2][3];
+    }
+
+    function addBooking(){
+        const booking = {
+            restaurant: data._id,
+            customer: sessionStorage.getItem("name"),
+            // date DDMMYY
+            date_created: formatBD(new Date().toLocaleDateString()),
+            date: document.getElementById("date").value,
+            time: document.getElementById("time").value,
+            no_of_pax: document.getElementById("pax").value,
+            pax_details: ['hard', 'code', 'first']
+        }
+        console.log(booking);
+        axios.post(add_url, booking)
+        .then(response => console.log('Booking added!'))
+        .catch(error => console.log(error))
+    }
+
+
     if (data.length !== 0) {
         return (
             <div className="pdp">
@@ -105,16 +139,17 @@ function Pdp() {
                                 <h5>Find a table</h5>
                                 <div className="pdpbox">
                                     <form className="search-form">
-                                        <select onChange={handleChange}>
+                                        <select onChange={handleChange} id='date'>
                                             <option selected value="null" disabled>Please Select A Date</option>
                                             {renderDates()}
                                         </select>
-                                        <select>
+                                        <select id="time">
                                             {renderTimes(chosenDate)}
                                         </select>
-                                        <Link to={`/confirmation/${data._id}`}>
-                                            <button type="submit" className="search-button">Book Now</button>
-                                        </Link>
+                                        <input type='number' placeholder="No. of Pax" id="pax"/>
+                                        <div>
+                                            {checkLogin()}
+                                        </div>
                                     </form>
                                 </div>
                             </div>
