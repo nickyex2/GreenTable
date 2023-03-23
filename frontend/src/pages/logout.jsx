@@ -1,7 +1,7 @@
 import React from "react";
 
 function Logout() {
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = "/";
     return (
         <div class="logout">

@@ -12,10 +12,10 @@ function Login() {
     const password = useRef("");
     const booking_url = "http://localhost:5001/customer/login";
 
-    localStorage.setItem('name', 'Guest')
+    sessionStorage.setItem('name', 'Guest')
 
     function storeRedirect() {
-        localStorage.setItem('name', username.current.value)
+        sessionStorage.setItem('name', username.current.value)
         window.location.href = "http://localhost:3000/";
     }
 

@@ -11,7 +11,7 @@ function Home() {
     const [data, setData] = useState([]);
 
     // call out username from session storage
-    var username = localStorage.getItem('name');
+    var username = sessionStorage.getItem('name');
 
     useEffect(() => {
         const all = async () => {

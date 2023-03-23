@@ -8,7 +8,7 @@ function Navbar() {
       return null
     }
 
-    var username = localStorage.getItem('name');
+    var username = sessionStorage.getItem('name');
 
     return (
         <nav className="navbar">
