@@ -195,7 +195,19 @@ def processPayment(data):
         print('\n------------------------')
         print("\nPayment Update Status failed:", updatePaymentStatus)
     #8 send notification to customer via amqp
-    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.notification", body=json.dumps(data), properties=pika.BasicProperties(delivery_mode=2))
+    notificationData = {
+        "type_of_notification": "sendpayment",
+        "data": {
+            "phone": main_customer["data"]["phone"],
+            "email": main_customer["data"]["email"],
+            "name": main_customer_name,
+            "restaurant_name": booking['data']['restaurant'],
+            "date_time": f'{booking["data"]["date"]} {booking["data"]["time"]}',
+            "booking": booking_id, #only appear in sendbooking and sendpayment
+            "amount": data['total_amount'] #only appear in sendpayment
+        }
+    }
+    amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.notification", body=json.dumps(notificationData), properties=pika.BasicProperties(delivery_mode=2))
     print('\n------------------------')
     print("\nPayment successful:", payment)
     if updatePaymentStatus["code"] != 200:
