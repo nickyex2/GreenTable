@@ -91,14 +91,12 @@ def processPayment(data):
         #print error to console
         print('\n------------------------')
         print("\nBooking not found:", booking)
-        return jsonify(
-            {
+        return {
                 "code": 404,
                 "data": {
                     "message": "Booking not found"
                 }
             }
-        ), 404
 
     #3. Retrieve All Customer Profiles
     main_customer_name = data["main_customer"]["name"]
@@ -114,13 +112,13 @@ def processPayment(data):
         #print error to console
         print('\n------------------------')
         print("\nCustomer not found:", main_customer_name)
-        return jsonify({
+        return {
             "code": 404,
             #include the name of the person that is not found
             "data": {
                 "message": f"Customer {main_customer_name} not found"
             }
-        }), 404
+        }
     data_to_send = {
         "total_amount": data["total_amount"],
         "maincustomer": {
@@ -133,8 +131,8 @@ def processPayment(data):
         "customer_details": {}
     }
     other_customers = data["other_customers"]
-    for customer in other_customers:
-        name = customer["name"]
+    for customer_d in other_customers:
+        name = customer_d["name"]
         customer = invoke_http(f"{customer_url}/{name}", method='GET')
         if customer["code"] != 200:
             error_data = {
@@ -147,16 +145,16 @@ def processPayment(data):
             #print error to console
             print('\n------------------------')
             print("\nCustomer not found:", name)
-            return jsonify({
+            return {
                 "code": 404,
                 "data": {
                     "message": f"Customer {name} not found",
                 }
-            }), 404
+            }
         data_to_send["customer_details"][name] = {
-            "amount": customer["data"]["credit_card"]["card_number"],
-            "card_no": customer["data"]["credit_card"]["expiration_date"],
-            "exp_date": customer["data"]["credit_card"]["security_code"],
+            "amount": customer_d["amount"],
+            "card_no": customer["data"]["credit_card"]["card_number"],
+            "exp_date": customer["data"]["credit_card"]["expiration_date"],
             "cvc": customer["data"]["credit_card"]["security_code"]
         }
     #5. Send payment request
@@ -172,12 +170,12 @@ def processPayment(data):
         #print error to console
         print('\n------------------------')
         print("\nPayment failed:", payment)
-        return jsonify({
+        return {
             "code": 500,
             "data": {
                 "message": "Payment failed",
             }
-        }), 500
+        }
     booking_data = {
         "booking_id": booking_id,
         "payment_status": True
@@ -201,19 +199,19 @@ def processPayment(data):
     print('\n------------------------')
     print("\nPayment successful:", payment)
     if updatePaymentStatus["code"] != 200:
-        return jsonify({
+        return {
             "code": 200,
             "data": {
                 "message": "Payment successful but update payment status failed",
             }
-        }), 200
+        }
     #9. Return payment status
-    return jsonify({
+    return {
         "code": 200,
         "data": {
             "message": "Payment successful",
         }
-    }), 200
+    }
 
     
 if __name__ == "__main__":

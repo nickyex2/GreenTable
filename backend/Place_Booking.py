@@ -49,20 +49,20 @@ def place_booking():
             ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
             print(ex_str)
 
-            return jsonify({
+            return {
                 "code": 500,
                 "data" : {
                     "message": "place_booking.py internal error: " + ex_str
                 }
-            }), 500
+            }
     
     # Not a JSON request
-    return jsonify({
+    return {
         "code": 400,
         "data": {
             "message": "place_booking.py: place_booking() received a non-JSON request"
         }
-    }), 400
+    }
 
 def processPlaceBooking(booking):
     print("\n\n ----- Processing the booking -----")
@@ -117,19 +117,19 @@ def processPlaceBooking(booking):
 
             # Print status even if invocation fails
             print("\nWaitlist status ({:d}) published to the RabbitMQ Exchange:".format(code), post_waitlist_result)
-            return jsonify({
+            return {
                 "code": 500,
                 "data": {
                     "message": "Booking and Waitlist unsuccessful"
                 }
-            }), 500
-        return jsonify({
+            }
+        return {
             "code": update_availability_code,
             "data": {
                 "waitlist_result": post_waitlist_result,
                 "message": "No Tables Available for Booking, Added to Waitlist"
             }
-        })
+        }
     
 
 
@@ -186,12 +186,12 @@ def processPlaceBooking(booking):
 
             # Print status even if invocation fails
             print("\nWaitlist status ({:d}) published to the RabbitMQ Exchange:".format(code), post_waitlist_result)
-            return jsonify({
+            return {
                 "code": 500,
                 "data": {
                     "message": "Booking and Waitlist unsuccessful"
                 }
-            })
+            }
         
         return {
             "code": 200,
@@ -227,12 +227,12 @@ def processPlaceBooking(booking):
     print("\nBooking status ({:d}) published to the RabbitMQ Exchange:".format(code), add_booking_result)
 
     print("\n\n ----- Booking notification sent, booking successful -----")
-    return jsonify({
+    return {
         "code": 200,
         "data": {
             "message": "Booking successful"
         }
-    })
+    }
     
     # else:
     #     # Table unavailable
