@@ -215,13 +215,15 @@ def processPayment(data):
             "code": 200,
             "data": {
                 "message": "Payment successful but update payment status failed",
+                "failed_payments": payment["data"]["failed_payments"]
             }
         }
     #9. Return payment status
     return {
         "code": 200,
         "data": {
-            "message": "Payment successful",
+            "message": payment["data"]["message"],
+            "failed_payments": payment["data"]["failed_payments"]
         }
     }
 
