@@ -17,31 +17,76 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = {
-            _id: username.current.value,
-            password: password.current.value,
-            phone: phone.current.value,
-            telegram : telegram.current.value,
-            email: email.current.value,
-            first_name: firstname.current.value,
-            last_name: lastname.current.value,
-            credit_card: {
-                card_number: cardno.current.value ,
-                expiration_date: expiry.current.value,
-                security_code: cvv.current.value
-            }
-        };
-        axios.post(booking_url, data)
-            .then((res) => {
-                console.log(res);
-                window.location.href = "http://localhost:3000/login"
-            })
-            .catch((err) => {
-                console.log(err);
-            }
-        );
+        if (errormsg() === false) {
+            errormsg();
+        }
+        else{
+            const data = {
+                _id: username.current.value,
+                password: password.current.value,
+                phone: phone.current.value,
+                telegram : telegram.current.value,
+                email: email.current.value,
+                first_name: firstname.current.value,
+                last_name: lastname.current.value,
+                credit_card: {
+                    card_number: cardno.current.value ,
+                    expiration_date: expiry.current.value,
+                    security_code: cvv.current.value
+                }
+            };
+            axios.post(booking_url, data)
+                .then((res) => {
+                    console.log(res);
+                    window.location.href = "http://localhost:3000/login"
+                })
+                .catch((err) => {
+                    console.log(err);
+                    const errormsg = document.querySelector(".errormsg");
+                    errormsg.innerHTML = "Username already exists";
+                    errormsg.style.color = "red";
+                    errormsg.style.fontSize = "15px";
+                    errormsg.style.fontWeight = "600";
+                    errormsg.style.marginTop = "10px";
+                }
+            );
+        }
 
     };
+
+    function errormsg() {
+        const errormsg = document.querySelector(".errormsg");
+        var allmsg = '';
+        if (firstname.current.value === "" || lastname.current.value === "" || username.current.value === "" || password.current.value === "" || email.current.value === "" || phone.current.value === "" || telegram.current.value === "" || cardno.current.value === "" || expiry.current.value === "" || cvv.current.value === ""){
+            allmsg += "Please fill in all the fields<br/>";
+        }
+        // check if email and telegram inputs include @
+        if (email.current.value.includes("@") === false){
+            allmsg += " Please enter a valid email<br/>";
+        }
+        if (telegram.current.value.includes("@") === false){
+            allmsg += " Please enter a valid telegram username<br/>";
+        }
+        // check if phone number is 8 digits
+        if (phone.current.value.length !== 8){
+            allmsg += " Please enter a valid phone number<br/>";
+        }
+        // check if cvv is 3 digits
+        if (cvv.current.value.length !== 3){
+            allmsg += " Please enter a valid cvv<br/>";
+        }
+        errormsg.innerHTML = allmsg;
+        errormsg.style.color = "red";
+        errormsg.style.fontSize = "15px";
+        errormsg.style.fontWeight = "600";
+        errormsg.style.marginTop = "10px";
+        if (allmsg === ''){
+            return true
+        }
+        else{
+            return false
+        }
+    }
 
     return (
         <div className="signup">
@@ -61,23 +106,24 @@ function Signup() {
                             </div>
                             <input className="form-control" type="text" placeholder="Username"ref={username}/>
                             <input className="form-control" type="Password" placeholder="Password" ref={password}/>
-                            <input className="form-control" type="text" placeholder="Email" ref={email}/>
+                            <input className="form-control" type="email" placeholder="Email" ref={email}/>
                             <input className="form-control" type="numbers" placeholder="Phone" ref={phone}/>
                             <input className="form-control" type="text" placeholder="@Telegram_handle" ref={telegram}/>
                         </div>
                         <div className="col-6">
-                            <input className="form-control" type="text" placeholder="Credit Card No." minLength={16} ref={cardno}/>
+                            <input className="form-control" type="tel" placeholder="Credit Card No." minLength={16} ref={cardno}/>
                             <div className="row">
                                 <div className="col-6">
-                                    <input className="form-control" type="numbers" placeholder="Expiry Date" ref={expiry}/>
+                                    <input className="form-control" type="tel" placeholder="Expiry Date" ref={expiry}/>
                                 </div>
                                 <div className="col-6">
-                                    <input className="form-control" type="numbers" placeholder="CVV" ref={cvv}/>
+                                    <input className="form-control" type="tel" placeholder="CVV" ref={cvv}/>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <button type="submit" className="search-button" onClick={handleSubmit}>Lets Go!</button>
+                    <div className="errormsg"></div>
                 </form>
             </div>
         </div>

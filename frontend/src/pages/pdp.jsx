@@ -54,10 +54,14 @@ function Pdp() {
         setChosenDate(e.target.value);
     }
 
+    function splitPhone(phone){
+        return phone.slice(0,4) + ' ' + phone.slice(4,8);
+    }
+
     if (data.length !== 0) {
         return (
             <div className="pdp">
-                <div className="container">
+                <div className="container mt-5">
                     <div className="row pdprow">
                         <div className="col-8 mx-3">
                             <div className="pdpmain">
@@ -69,7 +73,7 @@ function Pdp() {
                                         <p className="float-end pdpmoney">$$</p>
                                     </div>
                                 </div>
-                                <img src={require('../images/home-banner.jpeg')} className='pdpimg' alt="/"/>
+                                <img src={data.image[1]} className='pdpimg' alt="/"/>
                             </div>
                             <div className="pdpdesc">
                                 <h4 className="pdpheaders">About</h4>
@@ -88,7 +92,7 @@ function Pdp() {
                                         <p className="pdpdesc-title">Opening Hours</p>
                                         <p className="pdpdesc-desc">Mon - Fri: 8am - 10pm<br/>Sat - Sun: 8am - 10pm</p>
                                         <p className="pdpdesc-title">Contact</p>
-                                        <p className="pdpdesc-desc">+65 1234 5678</p>
+                                        <p className="pdpdesc-desc">+65 {splitPhone(data.phone)}</p>
                                     </div>
                                 </div>
                             </div>
