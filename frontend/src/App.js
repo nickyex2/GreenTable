@@ -5,7 +5,8 @@ import Navbar from './components/navbar';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Pdp from './pages/pdp';
-// import Confirmation from './pages/confirmation';
+import Confirmation from './pages/confirmation';
+import Logout from './pages/logout';
 // import Cancel from './pages/cancel';
 // import Checkout from './pages/checkout';
 // import Paid from './pages/pconfirm';
@@ -26,13 +27,10 @@ function App() {
         <Route path="/browse" element={<Browse/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
+        <Route path="/logout" element={<Logout/>}/>
         <Route path="/pdp/:restaurant_name" element={<Pdp/>}/>
+        <Route path="/confirmation/:restaurant_name" element={<Confirmation/>}/>
       </Routes>
-      {/* <Home /> */}
-      {/* <Browse /> */}
-      {/* <Login /> */}
-      {/* <Signup /> */}
-      {/* <Pdp /> */}
       {/* <Confirmation /> */}
       {/* <Cancel /> */}
       {/* <Checkout /> */}

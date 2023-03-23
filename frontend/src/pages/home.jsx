@@ -2,12 +2,16 @@ import React from "react";
 import axios from "axios";
 import {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
+import { useSessionStorage } from 'react-storage-complete';
 
 function Home() {
 
     const booking_url = "http://localhost:5002/catalog/all";
     
     const [data, setData] = useState([]);
+
+    // call out username from session storage
+    var username = localStorage.getItem('name');
 
     useEffect(() => {
         const all = async () => {
@@ -108,14 +112,14 @@ function Home() {
                 <img src={require('../images/home-banner.jpeg')} alt="" />
             </div>
             <div className="banner-text">
-                <h1>Welcome</h1>
+                <h1>Welcome, {username}</h1>
                 <p>This is a mini description of what<br/>this website does and our purpose etc</p>
             </div>
             <div className="searchbox">
                 <p>Make a booking now!</p>
                 <form className="search-form">
                     <input className="form-control" type="text" placeholder="Type of cuisine"/>
-                    <input className="form-control" type="text" placeholder="Date"/>
+                    <input className="form-control" type="date" placeholder="Date"/>
                     <input className="form-control" type="text" placeholder="Time"/>
                     <input className="form-control" type="select" placeholder="No. of pax"/>
                     <button type="submit" className="search-button">Search</button>
