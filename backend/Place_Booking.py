@@ -230,7 +230,8 @@ def processPlaceBooking(booking):
     return {
         "code": 200,
         "data": {
-            "message": "Booking successful"
+            "message": "Booking successful",
+            "booking_id": booking["_id"]
         }
     }
     
