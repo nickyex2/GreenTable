@@ -24,8 +24,20 @@ function Login() {
             })
             .catch((err) => {
                 console.log(err);
+                errormsg();
             }
         );
+
+    // function for error message
+    function errormsg() {
+        const errormsg = document.querySelector(".errormsg");
+        errormsg.innerHTML = "Invalid username or password";
+        errormsg.style.color = "red";
+        errormsg.style.fontSize = "15px";
+        errormsg.style.fontWeight = "600";
+        errormsg.style.marginTop = "10px";
+        errormsg.style.marginBottom = "10px";
+    }
     
 
     };
@@ -38,6 +50,7 @@ function Login() {
                     <input className="form-control" ref={username} type="text" placeholder="Username"/>
                     <input className="form-control" ref={password} type="Password" placeholder="Password"/>
                     <button type="submit" className="search-button" onClick={handleSubmit}>Lets Go!</button>
+                    <div className="errormsg"></div>
                 </form>
             </div>
         </div>

@@ -17,15 +17,23 @@ function Browse() {
             }
             all();
         }, []);
+
+    function limitDesc(desc) {
+        if (desc.length > 100) {
+            return desc.substring(0, 150) + "...";
+        }
+        return desc;
+    }
+        
     
-    const ShowPosts = (data_keys) => {
+    const ShowPosts = () => {
         // for each item in array data return one card
         return data.map((item, index) => {
             if (id_list.includes(item._id)) {
                 return ( 
                     <div className="col-4">
                     <div class="card card-smaller" >
-                        <img src={require('../images/home-banner.jpeg')} />
+                        <img src={item.image[0]} />
                         <div class="card-body">
                             <div className="row w-100 m-0">
                                 <div className="col-6 p-0">
@@ -37,9 +45,9 @@ function Browse() {
                             </div>
                             <h5 class="card-title">{item._id}</h5>
                             <p class="card-text">{item.location.formatted_address}</p>
-                            <p class="card-desc">{item.description}</p>
+                            <p class="card-desc">{limitDesc(item.description)}</p>
                             <Link to={`/pdp/${item._id}`}>
-                                <button type="submit" className="search-button">Find out more</button>
+                                <button type="submit" className="search-button align-self-end mt-auto">Find out more</button>
                             </Link>
                         </div>
                     </div>
@@ -53,7 +61,15 @@ function Browse() {
     const [cuisine, setCuisine] = useState("");
     const [date, setDate] = useState("");
     const [name, setName] = useState("");
-    const [pax, setPax] = useState("");
+    // const [pax, setPax] = useState("");
+
+    function clearAll() {
+        setCuisine("");
+        setDate("");
+        setName("");
+        // setPax("");
+    }
+
     if (data[0] != undefined) {
         var id_list = [];
         //get all id in data
@@ -87,7 +103,6 @@ function Browse() {
                     id_list.splice(temp, 1)
                 }
             } 
-    
         })
 
         return (
@@ -95,20 +110,22 @@ function Browse() {
                 <div className="container">
                     <div className="row">
                         <div className="col-3 filter px-4">
+                            <div className='pf'>
                             <div className='row'>
                                 <div className="col-6">
                                 <p className='float-start'>Filter By</p>
                                 </div>
                                 <div className="col-6">
-                                <p className='float-end'>Clear All</p>
+                                <button onClick={clearAll} className='float-end clearall'><p>Clear All</p></button>
                                 </div>
                             </div>  
                             <form className="search-form">
-                                <input class="form-control" type="text" placeholder="Name" value={name} onChange={(event) => {setName(event.target.value);}}/>
-                                <input class="form-control" type="text" placeholder="Type of cuisine" value={cuisine} onChange={(event) => {setCuisine(event.target.value);}}/>
-                                <input class="form-control" type="date" placeholder="Date" value={date} onChange={(event) => {setDate(event.target.value);}}/>
+                                <input class="form-control" id="name" type="text" placeholder="Name" value={name} onChange={(event) => {setName(event.target.value);}}/>
+                                <input class="form-control" id="cuisine" type="text" placeholder="Type of cuisine" value={cuisine} onChange={(event) => {setCuisine(event.target.value);}}/>
+                                <input class="form-control" id="date" type="date" placeholder="Date" value={date} onChange={(event) => {setDate(event.target.value);}}/>
                                 {/* <input class="form-control" type="text" placeholder="No. of pax" value={pax} onChange={(event) => {setPax(event.target.value);}}/> */}
                             </form>
+                            </div>
                         </div>
                         <div className="col-9">
                             <div className="row">
