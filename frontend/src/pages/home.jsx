@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import {useState, useEffect} from "react";
+import {Link} from "react-router-dom";
 
 function Home() {
 
@@ -16,6 +17,13 @@ function Home() {
         }
         all();
     }, []);
+
+    function limitDesc(desc) {
+        if (desc.length > 100) {
+            return desc.substring(0, 200) + "...";
+        }
+        return desc;
+    }
     
     const ShowPosts = () => {
 
@@ -25,7 +33,7 @@ function Home() {
     
                     <div className="col">
                     <div className="card card-smaller" >
-                        <img src={require('../images/home-banner.jpeg')} alt=""/>
+                        <img src={data[1].image[0]} alt=""/>
                         <div className="card-body">
                             <div className="row w-100 m-0 hi">
                                 <div className="col-6 p-0 hi">
@@ -37,15 +45,17 @@ function Home() {
                             </div>
                             <h5 className="card-title">{data[1]._id}</h5>
                             <p className="card-text">{data[1].location.formatted_address}</p>
-                            <p className="card-desc">{data[1].description}</p>
-                            <button type="submit" className="search-button">Find out more</button>
+                            <p className="card-desc">{limitDesc(data[1].description)}</p>
+                            <Link to={`/pdp/${data[1]._id}`}>
+                                <button type="submit" className="search-button align-self-end mt-auto">Find out more</button>
+                            </Link>
                         </div>
                     </div>
                     </div>
     
                     <div className="col">
                     <div className="card card-bigger" >
-                        <img src={require('../images/home-banner.jpeg')} alt=""  />
+                        <img src={data[0].image[0]} alt=""  />
                         <div className="card-body">
                             <div className="row w-100 m-0 hi">
                                 <div className="col-6 p-0 hi">
@@ -57,15 +67,17 @@ function Home() {
                             </div>
                             <h5 className="card-title">{data[0]._id}</h5>
                             <p className="card-text">{data[0].location.formatted_address}</p>
-                            <p className="card-desc">{data[0].description}</p>
-                            <button type="submit" className="search-button">Find out more</button>
+                            <p className="card-desc">{limitDesc(data[0].description)}</p>
+                            <Link to={`/pdp/${data[0]._id}`}>
+                                <button type="submit" className="search-button align-self-end mt-auto">Find out more</button>
+                            </Link>
                         </div>
                     </div>
                     </div>
     
                     <div className="col">
                     <div className="card card-smaller" >
-                        <img src={require('../images/home-banner.jpeg')} alt="" />
+                        <img src={data[2].image[0]} alt="" />
                         <div className="card-body">
                             <div className="row w-100 m-0 hi">
                                 <div className="col-6 p-0 hi">
@@ -77,8 +89,10 @@ function Home() {
                             </div>
                             <h5 className="card-title">{data[2]._id}</h5>
                             <p className="card-text">{data[2].location.formatted_address}</p>
-                            <p className="card-desc">{data[2].description}</p>
-                            <button type="submit" className="search-button">Find out more</button>
+                            <p className="card-desc">{limitDesc(data[2].description)}</p>
+                            <Link to={`/pdp/${data[2]._id}`}>
+                                <button type="submit" className="search-button align-self-end mt-auto">Find out more</button>
+                            </Link>
                         </div>
                     </div>
                     </div>
@@ -117,27 +131,27 @@ function Home() {
                     <p className="header-desc">This is a mini description of what our team is blah blah something cute bah</p>
                     <div className="row">
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/nicky.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Nicholas Goh</p>
                             <p className="role">Role</p>
                         </div>
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/daniel.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Daniel Lai</p>
                             <p className="role">Role</p>
                         </div>
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/daryl.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Daryl Yoon</p>
                             <p className="role">Role</p>
                         </div>
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
-                            <p className="name">Nickolaus Chiok</p>
+                            <img src={require('../images/chiok.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
+                            <p className="name">Nicklaus Chiok</p>
                             <p className="role">Role</p>
                         </div>
                         <div className="col">
-                            <img src={require('../images/home-banner.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
+                            <img src={require('../images/mok.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Colin Mok</p>
                             <p className="role">Role</p>
                         </div>
