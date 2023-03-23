@@ -1,7 +1,10 @@
 import React from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
+import {Link} from "react-router-dom";
+
+
 
 function Pdp() {
 
@@ -109,7 +112,9 @@ function Pdp() {
                                         <select>
                                             {renderTimes(chosenDate)}
                                         </select>
-                                        <button type="submit" className="search-button">Book Now</button>
+                                        <Link to={`/confirmation/${data._id}`}>
+                                            <button type="submit" className="search-button">Book Now</button>
+                                        </Link>
                                     </form>
                                 </div>
                             </div>

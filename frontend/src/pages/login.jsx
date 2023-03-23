@@ -2,7 +2,9 @@ import React from "react";
 
 // axios to make http requests to Customer API
 import axios from "axios";
-import {useRef} from "react";
+import {useRef, useState} from "react";
+
+import { useSessionStorage } from 'react-storage-complete';
 
 function Login() {
 
@@ -10,17 +12,22 @@ function Login() {
     const password = useRef("");
     const booking_url = "http://localhost:5001/customer/login";
 
+    sessionStorage.setItem('name', 'Guest')
+
+    function storeRedirect() {
+        sessionStorage.setItem('name', username.current.value)
+        window.location.href = "http://localhost:3000/";
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
             customer_id: username.current.value,
             password: password.current.value
         };
-        console.log(data)
         axios.post(booking_url, data)
             .then((res) => {
-                console.log(res);
-                window.location.href = "http://localhost:3000/"
+                storeRedirect()
             })
             .catch((err) => {
                 console.log(err);
