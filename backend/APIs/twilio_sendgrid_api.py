@@ -35,7 +35,7 @@ def send_email(message):
 def send_booking():
     data = request.get_json()
     message = Mail(
-        from_email='nicholasgbr99@gmail.com',
+        from_email='greentable.esd6@gmail.com',
         to_emails=data['email'],
         subject=f'Booking Confirmation for {data["restaurant_name"]}',
         html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} is confirmed. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]}')  # edit this message
@@ -56,7 +56,7 @@ def send_booking():
 def send_noti():
     data = request.get_json()
     message = Mail(
-        from_email='nicholasgbr99@gmail.com',
+        from_email='greentable.esd6@gmail.com',
         to_emails=data['email'],
         subject=f"Notification of New {data['restaurant_name']} Availability",
         html_content=f'Dear {data["name"]}, <br><br> There is a new availability for {data["restaurant_name"]} on {data["date_time"]}. Go and Book now before it gets taken up!')  # edit this message
@@ -79,7 +79,7 @@ def send_noti():
 def send_payment():
     data = request.get_json()
     message = Mail(
-        from_email='nicholasgbr99@gmail.com',
+        from_email='greentable.esd6@gmail.com',
         to_emails=data['email'],
         subject=f'Payment Confirmation for {data["booking"]}',
         html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} payment is successful. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]} <br> Amount Paid: {data["amount"]}')  # edit this message
