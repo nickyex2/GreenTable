@@ -19,7 +19,7 @@ function Navbar() {
             <a className="navbarlinks" href="/browse">Booking</a>
             <a className="navbarlinks" href="/login">Login</a>
             <a className="navbarlinks" href="/signup">Signup</a>
-            <a className="navbarlinks" href="/signup">Logout</a>
+            <a className="navbarlinks" href="/logout">Logout</a>
           </div>
           {/* <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
