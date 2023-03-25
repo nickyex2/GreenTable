@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import {useParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
-import {Link, redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 
 
@@ -14,6 +14,7 @@ function Pdp() {
     
     const {restaurant_name} = useParams();
 
+    const navigate = useNavigate();
     // take data from backend with restaurant_name using axios get
 
     const [data, setData] = useState([]);
@@ -63,23 +64,7 @@ function Pdp() {
         return phone.slice(0,4) + ' ' + phone.slice(4,8);
     }
 
-    function checkLogin(){
-        if (!sessionStorage.getItem("name")){
-            return <Link to={"/login"}><button type="submit" className="search-button align-self-end mt-auto">Login to Book</button></Link>
-        }
-        else{
-            return <Link to={`/confirmation/${booking_id}`}><button className="search-button align-self-end mt-auto" onClick={addBooking}>Book Now</button></Link>
-        }
-    }
-
-    function formatBD(date){
-        var temp = date.split('/');
-        return temp[0] + temp[1] + temp[2][2]+ temp[2][3];
-    }
-
-    var booking_id = '';
-
-    function addBooking(){
+    async function addBooking(){
         const booking = {
             restaurant: data._id,
             customer: sessionStorage.getItem("name"),
@@ -94,13 +79,31 @@ function Pdp() {
         axios.post(add_url, booking)
         .then(
             response => {
-                booking_id = response.data.data.booking_id;
+                const booking_id = response.data.data.booking_id;
                 console.log(response.data);
+                navigate(`/confirmation/${booking_id}`)
             }
         )
         .catch(
             error => console.log(error)
         )
+    }
+
+    function checkLogin(){
+        if (!sessionStorage.getItem("name")){
+            return <Link to={"/login"}><button type="submit" className="search-button align-self-end mt-auto">Login to Book</button></Link>
+        }
+        else{
+            return <button type="submit" className="search-button align-self-end mt-auto" onClick={async (e) => {
+                e.preventDefault();
+                await addBooking();
+            }}>Book Now</button>
+        }
+    }
+
+    function formatBD(date){
+        var temp = date.split('/');
+        return temp[0] + temp[1] + temp[2][2]+ temp[2][3];
     }
 
 
