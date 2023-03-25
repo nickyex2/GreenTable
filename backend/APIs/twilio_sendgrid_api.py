@@ -12,13 +12,15 @@ CORS(app)
 def send_email(message):
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        print(os.environ.get('SENDGRID_API_KEY'))
         response = sg.send(message)
         print(response.status_code)
         print(response.body)
         print(response.headers)
-        return {'message': 'Email Sent with no errors'}, response.status_code
+        return {"code": 200, "data":{'message': 'Email sent successfully'}}
     except Exception as e:
-        return {'message': e}, e['code']
+        print(e)
+        return {"code": 400, "data":e}
 
 """
     # for booking confirmation
@@ -39,8 +41,11 @@ def send_booking():
         to_emails=data['email'],
         subject=f'Booking Confirmation for {data["restaurant_name"]}',
         html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} is confirmed. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]}')  # edit this message
-    send_email(message)
+    result = send_email(message)
+    if result["code"] != 200:
+        return jsonify({"code": 400, "data":{'message': 'Email sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Email sent successfully'}}), 200
+
 
 """
     # for waitlist available
@@ -60,9 +65,10 @@ def send_noti():
         to_emails=data['email'],
         subject=f"Notification of New {data['restaurant_name']} Availability",
         html_content=f'Dear {data["name"]}, <br><br> There is a new availability for {data["restaurant_name"]} on {data["date_time"]}. Go and Book now before it gets taken up!')  # edit this message
-    send_email(message)
+    result = send_email(message)
+    if result["code"] != 200:
+        return jsonify({"code": 400, "data":{'message': 'Email sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Email sent successfully'}}), 200
-
 """
     # for payment confirmation
     data = {
@@ -83,7 +89,9 @@ def send_payment():
         to_emails=data['email'],
         subject=f'Payment Confirmation for {data["booking"]}',
         html_content=f'Dear {data["name"]}, <br><br> your booking {data["booking"]} payment is successful. <br> Name of Restaurant: {data["restaurant_name"]} <br> Date & Time: {data["date_time"]} <br> Amount Paid: {data["amount"]}')  # edit this message
-    send_email(message)
+    result = send_email(message)
+    if result["code"] != 200:
+        return jsonify({"code": 400, "data":{'message': 'Email sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Email sent successfully'}}), 200
 
 
