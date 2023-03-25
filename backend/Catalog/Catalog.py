@@ -17,7 +17,7 @@ collection = db["Catalog"]
 
 
 # Takes a string query and returns JSON object with the fields formatted_address, name, geometry, and photo
-@Catalog.route('/catalog/<string:query>')
+@Catalog.route('/catalog/map/<string:query>' , methods=['GET'])
 def search(query):
     fields = ['formatted_address', 'name', 'geometry','photo']
     fields_str = ",".join(fields)
