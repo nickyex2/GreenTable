@@ -77,8 +77,10 @@ function Pdp() {
                 errorMsg(2);
             }
             else{
-                checkName(temp[i].value);
-                customerids.push(temp[i].value);
+                const result = await checkName(temp[i].value);
+                if (result !== undefined && result.code === 200){
+                    customerids.push(temp[i].value);
+                }
             }
         }
 
@@ -111,10 +113,11 @@ function Pdp() {
         }
     }
 
-    function checkName(name){
-        axios.get(cus_url + '/' + name)
+    async function checkName(name){
+        await axios.get(cus_url + '/' + name)
         .then((res) => {
             console.log(res.data);
+            return res.data;
         })
         .catch((err) => {
             console.log(err);
