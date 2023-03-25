@@ -29,7 +29,7 @@ function App() {
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/logout" element={<Logout/>}/>
         <Route path="/pdp/:restaurant_name" element={<Pdp/>}/>
-        <Route path="/confirmation/:restaurant_name" element={<Confirmation/>}/>
+        <Route path="/confirmation/:booking_id" element={<Confirmation/>}/>
       </Routes>
       {/* <Confirmation /> */}
       {/* <Cancel /> */}

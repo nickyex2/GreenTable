@@ -1,6 +1,11 @@
 import React from "react";
+import axios from "axios";
+import {useParams, useNavigate} from "react-router-dom";
 
 function Confirmation() {
+
+    const {booking_id} = useParams();
+
     return (
         <div class="confirmation">
             <img src={require('../images/confirm.png')} alt="..."/>
