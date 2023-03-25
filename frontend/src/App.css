@@ -625,6 +625,17 @@ html, div{
   padding-bottom: 10px;
 }
 
+#customerfields, #error1, #error2{
+  background-color: white !important;
+}
+#error1, #error2{
+  color: red !important;
+  font-size: 12px;
+  padding: 5px;
+  font-weight: 500;
+  text-align: center;
+}
+
 /* CONFIRMATION */
 .confirmation{
   text-align: center;
