@@ -20,3 +20,6 @@ WAITLIST_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retry
 
 ### start docker compose
 ``` docker compose up ```
+
+### Use snapshot to get kong running seamlessly
+Navigate to Konga UI and import the snapshot in
