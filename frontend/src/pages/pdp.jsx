@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import {useParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
+import {Link, redirect} from "react-router-dom";
 
 
 
@@ -10,7 +10,7 @@ function Pdp() {
 
     const booking_url = "http://localhost:5002/catalog/find";
 
-    const add_url = "http://localhost:5003//booking/add";
+    const add_url = "http://localhost:5006/booking/place_booking";
     
     const {restaurant_name} = useParams();
 
@@ -68,7 +68,7 @@ function Pdp() {
             return <Link to={"/login"}><button type="submit" className="search-button align-self-end mt-auto">Login to Book</button></Link>
         }
         else{
-            return <Link to={`/confirmation/${data._id}`}><button type="submit" className="search-button align-self-end mt-auto" onClick={addBooking}>Book Now</button></Link>
+            return <Link to={`/confirmation/${booking_id}`}><button className="search-button align-self-end mt-auto" onClick={addBooking}>Book Now</button></Link>
         }
     }
 
@@ -76,6 +76,8 @@ function Pdp() {
         var temp = date.split('/');
         return temp[0] + temp[1] + temp[2][2]+ temp[2][3];
     }
+
+    var booking_id = '';
 
     function addBooking(){
         const booking = {
@@ -88,10 +90,17 @@ function Pdp() {
             no_of_pax: document.getElementById("pax").value,
             pax_details: ['hard', 'code', 'first']
         }
-        console.log(booking);
+        sessionStorage.setItem("booking_data", JSON.stringify(booking));
         axios.post(add_url, booking)
-        .then(response => console.log('Booking added!'))
-        .catch(error => console.log(error))
+        .then(
+            response => {
+                booking_id = response.data.data.booking_id;
+                console.log(response.data);
+            }
+        )
+        .catch(
+            error => console.log(error)
+        )
     }
 
 
