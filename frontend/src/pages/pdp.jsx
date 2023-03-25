@@ -11,6 +11,8 @@ function Pdp() {
     const booking_url = "http://localhost:5002/catalog/find";
 
     const add_url = "http://localhost:5006/booking/place_booking";
+
+    const cus_url = "http://localhost:5001/customer";
     
     const {restaurant_name} = useParams();
 
@@ -18,7 +20,7 @@ function Pdp() {
     // take data from backend with restaurant_name using axios get
 
     const [data, setData] = useState([]);
-
+    
     useEffect(() => {
         const all = async () => {
             await axios.get(booking_url + '/' + restaurant_name)
@@ -65,28 +67,72 @@ function Pdp() {
     }
 
     async function addBooking(){
-        const booking = {
-            restaurant: data._id,
-            customer: sessionStorage.getItem("name"),
-            // date DDMMYY
-            date_created: formatBD(new Date().toLocaleDateString()),
-            date: document.getElementById("date").value,
-            time: document.getElementById("time").value,
-            no_of_pax: document.getElementById("pax").value,
-            pax_details: ['hard', 'code', 'first']
-        }
-        sessionStorage.setItem("booking_data", JSON.stringify(booking));
-        axios.post(add_url, booking)
-        .then(
-            response => {
-                const booking_id = response.data.data.booking_id;
-                console.log(response.data);
-                navigate(`/confirmation/${booking_id}`)
+        document.getElementById("error1").innerHTML = "";
+        document.getElementById("error2").innerHTML = "";
+        // get elemtns from class name customerids and put into an array
+        var temp = document.getElementsByClassName("customerids");
+        var customerids = [];
+        for (var i = 0; i < temp.length; i++){
+            if (temp[i].value === ""){
+                errorMsg(2);
             }
-        )
-        .catch(
-            error => console.log(error)
-        )
+            else{
+                checkName(temp[i].value);
+                customerids.push(temp[i].value);
+            }
+        }
+
+        console.log(document.getElementById("error1").innerHTML);
+        console.log(document.getElementById("error2").innerHTML);
+
+        // if either error1 or error2 is not empty, exit function addBooking
+        if (document.getElementById("error1").innerHTML === "" && document.getElementById("error2").innerHTML === ""){
+            const booking = {
+                restaurant: data._id,
+                customer: sessionStorage.getItem("name"),
+                // date DDMMYY
+                date_created: formatBD(new Date().toLocaleDateString()),
+                date: document.getElementById("date").value,
+                time: document.getElementById("time").value,
+                no_of_pax: document.getElementById("pax").value,
+                pax_details: customerids
+            }
+            sessionStorage.setItem("booking_data", JSON.stringify(booking));
+            axios.post(add_url, booking)
+            .then(
+                response => {
+                    const booking_id = response.data.data.booking_id;
+                    navigate(`/confirmation/${booking_id}`)
+                }
+            )
+            .catch(
+                error => console.log(error)
+            )
+        }
+    }
+
+    function checkName(name){
+        axios.get(cus_url + '/' + name)
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+            errorMsg(1);
+        })
+    }
+
+    function errorMsg(num){
+        if (num === 1){
+            if (document.getElementById("error1").innerHTML === ""){
+                document.getElementById("error1").innerHTML = "Please enter a valid name";
+            }
+        }
+        if (num === 2){
+            if (document.getElementById("error2").innerHTML === ""){
+                document.getElementById("error2").innerHTML = "Please fill in all the fields";
+            }
+        }
     }
 
     function checkLogin(){
@@ -101,9 +147,36 @@ function Pdp() {
         }
     }
 
+
     function formatBD(date){
         var temp = date.split('/');
         return temp[0] + temp[1] + temp[2][2]+ temp[2][3];
+    }
+
+    function customerFields(){
+       // get value if input id = pax and put the number of input fields within the div id = customerfields
+         // if pax = 3, then 3 input fields
+        var pax = document.getElementById("pax").value;
+        var customerfields = document.getElementById("customerfields");
+        if (pax>0){
+            customerfields.innerHTML = "";
+            var input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control customerids";
+                input.placeholder = `${sessionStorage.getItem("name")}`;
+                input.value = `${sessionStorage.getItem("name")}`;
+                input.disabled = true;
+                input.style = "width: 80%;"
+                customerfields.appendChild(input);
+            for (var i = 1; i < pax; i++){
+                var input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control customerids";
+                input.placeholder = `Name ${i+1}`;
+                input.style = "width: 80%;"
+                customerfields.appendChild(input);
+            }
+        }
     }
 
 
@@ -158,7 +231,10 @@ function Pdp() {
                                         <select id="time">
                                             {renderTimes(chosenDate)}
                                         </select>
-                                        <input type='number' placeholder="No. of Pax" id="pax"/>
+                                        <input type='number' placeholder="No. of Pax" id="pax" onChange={customerFields}/>
+                                        <div id="customerfields"></div>
+                                        <div id="error1"></div>
+                                        <div id="error2"></div>
                                         <div>
                                             {checkLogin()}
                                         </div>
