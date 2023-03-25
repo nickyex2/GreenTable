@@ -7,7 +7,7 @@ import Signup from './pages/signup';
 import Pdp from './pages/pdp';
 import Confirmation from './pages/confirmation';
 import Logout from './pages/logout';
-// import Cancel from './pages/cancel';
+import Cancel from './pages/cancel';
 // import Checkout from './pages/checkout';
 // import Paid from './pages/pconfirm';
 
@@ -30,9 +30,9 @@ function App() {
         <Route path="/logout" element={<Logout/>}/>
         <Route path="/pdp/:restaurant_name" element={<Pdp/>}/>
         <Route path="/confirmation/:booking_id" element={<Confirmation/>}/>
+        <Route path="/cancel" element={<Cancel/>}/>
       </Routes>
       {/* <Confirmation /> */}
-      {/* <Cancel /> */}
       {/* <Checkout /> */}
       {/* <Paid /> */}
     </div>
