@@ -26,11 +26,11 @@ function History() {
             });        
         }
         all();
-    }, [username]);
+    }, [username, booking_url]);
 
-    function goPayment(booking_id) {
-        navigate(`/checkout/${booking_id}`)
-    }
+    // const goPayment = (booking_id) => {
+    //     navigate(`/checkout/${booking_id}`);
+    // }
 
     function formatStatus(status) {
         if (status === false) {
@@ -41,10 +41,12 @@ function History() {
     }
 
     function formatStatusPayment(status, booking_id) {
-        if (status === []) {
+        if (JSON.stringify(status) === JSON.stringify([])) {
             return "Food not ordered";
         } else {
-            return <button type="button" class="btn btn-light" onClick={goPayment(booking_id)}>Ready For Payment!</button>;
+            return <button type="button" class="btn btn-light" onClick={() => {
+                navigate(`/checkout/${booking_id}`)
+            }} >Ready For Payment!</button>;
         }
     }
 
@@ -115,6 +117,7 @@ function History() {
         var newArray = data.filter(function (el) {
             return el.paid_status === false;
         });
+        console.log(newArray)
         return (
             <table class="table">
             <thead>
