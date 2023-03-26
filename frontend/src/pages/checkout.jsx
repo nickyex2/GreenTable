@@ -1,228 +1,296 @@
 import React from "react";
+import axios from "axios";
+import { useState , useEffect} from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
 
 // function to change all input tag names to disabled == true when split manually button is clicked
-function changeDisabled() {
-    var inputs = document.getElementsByTagName("input");
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].disabled = true;
-        // change background color of input to grey
-        inputs[i].style.backgroundColor = "red";
-    }
-}
 
 
 function Checkout() {
-    return (
-        <div class="checkout">
-            <div class="container">
-            <div class="tt row">
+    const {booking_id} = useParams();
+    const [data, setData] = useState([]);
 
-                <div class="col-6">
-                    <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title text-center">Your E-receipt</h3>
+    const navigate = useNavigate();
 
-                        <hr/>
-                        
-                        <p class="card-text rsname">Restoran Makanan</p>
-                        <div className="row">
-                            <div className="col-4">
-                                <p class="card-text">Date:</p>
-                            </div>
-                            <div className="col-8">
-                                <p class="card-text">21 February 2023, Monday</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-4">
-                                <p class="card-text">Time:</p>
-                            </div>
-                            <div className="col-8">
-                                <p class="card-text">7:00pm - 9:00pm</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-4">
-                                <p class="card-text">No. of pax:</p>
-                            </div>
-                            <div className="col-8">
-                                <p class="card-text">4</p>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div className="row receiptbold">
-                            <div className="col-8">
-                                <p class="card-text">Items</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">Qty</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">Price</p>
-                            </div>
-                        </div>
+    var booking_url = "http://localhost:5003/booking/getBooking/";
 
-                        <div className="row">
-                            <div className="col-8">
-                                <p class="card-text">Set meal A</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">x1</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">$10.00</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-8">
-                                <p class="card-text">Set meal B</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">x1</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">$10.00</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-8">
-                                <p class="card-text">Set meal C</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">x1</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">$10.00</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-8">
-                                <p class="card-text">Set meal D</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">x1</p>
-                            </div>
-                            <div className="col-2">
-                                <p class="card-text float-end">$10.00</p>
-                            </div>
-                        </div>
+    useEffect(() => {
+        const all = async () => {
+            await axios.get(booking_url + booking_id)
+            .then((response) => {
+                console.log(response.data.data);
+                setData(response.data.data);
+            }
+            )
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        all();
+    }, [booking_id]);
 
-                        <hr/>
 
-                        <div className="row receiptbold">
-                            <div className="col">
-                                <p class="card-text">Subtotal (SGD)</p>
+    function changeDisabled() {
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = true;
+            // change background color of input to grey
+            inputs[i].style.backgroundColor = "red";
+        }
+    }
+
+    function formatDate (date) {
+        const day = date.slice(0,2);   
+        const month = date.slice(2,4);
+        const year = date.slice(4,6);
+        // get month name
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+        var monthIndex = month - 1;
+        var monthName = monthNames[monthIndex];
+        //get day of the week
+        var d = new Date(year, month, day);
+        var weekday = new Array(7);
+        weekday[0] = "Sunday";
+        weekday[1] = "Monday";
+        weekday[2] = "Tuesday";
+        weekday[3] = "Wednesday";
+        weekday[4] = "Thursday";
+        weekday[5] = "Friday";
+        weekday[6] = "Saturday";
+        var n = weekday[d.getDay()];
+        return day + ' ' + monthName + ' 20' + year + ', ' + n;
+    }
+
+    function formatTime (time) {
+        // am pm time
+        const hour = time.slice(0,2);
+        const min = time.slice(2,4);
+        var ampm = hour >= 12 ? 'pm' : 'am';
+        var hour12 = hour % 12;
+        hour12 = hour12 ? hour12 : 12; // the hour '0' should be '12'
+        var strTime = hour12 + ':' + min + ' ' + ampm;
+        return strTime;
+    }
+
+    if (data.length !== 0) {
+        return (
+            <div class="checkout">
+                <div class="container">
+                <div class="tt row">
+
+                    <div class="col-6">
+                        <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title text-center">Your E-receipt</h3>
+
+                            <hr/>
+                            
+                            <p class="card-text rsname">{data.restaurant}</p>
+                            <div className="row">
+                                <div className="col-4">
+                                    <p class="card-text">Date:</p>
+                                </div>
+                                <div className="col-8">
+                                    <p class="card-text">{formatDate(data.date)}</p>
+                                </div>
                             </div>
-                            <div className="col">
-                                <p class="card-text float-end">$40.00</p>
+                            <div className="row">
+                                <div className="col-4">
+                                    <p class="card-text">Time:</p>
+                                </div>
+                                <div className="col-8">
+                                    <p class="card-text">{formatTime(data.time)}</p>
+                                </div>
                             </div>
+                            <div className="row">
+                                <div className="col-4">
+                                    <p class="card-text">No. of pax:</p>
+                                </div>
+                                <div className="col-8">
+                                    <p class="card-text">{data.no_of_pax}</p>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div className="row receiptbold">
+                                <div className="col-8">
+                                    <p class="card-text">Items</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">Qty</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">Price</p>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col-8">
+                                    <p class="card-text">Set meal A</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">x1</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">$10.00</p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-8">
+                                    <p class="card-text">Set meal B</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">x1</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">$10.00</p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-8">
+                                    <p class="card-text">Set meal C</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">x1</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">$10.00</p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-8">
+                                    <p class="card-text">Set meal D</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">x1</p>
+                                </div>
+                                <div className="col-2">
+                                    <p class="card-text float-end">$10.00</p>
+                                </div>
+                            </div>
+
+                            <hr/>
+
+                            <div className="row receiptbold">
+                                <div className="col">
+                                    <p class="card-text">Subtotal (SGD)</p>
+                                </div>
+                                <div className="col">
+                                    <p class="card-text float-end">$40.00</p>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p class="card-text">GST (8%)</p>
+                                </div>
+                                <div className="col">
+                                    <p class="card-text float-end">$3.20</p>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p class="card-text">Service Charge (10%)</p>
+                                </div>
+                                <div className="col">
+                                    <p class="card-text float-end">$4.00</p>
+                                </div>
+                            </div>
+
+                            <hr/>
+
+                            <div className="row receiptbold">
+                                <div className="col">
+                                    <p class="card-text">Total (SGD)</p>
+                                </div>
+                                <div className="col">
+                                    <p class="card-text float-end">$47.20</p>
+                                </div>
+                            </div>
+
+                            <hr/>
                         </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <p class="card-text">GST (8%)</p>
-                            </div>
-                            <div className="col">
-                                <p class="card-text float-end">$3.20</p>
-                            </div>
                         </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <p class="card-text">Service Charge (10%)</p>
-                            </div>
-                            <div className="col">
-                                <p class="card-text float-end">$4.00</p>
-                            </div>
-                        </div>
-
-                        <hr/>
-
-                        <div className="row receiptbold">
-                            <div className="col">
-                                <p class="card-text">Total (SGD)</p>
-                            </div>
-                            <div className="col">
-                                <p class="card-text float-end">$47.20</p>
-                            </div>
-                        </div>
-
-                        <hr/>
                     </div>
+
+                    <div class="col-6">
+                        <div class="card">
+                        <div class="card-body">
+                        <h3 class="card-title text-center">Split Payment</h3>
+                            <hr/>
+                            <div className="tt row split">
+                                <div className="col text-center">
+                                    <button type="button" class="btn splitbtn">Split Evenly</button>
+                                </div>
+                                <div className="col text-center">
+                                    <button type="button" class="btn splitbtn" onClick={changeDisabled()}>Split Manually</button>
+                                </div>
+                            </div>
+
+                            <div className="row receiptbold">
+                                <div className="col">
+                                    <p class="card-text">Customer Name</p>
+                                </div>
+                                <div className="col">
+                                    <p class="card-text float-end">Amount</p>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p class="card-text cn">Customer A</p>
+                                </div>
+                                <div className="col">
+                                    <input class="card-text float-end" placeholder='$11.80'/>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p class="card-text cn">Customer B</p>
+                                </div>
+                                <div className="col">
+                                    <input class="card-text float-end" placeholder='$11.80' />
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p class="card-text cn">Customer C</p>
+                                </div>
+                                <div className="col">
+                                    <input class="card-text float-end" placeholder='$11.80' />
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p class="card-text cn">Customer D</p>
+                                </div>
+                                <div className="col">
+                                    <input class="card-text float-end" placeholder='$11.80' />
+                                </div>
+                            </div>
+
+                            <div className="btndiv text-center">
+                                <button type="button" class="btn paybtn">Pay</button>
+                            </div>
+
+                        </div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="card">
-                    <div class="card-body">
-                    <h3 class="card-title text-center">Split Payment</h3>
-                        <hr/>
-                        <div className="tt row split">
-                            <div className="col text-center">
-                                <button type="button" class="btn splitbtn">Split Evenly</button>
-                            </div>
-                            <div className="col text-center">
-                                <button type="button" class="btn splitbtn" onClick={changeDisabled()}>Split Manually</button>
-                            </div>
-                        </div>
-
-                        <div className="row receiptbold">
-                            <div className="col">
-                                <p class="card-text">Customer Name</p>
-                            </div>
-                            <div className="col">
-                                <p class="card-text float-end">Amount</p>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <p class="card-text cn">Customer A</p>
-                            </div>
-                            <div className="col">
-                                <input class="card-text float-end" placeholder='$11.80'/>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <p class="card-text cn">Customer B</p>
-                            </div>
-                            <div className="col">
-                                <input class="card-text float-end" placeholder='$11.80' />
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <p class="card-text cn">Customer C</p>
-                            </div>
-                            <div className="col">
-                                <input class="card-text float-end" placeholder='$11.80' />
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col">
-                                <p class="card-text cn">Customer D</p>
-                            </div>
-                            <div className="col">
-                                <input class="card-text float-end" placeholder='$11.80' />
-                            </div>
-                        </div>
-
-                        <div className="btndiv text-center">
-                            <button type="button" class="btn paybtn">Pay</button>
-                        </div>
 
                     </div>
-                    </div>
-                </div>
-
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default Checkout;

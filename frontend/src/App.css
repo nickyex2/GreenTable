@@ -847,3 +847,12 @@ html, div{
   background-color: #fff;
   color: #000;
 }
+
+/* HISTORY */
+.history{
+  padding: 100px;
+}
+
+.history table{
+  color: white;
+}

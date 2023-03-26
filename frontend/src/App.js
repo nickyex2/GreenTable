@@ -8,7 +8,8 @@ import Pdp from './pages/pdp';
 import Confirmation from './pages/confirmation';
 import Logout from './pages/logout';
 import Cancel from './pages/cancel';
-// import Checkout from './pages/checkout';
+import History from './pages/history';
+import Checkout from './pages/checkout';
 // import Paid from './pages/pconfirm';
 
 // Bootstrap
@@ -31,9 +32,9 @@ function App() {
         <Route path="/pdp/:restaurant_name" element={<Pdp/>}/>
         <Route path="/confirmation/:booking_id" element={<Confirmation/>}/>
         <Route path="/cancel" element={<Cancel/>}/>
+        <Route path="/history" element={<History/>}/>
+        <Route path="/checkout/:booking_id" element={<Checkout/>}/>
       </Routes>
-      {/* <Confirmation /> */}
-      {/* <Checkout /> */}
       {/* <Paid /> */}
     </div>
   );
