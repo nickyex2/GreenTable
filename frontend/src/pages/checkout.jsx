@@ -3,10 +3,6 @@ import axios from "axios";
 import { useState , useEffect} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-
-// function to change all input tag names to disabled == true when split manually button is clicked
-
-
 function Checkout() {
     const {booking_id} = useParams();
     const [data, setData] = useState([]);
@@ -30,13 +26,22 @@ function Checkout() {
         all();
     }, [booking_id]);
 
-
-    function changeDisabled() {
+    function changeDisabledTrue() {
         var inputs = document.getElementsByTagName("input");
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].disabled = true;
             // change background color of input to grey
-            inputs[i].style.backgroundColor = "red";
+            inputs[i].style.backgroundColor = "#D3D3D3";
+        }
+    }
+
+    function changeDisabled() {
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = false;
+            // change background color of input to grey
+            inputs[i].style.backgroundColor = "#fff";
+            inputs[i].style.border = "1px solid #D3D3D3";
         }
     }
 
@@ -77,6 +82,70 @@ function Checkout() {
         var strTime = hour12 + ':' + min + ' ' + ampm;
         return strTime;
     }
+
+    function formatPrice(price) {
+        var price = price.toFixed(2);
+        return price;
+    }
+
+    function getItems(){
+        var dict = data.items_ordered.items;
+        // loop through dict
+        var items = [];
+        for (var key in dict) {
+            items.push(
+                <div className="row">
+                    <div className="col-8">
+                        <p class="card-text">{key}</p>
+                    </div>
+                    <div className="col-2">
+                        <p class="card-text float-end">x{dict[key][0]}</p>
+                    </div>
+                    <div className="col-2">
+                        <p class="card-text float-end">${formatPrice(dict[key][1])}</p>
+                    </div>
+                </div>
+            );
+        }
+
+        return items;
+    }
+
+    function getGST(price){
+        var gst = price * 0.08;
+        return gst;
+    }
+
+    function getSC(price){
+        var sc = price * 0.1;
+        return sc;
+    }
+
+    function getTotal(price){
+        var total = parseFloat(price) + parseFloat(getGST(price)) + parseFloat(getSC(price));
+        return total;
+    }
+
+    function getIndividualPrice(){
+        var ppl = data.pax_details;
+        var indiv = getTotal(data.items_ordered.total) / ppl.length;
+        // loop through dict
+        var items = [];
+        for (var key in ppl) {
+            items.push(
+                <div className="row">
+                    <div className="col">
+                        <p class="card-text cn">{ppl[key]}</p>
+                    </div>
+                    <div className="col">
+                        <input class="card-text float-end" disabled placeholder={formatPrice(indiv)}/>
+                    </div>
+                </div> 
+            );
+        }
+        return items;
+    }
+
 
     if (data.length !== 0) {
         return (
@@ -128,51 +197,8 @@ function Checkout() {
                                     <p class="card-text float-end">Price</p>
                                 </div>
                             </div>
-
-                            <div className="row">
-                                <div className="col-8">
-                                    <p class="card-text">Set meal A</p>
-                                </div>
-                                <div className="col-2">
-                                    <p class="card-text float-end">x1</p>
-                                </div>
-                                <div className="col-2">
-                                    <p class="card-text float-end">$10.00</p>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-8">
-                                    <p class="card-text">Set meal B</p>
-                                </div>
-                                <div className="col-2">
-                                    <p class="card-text float-end">x1</p>
-                                </div>
-                                <div className="col-2">
-                                    <p class="card-text float-end">$10.00</p>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-8">
-                                    <p class="card-text">Set meal C</p>
-                                </div>
-                                <div className="col-2">
-                                    <p class="card-text float-end">x1</p>
-                                </div>
-                                <div className="col-2">
-                                    <p class="card-text float-end">$10.00</p>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-8">
-                                    <p class="card-text">Set meal D</p>
-                                </div>
-                                <div className="col-2">
-                                    <p class="card-text float-end">x1</p>
-                                </div>
-                                <div className="col-2">
-                                    <p class="card-text float-end">$10.00</p>
-                                </div>
-                            </div>
+       
+                            {getItems()}
 
                             <hr/>
 
@@ -181,7 +207,7 @@ function Checkout() {
                                     <p class="card-text">Subtotal (SGD)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">$40.00</p>
+                                    <p class="card-text float-end">${formatPrice(data.items_ordered.total)}</p>
                                 </div>
                             </div>
 
@@ -190,7 +216,7 @@ function Checkout() {
                                     <p class="card-text">GST (8%)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">$3.20</p>
+                                    <p class="card-text float-end">${formatPrice(getGST(data.items_ordered.total))}</p>
                                 </div>
                             </div>
 
@@ -199,7 +225,7 @@ function Checkout() {
                                     <p class="card-text">Service Charge (10%)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">$4.00</p>
+                                    <p class="card-text float-end">${formatPrice(getSC(data.items_ordered.total))}</p>
                                 </div>
                             </div>
 
@@ -210,7 +236,7 @@ function Checkout() {
                                     <p class="card-text">Total (SGD)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">$47.20</p>
+                                    <p class="card-text float-end">${formatPrice(getTotal(data.items_ordered.total))}</p>
                                 </div>
                             </div>
 
@@ -226,10 +252,10 @@ function Checkout() {
                             <hr/>
                             <div className="tt row split">
                                 <div className="col text-center">
-                                    <button type="button" class="btn splitbtn">Split Evenly</button>
+                                    <button type="button" class="btn splitbtn" onClick={changeDisabledTrue}>Split Evenly</button>
                                 </div>
                                 <div className="col text-center">
-                                    <button type="button" class="btn splitbtn" onClick={changeDisabled()}>Split Manually</button>
+                                    <button type="button" class="btn splitbtn2" onClick={changeDisabled}>Split Manually</button>
                                 </div>
                             </div>
 
@@ -242,41 +268,7 @@ function Checkout() {
                                 </div>
                             </div>
 
-                            <div className="row">
-                                <div className="col">
-                                    <p class="card-text cn">Customer A</p>
-                                </div>
-                                <div className="col">
-                                    <input class="card-text float-end" placeholder='$11.80'/>
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col">
-                                    <p class="card-text cn">Customer B</p>
-                                </div>
-                                <div className="col">
-                                    <input class="card-text float-end" placeholder='$11.80' />
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col">
-                                    <p class="card-text cn">Customer C</p>
-                                </div>
-                                <div className="col">
-                                    <input class="card-text float-end" placeholder='$11.80' />
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col">
-                                    <p class="card-text cn">Customer D</p>
-                                </div>
-                                <div className="col">
-                                    <input class="card-text float-end" placeholder='$11.80' />
-                                </div>
-                            </div>
+                            {getIndividualPrice()}
 
                             <div className="btndiv text-center">
                                 <button type="button" class="btn paybtn">Pay</button>
