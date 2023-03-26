@@ -761,7 +761,7 @@ html, div{
   border: none;
   text-align: center;
   /* make input opacity */
-  background-color: rgba(0,0,0,0.1);
+  background-color: #d3d3d3;
 }
 
 .cn{
@@ -779,6 +779,16 @@ html, div{
   padding: 15px !important;
   margin-top: 25px;
   margin-bottom: 25px;
+}
+
+.splitbtn2{
+  background-color: white !important;
+  color: #122526 !important;
+  font-weight: 600 !important;
+  padding: 15px !important;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  border: 1px solid #122526 !important;
 }
 
 .paybtn{
