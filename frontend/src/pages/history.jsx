@@ -41,7 +41,7 @@ function History() {
     }
 
     function formatStatusPayment(status, booking_id) {
-        if (status.length === 0) {
+        if (status === []) {
             return "Food not ordered";
         } else {
             return <button type="button" class="btn btn-light" onClick={goPayment(booking_id)}>Ready For Payment!</button>;
@@ -111,6 +111,7 @@ function History() {
     }
 
     function getPending(){
+        console.log(data);
         var newArray = data.filter(function (el) {
             return el.paid_status === false;
         });
