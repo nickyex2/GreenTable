@@ -10,6 +10,14 @@ function Navbar() {
 
     var username = sessionStorage.getItem('name');
 
+    function history(username){
+      if(username){
+        return(
+          <a className="navbarlinks" href="/history">History</a>
+        )
+      }
+    }
+
     return (
         <nav className="navbar">
         <div className="container-fluid">
@@ -20,6 +28,7 @@ function Navbar() {
             <a className="navbarlinks" href="/login">Login</a>
             <a className="navbarlinks" href="/signup">Signup</a>
             <a className="navbarlinks" href="/logout">Logout</a>
+            {history(username)}
           </div>
           {/* <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>

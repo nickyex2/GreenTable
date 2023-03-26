@@ -84,9 +84,6 @@ function Pdp() {
             }
         }
 
-        console.log(document.getElementById("error1").innerHTML);
-        console.log(document.getElementById("error2").innerHTML);
-
         // if either error1 or error2 is not empty, exit function addBooking
         if (document.getElementById("error1").innerHTML === "" && document.getElementById("error2").innerHTML === ""){
             const booking = {
