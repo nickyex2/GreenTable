@@ -93,13 +93,13 @@ function Paid() {
             items.push(
                 <div className="row">
                     <div className="col-8">
-                        <p class="card-text">{key}</p>
+                        <p className="card-text">{key}</p>
                     </div>
                     <div className="col-2">
-                        <p class="card-text float-end">x{dict[key][0]}</p>
+                        <p className="card-text float-end">x{dict[key][0]}</p>
                     </div>
                     <div className="col-2">
-                        <p class="card-text float-end">${formatPrice(dict[key][1])}</p>
+                        <p className="card-text float-end">${formatPrice(dict[key][1])}</p>
                     </div>
                 </div>
             );
@@ -118,10 +118,10 @@ function Paid() {
 
                 <div className="row">
                     <div className="col">
-                        <p class="card-text">{ppl[key]}</p>
+                        <p className="card-text">{ppl[key]}</p>
                     </div>
                     <div className="col">
-                        <p class="card-text float-end">${formatPrice(indiv)}</p>
+                        <p className="card-text float-end">${formatPrice(indiv)}</p>
                     </div>
                 </div>
 
@@ -133,56 +133,56 @@ function Paid() {
     console.log(data);
     if (data.length !== 0) {
         return (
-            <div class="paid py-5">
+            <div className="paid py-5">
                 <img src={require('../images/paid.png')} alt="..."/>
                 <h4>Payment Confirmed</h4>
                 <p>Hope to see you again!</p>
 
-                <div class="container">
-                <div class="tt row">
+                <div className="container">
+                <div className="tt row">
 
-                    <div class="col-6">
-                        <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title text-center">Your E-receipt</h3>
+                    <div className="col-6">
+                        <div className="card">
+                        <div className="card-body">
+                            <h3 className="card-title text-center">Your E-receipt</h3>
 
                             <hr/>
                             
-                            <p class="card-text rsname">{data.restaurant}</p>
+                            <p className="card-text rsname">{data.restaurant}</p>
                             <div className="row">
                                 <div className="col-4">
-                                    <p class="card-text">Date:</p>
+                                    <p className="card-text">Date:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p class="card-text">{formatDate(data.date)}</p>
+                                    <p className="card-text">{formatDate(data.date)}</p>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-4">
-                                    <p class="card-text">Time:</p>
+                                    <p className="card-text">Time:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p class="card-text">{formatTime(data.time)}</p>
+                                    <p className="card-text">{formatTime(data.time)}</p>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-4">
-                                    <p class="card-text">No. of pax:</p>
+                                    <p className="card-text">No. of pax:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p class="card-text">{data.no_of_pax}</p>
+                                    <p className="card-text">{data.no_of_pax}</p>
                                 </div>
                             </div>
                             <hr/>
                             <div className="row receiptbold">
                                 <div className="col-8">
-                                    <p class="card-text">Items</p>
+                                    <p className="card-text">Items</p>
                                 </div>
                                 <div className="col-2">
-                                    <p class="card-text float-end">Qty</p>
+                                    <p className="card-text float-end">Qty</p>
                                 </div>
                                 <div className="col-2">
-                                    <p class="card-text float-end">Price</p>
+                                    <p className="card-text float-end">Price</p>
                                 </div>
                             </div>
 
@@ -192,28 +192,28 @@ function Paid() {
 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p class="card-text">Subtotal (SGD)</p>
+                                    <p className="card-text">Subtotal (SGD)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">${formatPrice(data.items_ordered.total)}</p>
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col">
-                                    <p class="card-text">GST (8%)</p>
-                                </div>
-                                <div className="col">
-                                    <p class="card-text float-end">${formatPrice(getGST(data.items_ordered.total))}</p>
+                                    <p className="card-text float-end">${formatPrice(data.items_ordered.total)}</p>
                                 </div>
                             </div>
 
                             <div className="row">
                                 <div className="col">
-                                    <p class="card-text">Service Charge (10%)</p>
+                                    <p className="card-text">GST (8%)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">${formatPrice(getSC(data.items_ordered.total))}</p>
+                                    <p className="card-text float-end">${formatPrice(getGST(data.items_ordered.total))}</p>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p className="card-text">Service Charge (10%)</p>
+                                </div>
+                                <div className="col">
+                                    <p className="card-text float-end">${formatPrice(getSC(data.items_ordered.total))}</p>
                                 </div>
                             </div>
 
@@ -221,10 +221,10 @@ function Paid() {
 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p class="card-text">Total (SGD)</p>
+                                    <p className="card-text">Total (SGD)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">${formatPrice(getTotal(data.items_ordered.total))}</p>
+                                    <p className="card-text float-end">${formatPrice(getTotal(data.items_ordered.total))}</p>
                                 </div>
                             </div>
 
@@ -233,18 +233,18 @@ function Paid() {
                         </div>
                     </div>
 
-                    <div class="col-6">
-                        <div class="card">
-                        <div class="card-body">
-                        <h3 class="card-title text-center">Payment Receipt</h3>
+                    <div className="col-6">
+                        <div className="card">
+                        <div className="card-body">
+                        <h3 className="card-title text-center">Payment Receipt</h3>
                             <hr/>
                 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p class="card-text">Customer Name</p>
+                                    <p className="card-text">Customer Name</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">Paid</p>
+                                    <p className="card-text float-end">Paid</p>
                                 </div>
                             </div>
 
