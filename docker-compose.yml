@@ -104,7 +104,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Customer/customer.Dockerfile
-    # image: 
+    image: nickyex2/customer:latest
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
@@ -120,7 +120,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Catalog/catalog.Dockerfile
-    # image: 
+    image: nickyex2/catalog:latest
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
@@ -137,7 +137,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Booking/booking.Dockerfile
-    # image: 
+    image: nickyex2/booking:latest
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
@@ -153,7 +153,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./WaitList/waitlist.Dockerfile
-    # image: 
+    image: nickyex2/waitlist:latest
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
@@ -169,7 +169,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Payment/payment.Dockerfile
-    # image: 
+    image: nickyex2/payment:latest
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
@@ -187,7 +187,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Notification/notification.Dockerfile
-    # image: 
+    image: nickyex2/notification:latest
     restart: always
     depends_on:
       rabbitmq:
@@ -208,7 +208,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Error/error.Dockerfile
-    # image: 
+    image: nickyex2/error:latest
     restart: always
     depends_on:
       rabbitmq:
@@ -227,7 +227,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./APIs/telegram_send_api.Dockerfile
-    # image: 
+    image: nickyex2/telegram-send-api:latest
     restart: always
     depends_on:
       notification:
@@ -251,7 +251,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./APIs/twilio_sendgrid_api.Dockerfile
-    # image: 
+    image: nickyex2/twilio-sendgrid-api:latest
     restart: always
     depends_on:
       notification:
@@ -273,7 +273,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./APIs/stripe_api.Dockerfile
-    # image: 
+    image: nickyex2/stripe-api:latest
     restart: always
     # depends_on:
       # payment:
@@ -311,7 +311,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./cancel_booking.Dockerfile
-    # image: 
+    image: nickyex2/cancel-booking:latest
     restart: always
     depends_on:
       rabbitmq:
@@ -333,7 +333,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./notify_customer.Dockerfile
-    # image: 
+    image: nickyex2/notify-customer:latest
     restart: always
     depends_on:
       rabbitmq:
@@ -352,7 +352,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./make_payment.Dockerfile
-    # image:
+    image: nickyex2/make-payment:latest
     restart: always
     depends_on:
       rabbitmq:
@@ -375,7 +375,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./place_booking.Dockerfile
-    # image: 
+    image: nickyex2/place-booking:latest
     restart: always
     depends_on:
       rabbitmq:

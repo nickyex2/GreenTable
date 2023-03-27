@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert -o kompose
+    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe --file .\docker-compose-resolved.yml convert -o kompose
     kompose.version: 1.28.0 (c4137012e)
   creationTimestamp: null
   labels:
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert -o kompose
+        kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe --file .\docker-compose-resolved.yml convert -o kompose
         kompose.version: 1.28.0 (c4137012e)
       creationTimestamp: null
       labels:
@@ -29,12 +29,12 @@ spec:
             - name: PYTHONUNBUFFERED
               value: "1"
             - name: TELEGRAM_API_HASH
-              value: ${TELEGRAM_API_HASH}
+              value: f6b5db22bd5117cab0876064ca067000
             - name: TELEGRAM_API_ID
-              value: ${TELEGRAM_API_ID}
+              value: "20480107"
             - name: TELEGRAM_API_SESSION
-              value: ${TELEGRAM_API_SESSION}
-          image: telegram-send-api
+              value: s3ndm3@n0tif1cationf0rt3l3gr@m
+          image: nickyex2/telegram-send-api:latest
           name: telegram-send-api
           ports:
             - containerPort: 5015
