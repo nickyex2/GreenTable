@@ -214,7 +214,7 @@ function Checkout() {
 
     if (data.length !== 0) {
         return (
-            <div class="checkout">
+            <div class="checkout py-5">
                 <div class="container">
                 <div class="tt row">
 
