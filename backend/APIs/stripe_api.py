@@ -36,7 +36,7 @@ def stripepay():
         }
     )
     # convert amount to cents
-    amount_converted = data["amount"] * 100
+    amount_converted = int(data["amount"] * 100)
     #create a paymentintent and make payment straight away
     try:
         result = stripe.PaymentIntent.create(

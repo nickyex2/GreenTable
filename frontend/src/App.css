@@ -779,6 +779,7 @@ html, div{
   padding: 15px !important;
   margin-top: 25px;
   margin-bottom: 25px;
+  border: 1px solid #122526 !important;
 }
 
 .splitbtn2{
@@ -865,4 +866,6 @@ html, div{
 
 .history table{
   color: white;
+  height: 50px;
+  overflow-y: auto;
 }

@@ -1,6 +1,34 @@
 import React from "react";
+import axios from "axios";
+import { useState , useEffect} from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Paid() {
+
+    const {booking_id} = useParams();
+    const [data, setData] = useState([]);
+
+    const navigate = useNavigate();
+
+    var booking_url = "http://localhost:5003/booking/getBooking/";
+
+    useEffect(() => {
+        const all = async () => {
+            await axios.get(booking_url + booking_id)
+            .then((response) => {
+                console.log(response.data.data);
+                setData(response.data.data);
+            }
+            )
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        all();
+    }, [booking_id]);
+
+    console.log(data);
+
     return (
         <div class="paid">
             <img src={require('../images/paid.png')} alt="..."/>
