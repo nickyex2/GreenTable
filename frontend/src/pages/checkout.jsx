@@ -96,13 +96,13 @@ function Checkout() {
             items.push(
                 <div className="row">
                     <div className="col-8">
-                        <p className="card-text">{key}</p>
+                        <p class="card-text">{key}</p>
                     </div>
                     <div className="col-2">
-                        <p className="card-text float-end">x{dict[key][0]}</p>
+                        <p class="card-text float-end">x{dict[key][0]}</p>
                     </div>
                     <div className="col-2">
-                        <p className="card-text float-end">${formatPrice(dict[key][1])}</p>
+                        <p class="card-text float-end">${formatPrice(dict[key][1])}</p>
                     </div>
                 </div>
             );
@@ -135,17 +135,10 @@ function Checkout() {
             items.push(
                 <div className="row">
                     <div className="col">
-<<<<<<< Updated upstream
                         <p class="card-text cn">{ppl[key]}</p>
                     </div>
                     <div className="col">
                         <input class="card-text float-end" disabled placeholder={formatPrice(indiv)}/>
-=======
-                        <p className="card-text cn names" value={ppl[key]}>{ppl[key]}</p>
-                    </div>
-                    <div className="col">
-                        <input className="card-text float-end topays" value={formatPrice(indiv)} disabled placeholder={formatPrice(indiv)}/>
->>>>>>> Stashed changes
                     </div>
                 </div> 
             );
@@ -156,58 +149,52 @@ function Checkout() {
 
     if (data.length !== 0) {
         return (
-<<<<<<< Updated upstream
             <div class="checkout">
                 <div class="container">
                 <div class="tt row">
-=======
-            <div className="checkout py-5">
-                <div className="container">
-                <div className="tt row">
->>>>>>> Stashed changes
 
-                    <div className="col-6">
-                        <div className="card">
-                        <div className="card-body">
-                            <h3 className="card-title text-center">Your E-receipt</h3>
+                    <div class="col-6">
+                        <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title text-center">Your E-receipt</h3>
 
                             <hr/>
                             
-                            <p className="card-text rsname">{data.restaurant}</p>
+                            <p class="card-text rsname">{data.restaurant}</p>
                             <div className="row">
                                 <div className="col-4">
-                                    <p className="card-text">Date:</p>
+                                    <p class="card-text">Date:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p className="card-text">{formatDate(data.date)}</p>
+                                    <p class="card-text">{formatDate(data.date)}</p>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-4">
-                                    <p className="card-text">Time:</p>
+                                    <p class="card-text">Time:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p className="card-text">{formatTime(data.time)}</p>
+                                    <p class="card-text">{formatTime(data.time)}</p>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-4">
-                                    <p className="card-text">No. of pax:</p>
+                                    <p class="card-text">No. of pax:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p className="card-text">{data.no_of_pax}</p>
+                                    <p class="card-text">{data.no_of_pax}</p>
                                 </div>
                             </div>
                             <hr/>
                             <div className="row receiptbold">
                                 <div className="col-8">
-                                    <p className="card-text">Items</p>
+                                    <p class="card-text">Items</p>
                                 </div>
                                 <div className="col-2">
-                                    <p className="card-text float-end">Qty</p>
+                                    <p class="card-text float-end">Qty</p>
                                 </div>
                                 <div className="col-2">
-                                    <p className="card-text float-end">Price</p>
+                                    <p class="card-text float-end">Price</p>
                                 </div>
                             </div>
        
@@ -217,28 +204,28 @@ function Checkout() {
 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p className="card-text">Subtotal (SGD)</p>
+                                    <p class="card-text">Subtotal (SGD)</p>
                                 </div>
                                 <div className="col">
-                                    <p className="card-text float-end">${formatPrice(data.items_ordered.total)}</p>
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col">
-                                    <p className="card-text">GST (8%)</p>
-                                </div>
-                                <div className="col">
-                                    <p className="card-text float-end">${formatPrice(getGST(data.items_ordered.total))}</p>
+                                    <p class="card-text float-end">${formatPrice(data.items_ordered.total)}</p>
                                 </div>
                             </div>
 
                             <div className="row">
                                 <div className="col">
-                                    <p className="card-text">Service Charge (10%)</p>
+                                    <p class="card-text">GST (8%)</p>
                                 </div>
                                 <div className="col">
-                                    <p className="card-text float-end">${formatPrice(getSC(data.items_ordered.total))}</p>
+                                    <p class="card-text float-end">${formatPrice(getGST(data.items_ordered.total))}</p>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p class="card-text">Service Charge (10%)</p>
+                                </div>
+                                <div className="col">
+                                    <p class="card-text float-end">${formatPrice(getSC(data.items_ordered.total))}</p>
                                 </div>
                             </div>
 
@@ -246,14 +233,10 @@ function Checkout() {
 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p className="card-text">Total (SGD)</p>
+                                    <p class="card-text">Total (SGD)</p>
                                 </div>
                                 <div className="col">
-<<<<<<< Updated upstream
                                     <p class="card-text float-end">${formatPrice(getTotal(data.items_ordered.total))}</p>
-=======
-                                    <p className="card-text float-end" id="totalprice">${formatPrice(getTotal(data.items_ordered.total))}</p>
->>>>>>> Stashed changes
                                 </div>
                             </div>
 
@@ -262,47 +245,33 @@ function Checkout() {
                         </div>
                     </div>
 
-                    <div className="col-6">
-                        <div className="card">
-                        <div className="card-body">
-                        <h3 className="card-title text-center">Split Payment</h3>
+                    <div class="col-6">
+                        <div class="card">
+                        <div class="card-body">
+                        <h3 class="card-title text-center">Split Payment</h3>
                             <hr/>
                             <div className="tt row split">
                                 <div className="col text-center">
-<<<<<<< Updated upstream
                                     <button type="button" class="btn splitbtn" onClick={changeDisabledTrue}>Split Evenly</button>
                                 </div>
                                 <div className="col text-center">
                                     <button type="button" class="btn splitbtn2" onClick={changeDisabled}>Split Manually</button>
-=======
-                                    <button type="button" className="btn splitbtn" id="splitbtn" onClick={changeDisabledTrue}>Split Evenly</button>
-                                </div>
-                                <div className="col text-center">
-                                    <button type="button" className="btn splitbtn2" id="splitbtn2" onClick={changeDisabled}>Split Manually</button>
->>>>>>> Stashed changes
                                 </div>
                             </div>
 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p className="card-text">Customer Name</p>
+                                    <p class="card-text">Customer Name</p>
                                 </div>
                                 <div className="col">
-                                    <p className="card-text float-end">Amount</p>
+                                    <p class="card-text float-end">Amount</p>
                                 </div>
                             </div>
 
                             {getIndividualPrice()}
 
                             <div className="btndiv text-center">
-<<<<<<< Updated upstream
                                 <button type="button" class="btn paybtn">Pay</button>
-=======
-                                <button type="button" className="btn paybtn" onClick={async (e) => {
-                                    e.preventDefault();
-                                    await makePayment();
-                                }}>Pay</button>
->>>>>>> Stashed changes
                             </div>
 
                         </div>
