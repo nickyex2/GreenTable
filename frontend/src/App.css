@@ -779,6 +779,7 @@ html, div{
   padding: 15px !important;
   margin-top: 25px;
   margin-bottom: 25px;
+  border: 1px solid #122526 !important;
 }
 
 .splitbtn2{
@@ -864,5 +865,68 @@ html, div{
 }
 
 .history table{
-  color: white;
+  color: black;
+  height: 50px;
+  overflow-y: auto;
+  background-color: white;
+  opacity: 0.9;
+  width: 90%;
+  margin: 0 auto !important;
+}
+
+.table-responsive{
+  max-height: 500px;
+  /* make table middle */
+  width: 100%;
+  margin: 0 auto !important;
+  margin-top: 20px !important;
+}
+
+.history thead th, .history tbody td, .history tbody th{
+  padding: 20px;
+}
+
+.nav-tabs .nav-link.active{
+ background-color: #fff;
+  color: #122526;
+  border: #fff solid 1px !important;
+}
+
+.nav-tabs .nav-link{
+  background-color: #122526;
+  color: #fff;
+  border: #fff solid 1px !important;
+}
+
+.nav-tabs .nav-link:hover{
+  background-color: #fff;
+  color: #122526;
+  border: #fff solid 1px !important;
+}
+
+.nav-tabs .nav-link{
+  border-radius: 10px !important;
+  font-size: large;
+  font-weight: 700;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#myTab{
+  /* center all tabs */
+  margin: 0 auto !important;
+  width: 100%;
+  text-align: center;
+  justify-content: space-evenly;
+  border-bottom: 0px solid #122526;
+  padding-bottom: 30px;
+}
+
+.tableerr{
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 50px;
 }

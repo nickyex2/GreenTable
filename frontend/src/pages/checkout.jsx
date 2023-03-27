@@ -11,6 +11,8 @@ function Checkout() {
 
     var booking_url = "http://localhost:5003/booking/getBooking/";
 
+    var pay_url = "http://localhost:5007/make_payment";
+
     useEffect(() => {
         const all = async () => {
             await axios.get(booking_url + booking_id)
@@ -33,6 +35,10 @@ function Checkout() {
             // change background color of input to grey
             inputs[i].style.backgroundColor = "#D3D3D3";
         }
+        document.getElementById("splitbtn").style.setProperty ("color", "white", "important");
+        document.getElementById("splitbtn").style.setProperty ("background-color", "#122526", "important");
+        document.getElementById("splitbtn2").style.setProperty ("color", "#122526", "important");
+        document.getElementById("splitbtn2").style.setProperty ("background-color", "white", "important");
     }
 
     function changeDisabled() {
@@ -43,6 +49,12 @@ function Checkout() {
             inputs[i].style.backgroundColor = "#fff";
             inputs[i].style.border = "1px solid #D3D3D3";
         }
+        // switch splitbtn and splitbtn2 css
+        document.getElementById("splitbtn2").style.setProperty ("color", "white", "important");
+        document.getElementById("splitbtn2").style.setProperty ("background-color", "#122526", "important");
+        document.getElementById("splitbtn").style.setProperty ("color", "#122526", "important");
+        document.getElementById("splitbtn").style.setProperty ("background-color", "white", "important");
+
     }
 
     function formatDate (date) {
@@ -96,13 +108,13 @@ function Checkout() {
             items.push(
                 <div className="row">
                     <div className="col-8">
-                        <p class="card-text">{key}</p>
+                        <p className="card-text">{key}</p>
                     </div>
                     <div className="col-2">
-                        <p class="card-text float-end">x{dict[key][0]}</p>
+                        <p className="card-text float-end">x{dict[key][0]}</p>
                     </div>
                     <div className="col-2">
-                        <p class="card-text float-end">${formatPrice(dict[key][1])}</p>
+                        <p className="card-text float-end">${formatPrice(dict[key][1])}</p>
                     </div>
                 </div>
             );
@@ -129,16 +141,16 @@ function Checkout() {
     function getIndividualPrice(){
         var ppl = data.pax_details;
         var indiv = getTotal(data.items_ordered.total) / ppl.length;
-        // loop through dict
         var items = [];
+        // loop through dict
         for (var key in ppl) {
             items.push(
                 <div className="row">
                     <div className="col">
-                        <p class="card-text cn">{ppl[key]}</p>
+                        <p className="card-text cn names" value={ppl[key]}>{ppl[key]}</p>
                     </div>
                     <div className="col">
-                        <input class="card-text float-end" disabled placeholder={formatPrice(indiv)}/>
+                        <input className="card-text float-end topays" value={formatPrice(indiv)} disabled placeholder={formatPrice(indiv)}/>
                     </div>
                 </div> 
             );
@@ -146,55 +158,108 @@ function Checkout() {
         return items;
     }
 
+    // {
+    //     "booking_id": "2",
+    //     "total_amount": 600,
+    //     "main_customer": {
+    //         "name": "nicholas",
+    //         "amount": 100
+    //     },
+    //     "other_customers": [
+    //         {
+    //             "name": "daryl",
+    //             "amount": 200
+    //         },
+    //         {
+    //             "name": "chiok",
+    //             "amount": 300
+    //         }
+    //     ]
+    // }
+
+    async function makePayment(){
+        var temp = [];
+        var names = document.getElementsByClassName("names");
+        var topays = document.getElementsByClassName("topays");
+        for (var i = 1; i < names.length; i++) {
+            var obj = {
+                name: names[i].innerHTML,
+                amount: parseFloat(topays[i].value)
+            }
+            temp.push(obj);
+        }
+
+        var info = {
+            booking_id: booking_id,
+            total_amount: parseFloat(formatPrice(getTotal(data.items_ordered.total))),
+            main_customer: {
+                name: document.getElementsByClassName("names")[0].innerHTML,
+                amount: parseFloat(document.getElementsByClassName("topays")[0].value)
+            },
+            other_customers: temp
+        }
+
+        console.log(info);
+
+        await axios.post(pay_url, info)
+        .then((res) => {
+            console.log(res.data);
+            navigate("/pconfirm/" + booking_id);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
 
     if (data.length !== 0) {
         return (
-            <div class="checkout">
-                <div class="container">
-                <div class="tt row">
+            <div className="checkout py-5">
+                <div className="container">
+                <div className="tt row">
 
-                    <div class="col-6">
-                        <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title text-center">Your E-receipt</h3>
+                    <div className="col-6">
+                        <div className="card">
+                        <div className="card-body">
+                            <h3 className="card-title text-center">Your E-receipt</h3>
 
                             <hr/>
                             
-                            <p class="card-text rsname">{data.restaurant}</p>
+                            <p className="card-text rsname">{data.restaurant}</p>
                             <div className="row">
                                 <div className="col-4">
-                                    <p class="card-text">Date:</p>
+                                    <p className="card-text">Date:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p class="card-text">{formatDate(data.date)}</p>
+                                    <p className="card-text">{formatDate(data.date)}</p>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-4">
-                                    <p class="card-text">Time:</p>
+                                    <p className="card-text">Time:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p class="card-text">{formatTime(data.time)}</p>
+                                    <p className="card-text">{formatTime(data.time)}</p>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-4">
-                                    <p class="card-text">No. of pax:</p>
+                                    <p className="card-text">No. of pax:</p>
                                 </div>
                                 <div className="col-8">
-                                    <p class="card-text">{data.no_of_pax}</p>
+                                    <p className="card-text">{data.no_of_pax}</p>
                                 </div>
                             </div>
                             <hr/>
                             <div className="row receiptbold">
                                 <div className="col-8">
-                                    <p class="card-text">Items</p>
+                                    <p className="card-text">Items</p>
                                 </div>
                                 <div className="col-2">
-                                    <p class="card-text float-end">Qty</p>
+                                    <p className="card-text float-end">Qty</p>
                                 </div>
                                 <div className="col-2">
-                                    <p class="card-text float-end">Price</p>
+                                    <p className="card-text float-end">Price</p>
                                 </div>
                             </div>
        
@@ -204,28 +269,28 @@ function Checkout() {
 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p class="card-text">Subtotal (SGD)</p>
+                                    <p className="card-text">Subtotal (SGD)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">${formatPrice(data.items_ordered.total)}</p>
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col">
-                                    <p class="card-text">GST (8%)</p>
-                                </div>
-                                <div className="col">
-                                    <p class="card-text float-end">${formatPrice(getGST(data.items_ordered.total))}</p>
+                                    <p className="card-text float-end">${formatPrice(data.items_ordered.total)}</p>
                                 </div>
                             </div>
 
                             <div className="row">
                                 <div className="col">
-                                    <p class="card-text">Service Charge (10%)</p>
+                                    <p className="card-text">GST (8%)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">${formatPrice(getSC(data.items_ordered.total))}</p>
+                                    <p className="card-text float-end">${formatPrice(getGST(data.items_ordered.total))}</p>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col">
+                                    <p className="card-text">Service Charge (10%)</p>
+                                </div>
+                                <div className="col">
+                                    <p className="card-text float-end">${formatPrice(getSC(data.items_ordered.total))}</p>
                                 </div>
                             </div>
 
@@ -233,10 +298,10 @@ function Checkout() {
 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p class="card-text">Total (SGD)</p>
+                                    <p className="card-text">Total (SGD)</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">${formatPrice(getTotal(data.items_ordered.total))}</p>
+                                    <p className="card-text float-end" id="totalprice">${formatPrice(getTotal(data.items_ordered.total))}</p>
                                 </div>
                             </div>
 
@@ -245,33 +310,36 @@ function Checkout() {
                         </div>
                     </div>
 
-                    <div class="col-6">
-                        <div class="card">
-                        <div class="card-body">
-                        <h3 class="card-title text-center">Split Payment</h3>
+                    <div className="col-6">
+                        <div className="card">
+                        <div className="card-body">
+                        <h3 className="card-title text-center">Split Payment</h3>
                             <hr/>
                             <div className="tt row split">
                                 <div className="col text-center">
-                                    <button type="button" class="btn splitbtn" onClick={changeDisabledTrue}>Split Evenly</button>
+                                    <button type="button" className="btn splitbtn" id="splitbtn" onClick={changeDisabledTrue}>Split Evenly</button>
                                 </div>
                                 <div className="col text-center">
-                                    <button type="button" class="btn splitbtn2" onClick={changeDisabled}>Split Manually</button>
+                                    <button type="button" className="btn splitbtn2" id="splitbtn2" onClick={changeDisabled}>Split Manually</button>
                                 </div>
                             </div>
 
                             <div className="row receiptbold">
                                 <div className="col">
-                                    <p class="card-text">Customer Name</p>
+                                    <p className="card-text">Customer Name</p>
                                 </div>
                                 <div className="col">
-                                    <p class="card-text float-end">Amount</p>
+                                    <p className="card-text float-end">Amount</p>
                                 </div>
                             </div>
 
                             {getIndividualPrice()}
 
                             <div className="btndiv text-center">
-                                <button type="button" class="btn paybtn">Pay</button>
+                                <button type="button" className="btn paybtn" onClick={async (e) => {
+                                    e.preventDefault();
+                                    await makePayment();
+                                }}>Pay</button>
                             </div>
 
                         </div>

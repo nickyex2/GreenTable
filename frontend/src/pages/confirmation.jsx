@@ -73,36 +73,36 @@ function Confirmation() {
 
     if (data.length !== 0 && cus.length !== 0 && info.length !== 0) {
         return (
-            <div class="confirmation">
+            <div className="confirmation">
                 <img src={require('../images/confirm.png')} alt="..."/>
                 <h4>Booking Confirmed</h4>
                 <p>Check your details below</p>
 
-                <div class="container-fluid">
-                <div class="tt row">
+                <div className="container-fluid">
+                <div className="tt row">
 
-                    <div class="col-6">
-                        <div class="card carded">
-                        <div class="card-body">
-                            <h3 class="card-title">Booking Details</h3>
+                    <div className="col-6">
+                        <div className="card carded">
+                        <div className="card-body">
+                            <h3 className="card-title">Booking Details</h3>
                             <hr/>
-                            <p class="card-text"><b>Restaurant:</b><br/>{data.restaurant}</p>
-                            <p class="card-text"><b>Location:</b><br/>{info.location.formatted_address}<br/>Singapore {info.location.postal_code}</p>
-                            <p class="card-text"><b>Time:</b><br/>{data.time}</p>
-                            <p class="card-text"><b>No. of pax:</b><br/>{data.no_of_pax}</p>
-                            <p class="card-text"><b>Date:</b><br/>{formatDate(data.date)}</p>
+                            <p className="card-text"><b>Restaurant:</b><br/>{data.restaurant}</p>
+                            <p className="card-text"><b>Location:</b><br/>{info.location.formatted_address}<br/>Singapore {info.location.postal_code}</p>
+                            <p className="card-text"><b>Time:</b><br/>{data.time}</p>
+                            <p className="card-text"><b>No. of pax:</b><br/>{data.no_of_pax}</p>
+                            <p className="card-text"><b>Date:</b><br/>{formatDate(data.date)}</p>
                         </div>
                         </div>
                     </div>
 
-                    <div class="col-6">
-                        <div class="card cardbd">
-                        <div class="card-body">
-                        <h3 class="card-title">Personal Details</h3>
+                    <div className="col-6">
+                        <div className="card cardbd">
+                        <div className="card-body">
+                        <h3 className="card-title">Personal Details</h3>
                             <hr/>
-                            <p class="card-text"><b>Booker Name:</b><br/>{data.customer}</p>
-                            <p class="card-text"><b>Email:</b><br/>{cus.email}</p>
-                            <p class="card-text"><b>Mobile:</b><br/>+65 {splitPhone(cus.phone)}</p>
+                            <p className="card-text"><b>Booker Name:</b><br/>{data.customer}</p>
+                            <p className="card-text"><b>Email:</b><br/>{cus.email}</p>
+                            <p className="card-text"><b>Mobile:</b><br/>+65 {splitPhone(cus.phone)}</p>
                         </div>
                         </div>
                     </div>

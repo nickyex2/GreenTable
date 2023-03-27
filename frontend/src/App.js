@@ -10,7 +10,7 @@ import Logout from './pages/logout';
 import Cancel from './pages/cancel';
 import History from './pages/history';
 import Checkout from './pages/checkout';
-// import Paid from './pages/pconfirm';
+import Paid from './pages/pconfirm';
 
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,8 +34,8 @@ function App() {
         <Route path="/cancel" element={<Cancel/>}/>
         <Route path="/history" element={<History/>}/>
         <Route path="/checkout/:booking_id" element={<Checkout/>}/>
+        <Route path="/pconfirm/:booking_id" element={<Paid/>}/>
       </Routes>
-      {/* <Paid /> */}
     </div>
   );
 }
