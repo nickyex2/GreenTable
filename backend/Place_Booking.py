@@ -32,6 +32,7 @@ data = {
 """
 @app.route("/booking/place_booking", methods=["POST"])
 def place_booking():
+    amqp_setup.check_setup()
     # Check the input format and data of the request are JSON
     if request.is_json:
         try:

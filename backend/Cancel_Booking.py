@@ -22,6 +22,7 @@ data = {
 """
 @app.route("/cancel/<string:booking_id>", methods=["POST"])
 def cancelBooking(booking_id):
+    amqp_setup.check_setup()
     # delete the booking from booking url
     response = request.get_json()
     # retrieve the booking details and hold it for any errors to revert change
