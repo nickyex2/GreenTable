@@ -4,7 +4,7 @@ function Logout() {
     sessionStorage.clear();
     window.location.href = "/";
     return (
-        <div class="logout">
+        <div className="logout">
         </div>
     );
 }
