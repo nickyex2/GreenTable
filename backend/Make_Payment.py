@@ -77,6 +77,7 @@ def make_payment():
         ), 500
 
 def processPayment(data):
+    amqp_setup.check_setup()
     #check if booking exists
     booking_id = data["booking_id"]
     booking = invoke_http(f"{booking_url}/getBooking/{booking_id}", method='GET')
