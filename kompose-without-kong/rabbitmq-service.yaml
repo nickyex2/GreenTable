@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe -f .\docker-compose-resolved-wokong.yml convert -o .\kompose-without-kong\
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rabbitmq
+  name: rabbitmq
+spec:
+  type: NodePort
+  selector:
+    app: rabbitmq
+  ports:
+    - name: "5672"
+      port: 5672
+      targetPort: 5672
+      nodePort: 30001
+    - name: "management"
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+      nodePort: 30000
+  selector:
+    io.kompose.service: rabbitmq
+status:
+  loadBalancer: {}

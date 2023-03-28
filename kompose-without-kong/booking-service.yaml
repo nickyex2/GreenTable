@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe -f .\docker-compose-resolved-wokong.yml convert -o .\kompose-without-kong\
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: booking
+  name: booking
+spec:
+  type: NodePort
+  ports:
+    - name: "5003"
+      port: 5003
+      targetPort: 5003
+      nodePort: 35003
+  selector:
+    io.kompose.service: booking
+status:
+  loadBalancer: {}
