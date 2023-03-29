@@ -110,6 +110,7 @@ function Paid() {
 
     function getIndividualPrice(){
         var ppl = data.pax_details;
+        ppl.unshift(data.customer)
         var indiv = getTotal(data.items_ordered.total) / ppl.length;
         var items = [];
         // loop through dict
