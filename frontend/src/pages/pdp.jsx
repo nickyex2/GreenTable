@@ -4,8 +4,6 @@ import {useParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 
-
-
 function Pdp() {
 
     const booking_url = "http://localhost:5002/catalog/find";
@@ -173,12 +171,12 @@ function Pdp() {
                 input.style = "width: 80%;"
                 customerfields.appendChild(input);
             for (var i = 1; i < pax; i++){
-                var input = document.createElement("input");
-                input.type = "text";
-                input.className = "form-control customerids";
-                input.placeholder = `Name ${i+1}`;
-                input.style = "width: 80%;"
-                customerfields.appendChild(input);
+                var minput = document.createElement("input");
+                minput.type = "text";
+                minput.className = "form-control customerids";
+                minput.placeholder = `Name ${i+1}`;
+                minput.style = "width: 80%;"
+                customerfields.appendChild(minput);
             }
         }
     }

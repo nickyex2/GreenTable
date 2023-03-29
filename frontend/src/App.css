@@ -50,6 +50,10 @@ html, div{
   position: absolute;
 }
 
+#no{
+  text-decoration: none;
+}
+
 .banner-text h1{
   font-size: 50px;
   font-weight: 700;
@@ -1007,4 +1011,16 @@ html, div{
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 40px;
+}
+
+/* MAP */
+
+#map{
+  height:500px; 
+  width:500px;
+}
+
+#inputfields, #inputfields div, #inputfields .col{
+  background-color: #fff !important;
+  color: #000;
 }
