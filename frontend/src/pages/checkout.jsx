@@ -29,12 +29,27 @@ function Checkout() {
     }, [booking_id]);
 
     function changeDisabledTrue() {
-        var inputs = document.getElementsByTagName("input");
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].disabled = true;
-            // change background color of input to grey
-            inputs[i].style.backgroundColor = "#D3D3D3";
+        var inputs = document.getElementById("inputfields")
+        inputs.innerHTML = "";
+        var ppl = [data.customer];
+        for (var i = 0; i <  data.pax_details.length; i++) {
+            ppl.push(data.pax_details[i]);
         }
+        console.log(ppl);
+        var indiv = getTotal(data.items_ordered.total) / ppl.length;
+        var items = [];
+        // loop through dict
+        for (var key in ppl) {
+            inputs.innerHTML += `<div class="row">
+            <div class="col">
+                <p class="card-text cn names" value=${ppl[key]}>${ppl[key]}</p>
+            </div>
+            <div class="col">
+                <input class="card-text float-end topays" type='number' step='0.01' value=${formatPrice(indiv)} placeholder=${formatPrice(indiv)} disabled/>
+            </div>
+        </div> `
+        }
+
         document.getElementById("splitbtn").style.setProperty ("color", "white", "important");
         document.getElementById("splitbtn").style.setProperty ("background-color", "#122526", "important");
         document.getElementById("splitbtn2").style.setProperty ("color", "#122526", "important");
@@ -42,14 +57,25 @@ function Checkout() {
     }
 
     function changeDisabled() {
-        var inputs = document.getElementsByTagName("input");
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].disabled = false;
-            // change background color of input to grey
-            inputs[i].style.backgroundColor = "#fff";
-            inputs[i].style.border = "1px solid #D3D3D3";
+        var inputs = document.getElementById("inputfields")
+        inputs.innerHTML = "";
+        var ppl = [data.customer];
+        for (var i = 0; i <  data.pax_details.length; i++) {
+            ppl.push(data.pax_details[i]);
         }
-        // switch splitbtn and splitbtn2 css
+        // loop through dict
+        for (var key in ppl) {
+            inputs.innerHTML += `<div class="row">
+            <div class="col">
+                <p class="card-text cn names" value=${ppl[key]}>${ppl[key]}</p>
+            </div>
+            <div class="col">
+                <input class="card-text float-end topays headache" type='number' step='0.01'/>
+            </div>
+        </div> `
+                
+        }
+  
         document.getElementById("splitbtn2").style.setProperty ("color", "white", "important");
         document.getElementById("splitbtn2").style.setProperty ("background-color", "#122526", "important");
         document.getElementById("splitbtn").style.setProperty ("color", "#122526", "important");
@@ -96,7 +122,7 @@ function Checkout() {
     }
 
     function formatPrice(price) {
-        var price = price.toFixed(2);
+        var price = parseFloat(price).toFixed(2);
         return price;
     }
 
@@ -139,8 +165,11 @@ function Checkout() {
     }
 
     function getIndividualPrice(){
-        var ppl = data.pax_details;
-        ppl.unshift(data.customer)
+        var ppl = [data.customer];
+        for (var i = 0; i <  data.pax_details.length; i++) {
+            ppl.push(data.pax_details[i]);
+        }
+        console.log(ppl);
         var indiv = getTotal(data.items_ordered.total) / ppl.length;
         var items = [];
         // loop through dict
@@ -151,7 +180,7 @@ function Checkout() {
                         <p className="card-text cn names" value={ppl[key]}>{ppl[key]}</p>
                     </div>
                     <div className="col">
-                        <input className="card-text float-end topays" value={formatPrice(indiv)} disabled placeholder={formatPrice(indiv)}/>
+                        <input className="card-text float-end topays" type='number' step='0.01' value={formatPrice(indiv)} placeholder={formatPrice(indiv)} disabled/>
                     </div>
                 </div> 
             );
@@ -160,6 +189,7 @@ function Checkout() {
     }
 
     async function makePayment(){
+        var amounts = []
         var temp = [];
         var names = document.getElementsByClassName("names");
         var topays = document.getElementsByClassName("topays");
@@ -169,7 +199,14 @@ function Checkout() {
                 amount: parseFloat(topays[i].value)
             }
             temp.push(obj);
+            amounts.push(parseFloat(topays[i].value));
         }
+
+        amounts.unshift(parseFloat(document.getElementsByClassName("topays")[0].value));
+
+        console.log(amounts);
+
+        sessionStorage.setItem('paid', amounts);
 
         var info = {
             booking_id: booking_id,
@@ -183,13 +220,13 @@ function Checkout() {
 
         console.log(info);
 
-        await axios.post(pay_url, info)
+       await axios.post(pay_url, info)
         .then((res) => {
             console.log(res.data);
             navigate("/pconfirm/" + booking_id);
         })
         .catch((err) => {
-            console.log(err);
+            console.log('hi');
         })
     }
 
@@ -315,8 +352,9 @@ function Checkout() {
                                 </div>
                             </div>
 
-                            {getIndividualPrice()}
-
+                            <div id="inputfields">
+                                {getIndividualPrice()}
+                            </div>
                             <div className="btndiv text-center">
                                 <button type="button" className="btn paybtn" onClick={async (e) => {
                                     e.preventDefault();
