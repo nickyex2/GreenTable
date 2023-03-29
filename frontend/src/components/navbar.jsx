@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 function Navbar() {
     const location = useLocation()
 
-    if(location.pathname === '/login' || location.pathname === '/signup') {
+    if(location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/business' || location.pathname.includes('/add/')) {
       return null
     }
 
