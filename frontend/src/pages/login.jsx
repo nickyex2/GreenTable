@@ -14,7 +14,12 @@ function Login() {
 
     function storeRedirect() {
         sessionStorage.setItem('name', username.current.value)
-        window.location.href = "http://localhost:3000/";
+        if (sessionStorage.getItem('name') !== 'Business') {
+            window.location.href = "http://localhost:3000/";
+        }
+        else {
+            window.location.href = "http://localhost:3000/business";
+        }
     }
 
     const handleSubmit = (e) => {
