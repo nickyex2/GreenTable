@@ -72,13 +72,15 @@ function Pdp() {
         // get elemtns from class name customerids and put into an array
         var temp = document.getElementsByClassName("customerids");
         var customerids = [];
-        for (var i = 0; i < temp.length; i++){
+        for (var i = 1; i < temp.length; i++){
             if (temp[i].value === ""){
                 errorMsg(2);
             }
             else{
                 const result = await checkName(temp[i].value);
-                if (result !== undefined && result.code === 200){
+                console.log(result);
+                if (result !== '' && result.code === 200){
+                    console.log(temp[i].value);
                     customerids.push(temp[i].value);
                 }
             }
@@ -111,15 +113,17 @@ function Pdp() {
     }
 
     async function checkName(name){
+        var temp = ''
         await axios.get(cus_url + '/' + name)
         .then((res) => {
             console.log(res.data);
-            return res.data;
+            temp = res.data;
         })
         .catch((err) => {
             console.log(err);
             errorMsg(1);
         })
+        return temp;
     }
 
     function errorMsg(num){

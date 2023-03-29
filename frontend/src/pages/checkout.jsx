@@ -140,6 +140,7 @@ function Checkout() {
 
     function getIndividualPrice(){
         var ppl = data.pax_details;
+        ppl.unshift(data.customer)
         var indiv = getTotal(data.items_ordered.total) / ppl.length;
         var items = [];
         // loop through dict
@@ -157,25 +158,6 @@ function Checkout() {
         }
         return items;
     }
-
-    // {
-    //     "booking_id": "2",
-    //     "total_amount": 600,
-    //     "main_customer": {
-    //         "name": "nicholas",
-    //         "amount": 100
-    //     },
-    //     "other_customers": [
-    //         {
-    //             "name": "daryl",
-    //             "amount": 200
-    //         },
-    //         {
-    //             "name": "chiok",
-    //             "amount": 300
-    //         }
-    //     ]
-    // }
 
     async function makePayment(){
         var temp = [];
