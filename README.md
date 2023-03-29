@@ -31,3 +31,19 @@ password: test
 #### Test business login
 Username: Business
 Password: test
+
+#### on the database side customers have been created
+username: nicholas
+credit card: set to pass
+
+username: chiok
+credit card: set to pass
+
+username: daniel
+credit card: set to fail
+
+username: colin
+credit card: set to fail
+
+username: daryl
+credit card: set to pass
