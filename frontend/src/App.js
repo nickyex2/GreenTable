@@ -11,6 +11,8 @@ import Cancel from './pages/cancel';
 import History from './pages/history';
 import Checkout from './pages/checkout';
 import Paid from './pages/pconfirm';
+import Business from './pages/business';
+import Add from './pages/add';
 
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -29,12 +31,14 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/logout" element={<Logout/>}/>
+        <Route path="/business" element={<Business/>}/>
         <Route path="/pdp/:restaurant_name" element={<Pdp/>}/>
         <Route path="/confirmation/:booking_id" element={<Confirmation/>}/>
         <Route path="/cancel" element={<Cancel/>}/>
         <Route path="/history" element={<History/>}/>
         <Route path="/checkout/:booking_id" element={<Checkout/>}/>
         <Route path="/pconfirm/:booking_id" element={<Paid/>}/>
+        <Route path="/add/:booking_id" element={<Add/>}/>
       </Routes>
     </div>
   );
