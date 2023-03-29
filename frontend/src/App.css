@@ -875,7 +875,7 @@ html, div{
 }
 
 .table-responsive{
-  max-height: 500px;
+  max-height: 400px;
   /* make table middle */
   width: 100%;
   margin: 0 auto !important;

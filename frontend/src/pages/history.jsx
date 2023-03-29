@@ -41,14 +41,25 @@ function History() {
         }
     }
 
-    function formatStatusPayment(status, booking_id) {
+    function formatStatusPayment(status, booking_id, customer) {
         if (JSON.stringify(status) === JSON.stringify([])) {
             return "Food not ordered";
-        } else {
+        }
+        else if (customer === username) {
             return <button type="button" className="btn btn-light" onClick={() => {
                 navigate(`/checkout/${booking_id}`)
             }} >Ready For Payment!</button>;
         }
+        else {
+            return "Waiting for booker to pay";
+        }
+    }
+
+    function formatDate (date){
+        const day = date.slice(0,2);   
+        const month = date.slice(2,4);
+        const year = date.slice(4,6);
+        return day + '/' + month + '/' + year;
     }
 
     function getAll() {
@@ -71,7 +82,7 @@ function History() {
                         <tr>
                             <th scope="row">{booking._id}</th>
                             <td>{booking.restaurant}</td>
-                            <td>{booking.date}</td>
+                            <td>{formatDate(booking.date)}</td>
                             <td>{booking.time}</td>
                             <td>{booking.no_of_pax}</td>
                             <td>{formatStatus(booking.paid_status)}</td>
@@ -110,7 +121,7 @@ function History() {
                         <tr>
                             <th scope="row">{each._id}</th>
                             <td>{each.restaurant}</td>
-                            <td>{each.date}</td>
+                            <td>{formatDate(each.date)}</td>
                             <td>{each.time}</td>
                             <td>{each.no_of_pax}</td>
                             <td>{formatStatus(each.paid_status)}</td>
@@ -124,11 +135,9 @@ function History() {
     }
 
     function getPending(){
-        console.log(data);
         var newArray = data.filter(function (el) {
             return el.paid_status === false;
         });
-        console.log(newArray)
         if (newArray.length === 0) {
             return <h3 className="tableerr">No paid bookings</h3>;
         } 
@@ -152,10 +161,10 @@ function History() {
                         <tr>
                             <th scope="row">{each._id}</th>
                             <td>{each.restaurant}</td>
-                            <td>{each.date}</td>
+                            <td>{formatDate(each.date)}</td>
                             <td>{each.time}</td>
                             <td>{each.no_of_pax}</td>
-                            <td>{formatStatusPayment(each.items_ordered, each._id)}</td>
+                            <td>{formatStatusPayment(each.items_ordered, each._id, each.customer)}</td>
                         </tr>
                     ))}
                 </tbody>
