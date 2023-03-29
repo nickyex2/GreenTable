@@ -32,9 +32,9 @@ function Browse() {
             if (id_list.includes(item._id)) {
                 return ( 
                     <div className="col-4">
-                    <div class="card card-smaller" >
+                    <div className="card card-smaller" >
                         <img src={item.image[0]} />
-                        <div class="card-body">
+                        <div className="card-body">
                             <div className="row w-100 m-0">
                                 <div className="col-6 p-0">
                                     <p className="card-text">{item.avg_rating} &#9733;</p>
@@ -43,9 +43,9 @@ function Browse() {
                                     <p className="card-text float-end">$$</p>
                                 </div>
                             </div>
-                            <h5 class="card-title">{item._id}</h5>
-                            <p class="card-text">{item.location.formatted_address}</p>
-                            <p class="card-desc">{limitDesc(item.description)}</p>
+                            <h5 className="card-title">{item._id}</h5>
+                            <p className="card-text">{item.location.formatted_address}</p>
+                            <p className="card-desc">{limitDesc(item.description)}</p>
                             <Link to={`/pdp/${item._id}`}>
                                 <button type="submit" className="search-button align-self-end mt-auto">Find out more</button>
                             </Link>
@@ -120,10 +120,10 @@ function Browse() {
                                 </div>
                             </div>  
                             <form className="search-form">
-                                <input class="form-control" id="name" type="text" placeholder="Name" value={name} onChange={(event) => {setName(event.target.value);}}/>
-                                <input class="form-control" id="cuisine" type="text" placeholder="Type of cuisine" value={cuisine} onChange={(event) => {setCuisine(event.target.value);}}/>
-                                <input class="form-control" id="date" type="date" placeholder="Date" value={date} onChange={(event) => {setDate(event.target.value);}}/>
-                                {/* <input class="form-control" type="text" placeholder="No. of pax" value={pax} onChange={(event) => {setPax(event.target.value);}}/> */}
+                                <input className="form-control" id="name" type="text" placeholder="Name" value={name} onChange={(event) => {setName(event.target.value);}}/>
+                                <input className="form-control" id="cuisine" type="text" placeholder="Type of cuisine" value={cuisine} onChange={(event) => {setCuisine(event.target.value);}}/>
+                                <input className="form-control" id="date" type="date" placeholder="Date" value={date} onChange={(event) => {setDate(event.target.value);}}/>
+                                {/* <input className="form-control" type="text" placeholder="No. of pax" value={pax} onChange={(event) => {setPax(event.target.value);}}/> */}
                             </form>
                             </div>
                         </div>
