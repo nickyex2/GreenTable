@@ -14,12 +14,20 @@ BOOKING_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retryW
 WAITLIST_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority"  
 ```
 
-## To host all microservices locally on docker
-### convert all environment variables into docker-compose.yml
-``` docker-compose --env-file ./.env convert ```
-
-### start docker compose
-``` docker compose up ```
+## To host all microservices locally on docker (windows only)
+Navigate to cmd prompt and run the run-docker.bat file
 
 ### Use snapshot to get kong running seamlessly
 Navigate to Konga UI and import the snapshot in
+
+
+## Use application from Netlify
+https://green-table.netlify.app/
+
+#### Test customer login
+username: nicholas
+password: test
+
+#### Test business login
+Username: Business
+Password: test
