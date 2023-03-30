@@ -26,7 +26,7 @@ function Checkout() {
             });
         }
         all();
-    }, [booking_id]);
+    }, [booking_id, booking_url]);
 
     function changeDisabledTrue() {
         var inputs = document.getElementById("inputfields")
@@ -37,7 +37,6 @@ function Checkout() {
         }
         console.log(ppl);
         var indiv = getTotal(data.items_ordered.total) / ppl.length;
-        var items = [];
         // loop through dict
         for (var key in ppl) {
             inputs.innerHTML += `<div class="row" key=${key}>
@@ -122,8 +121,8 @@ function Checkout() {
     }
 
     function formatPrice(price) {
-        var price = parseFloat(price).toFixed(2);
-        return price;
+        var pricee = parseFloat(price).toFixed(2);
+        return pricee;
     }
 
     function getItems(){
@@ -223,6 +222,7 @@ function Checkout() {
        await axios.post(pay_url, info)
         .then((res) => {
             console.log(res.data);
+            console.log('SUCCESS');
             navigate("/pconfirm/" + booking_id);
         })
         .catch((err) => {

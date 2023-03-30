@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 function Business() {
 
-    var username = sessionStorage.getItem('name');
-
     var booking_url = "http://localhost:5003/booking/";
 
     const all_url = "http://localhost:5002/catalog/all";

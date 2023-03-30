@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState , useEffect} from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function Paid() {
 
@@ -14,7 +14,7 @@ function Paid() {
         paid_array[i] = parseFloat(paid_array[i]);
     }
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     var booking_url = "http://localhost:5003/booking/getBooking/";
 
@@ -31,7 +31,7 @@ function Paid() {
             });
         }
         all();
-    }, [booking_id]);
+    }, [booking_id,booking_url]);
 
     function formatDate (date) {
         const day = date.slice(0,2);   
@@ -72,8 +72,8 @@ function Paid() {
     }
 
     function formatPrice(price) {
-        var price = parseFloat(price).toFixed(2);
-        return price;
+        var pricee = parseFloat(price).toFixed(2);
+        return pricee;
     }
 
     function getGST(price){
@@ -124,11 +124,11 @@ function Paid() {
         var count = 0;
         console.log(paid);
         // loop through dict
-        for (var key in ppl) {
+        for (var keyy in ppl) {
             items.push(
-                <div className="row" key={key}>
+                <div className="row" key={keyy}>
                     <div className="col">
-                        <p className="card-text">{ppl[key]}</p>
+                        <p className="card-text">{ppl[keyy]}</p>
                     </div>
                     <div className="col">
                         <p className="card-text float-end">${formatPrice(paid_array[count])}</p>
