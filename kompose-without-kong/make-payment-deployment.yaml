@@ -29,11 +29,11 @@ spec:
             - name: PYTHONUNBUFFERED
               value: "1"
             - name: booking_url
-              value: http://booking:5003/booking
+              value: http://10.8.3.248:5003/booking
             - name: customer_url
-              value: http://customer:5001/customer
+              value: http://10.8.13.215:5001/customer
             - name: payment_url
-              value: http://payment:5004/payment
+              value: http://10.8.15.175:5004/payment
             - name: rabbit_host
               value: rabbitmq
             - name: rabbit_port

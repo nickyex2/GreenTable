@@ -33,9 +33,9 @@ spec:
             - name: rabbit_port
               value: "5672"
             - name: telegram_url
-              value: http://telegram-send-api:5015
+              value: http://10.8.15.138:5015
             - name: twilio_url
-              value: http://twilio-sendgrid-api:5014
+              value: http://10.8.9.220:5014
           image: nickyex2/notification:latest
           name: notification
           resources: {}

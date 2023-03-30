@@ -9,12 +9,11 @@ metadata:
     io.kompose.service: booking
   name: booking
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: "5003"
       port: 5003
       targetPort: 5003
-      nodePort: 35003
   selector:
     io.kompose.service: booking
 status:

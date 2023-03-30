@@ -29,17 +29,17 @@ spec:
             - name: PYTHONUNBUFFERED
               value: "1"
             - name: booking_url
-              value: http://booking:5003/booking
+              value: http://10.8.3.248:5003/booking
             - name: catalog_url
-              value: http://catalog:5002/catalog
+              value: http://10.8.10.58:5002/catalog
             - name: customer_url
-              value: http://customer:5001/customer
+              value: http://10.8.13.215:5001/customer
             - name: rabbit_host
               value: rabbitmq
             - name: rabbit_port
               value: "5672"
             - name: waitlist_url
-              value: http://waitlist:5010/waitlist
+              value: http://10.8.12.188:5010/waitlist
           image: nickyex2/place-booking:latest
           name: place-booking
           ports:

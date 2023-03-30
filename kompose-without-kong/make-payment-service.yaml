@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: make-payment
   name: make-payment
 spec:
+  type: LoadBalancer
   ports:
     - name: "5007"
       port: 5007

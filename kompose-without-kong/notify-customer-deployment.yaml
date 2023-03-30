@@ -33,7 +33,7 @@ spec:
             - name: rabbit_port
               value: "5672"
             - name: waitlist_url
-              value: http://waitlist:5010/waitlist
+              value: http://10.8.12.188:5010/waitlist
           image: nickyex2/notify-customer:latest
           name: notify-customer
           resources: {}

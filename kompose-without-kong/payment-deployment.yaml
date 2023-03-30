@@ -29,7 +29,7 @@ spec:
             - name: PYTHONUNBUFFERED
               value: "1"
             - name: stripe_url
-              value: http://stripe-api:5016/api/stripepay
+              value: http://10.8.9.97:5016/api/stripepay
           image: nickyex2/payment:latest
           name: payment
           ports:

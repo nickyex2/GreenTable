@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: catalog
   name: catalog
 spec:
+  type: LoadBalancer
   ports:
     - name: "5002"
       port: 5002

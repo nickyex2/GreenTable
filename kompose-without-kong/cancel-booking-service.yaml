@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: cancel-booking
   name: cancel-booking
 spec:
+  type: LoadBalancer 
   ports:
     - name: "5005"
       port: 5005

@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: place-booking
   name: place-booking
 spec:
+  type: LoadBalancer
   ports:
     - name: "5006"
       port: 5006
