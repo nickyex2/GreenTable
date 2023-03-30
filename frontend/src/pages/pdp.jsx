@@ -42,17 +42,17 @@ function Pdp() {
 
     function renderDates(){
         return Object.keys(data.availability).map((key, index) => {
-           return <option value={key}>{formatDate(key)}</option>
+           return <option value={key} key={index}>{formatDate(key)}</option>
         })
     }
 
     function renderTimes(check){
         if (check !== '')
             return Object.keys(data.availability[chosenDate]).map((key, index) => {
-                return <option value={key}>{key}</option>
+                return <option value={key} key={index}>{key}</option>
         })
         else{
-            return <option selected value="null" disabled>Please Select A Time</option>
+            return <option value="null" disabled>Please Select A Time</option>
         }
     }
 
@@ -226,11 +226,11 @@ function Pdp() {
                                 <h5>Find a table</h5>
                                 <div className="pdpbox">
                                     <form className="search-form">
-                                        <select onChange={handleChange} id='date'>
-                                            <option selected value="null" disabled>Please Select A Date</option>
+                                        <select onChange={handleChange} id='date' defaultValue={'null'}>
+                                            <option value="null" disabled>Please Select A Date</option>
                                             {renderDates()}
                                         </select>
-                                        <select id="time">
+                                        <select id="time" defaultValue={'null'}>
                                             {renderTimes(chosenDate)}
                                         </select>
                                         <input type='number' placeholder="No. of Pax" id="pax" onChange={customerFields}/>

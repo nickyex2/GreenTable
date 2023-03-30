@@ -25,27 +25,33 @@ function Confirmation() {
 
     useEffect(() => {
         const all = async () => {
-            await axios.get(booking_url + '/' + booking_id)
-            .then(
-            response => setData(response.data.data))
+            if (booking_id !== undefined) {
+                await axios.get(booking_url + '/' + booking_id)
+                .then(
+                response => setData(response.data.data))
+            }
         }
         all();
     }, [booking_id]);
 
     useEffect(() => {
         const all = async () => {
-            await axios.get(customer_url + '/' + data.customer)
-            .then(
-            response => setCus(response.data.data))
+            if (data.length !== 0) {
+                await axios.get(customer_url + '/' + data.customer)
+                .then(
+                response => setCus(response.data.data))
+             }
         }
         all();
     }, [data.customer]);
 
     useEffect(() => {
         const all = async () => {
-            await axios.get(place_url + '/' + data.restaurant)
-            .then(
-            response => setInfo(response.data.data))
+            if (data.length !== 0) {
+                await axios.get(place_url + '/' + data.restaurant)
+                .then(
+                response => setInfo(response.data.data))
+            }
         }
         all();
     }, [data.restaurant]);
