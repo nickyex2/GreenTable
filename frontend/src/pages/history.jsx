@@ -78,8 +78,8 @@ function History() {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((booking) => (
-                        <tr>
+                    {data.map((booking, index) => (
+                        <tr key={index}>
                             <th scope="row">{booking._id}</th>
                             <td>{booking.restaurant}</td>
                             <td>{formatDate(booking.date)}</td>
@@ -117,8 +117,8 @@ function History() {
                     </tr>
                 </thead>
                 <tbody>
-                    {newArray.map((each) => (
-                        <tr>
+                    {newArray.map((each, index) => (
+                        <tr key={index}>
                             <th scope="row">{each._id}</th>
                             <td>{each.restaurant}</td>
                             <td>{formatDate(each.date)}</td>
@@ -157,8 +157,8 @@ function History() {
                     </tr>
                 </thead>
                 <tbody>
-                    {newArray.map((each) => (
-                        <tr>
+                    {newArray.map((each, index) => (
+                        <tr key={index}>
                             <th scope="row">{each._id}</th>
                             <td>{each.restaurant}</td>
                             <td>{formatDate(each.date)}</td>

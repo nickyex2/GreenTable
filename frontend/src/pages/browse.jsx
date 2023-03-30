@@ -31,7 +31,7 @@ function Browse() {
         return data.map((item, index) => {
             if (id_list.includes(item._id)) {
                 return ( 
-                    <div className="col-4">
+                    <div className="col-4" key={index}>
                     <div className="card card-smaller" >
                         <img src={item.image[0]} />
                         <div className="card-body">

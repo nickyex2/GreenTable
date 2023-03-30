@@ -29,7 +29,7 @@ function Business() {
     function dropdown () {
         var dropdown = [];
         for (var i = 0; i < all.length; i++) {
-            dropdown.push(<option value={all[i]._id}>{all[i]._id}</option>);
+            dropdown.push(<option key={i} value={all[i]._id}>{all[i]._id}</option>);
         }
         return dropdown;
     }
@@ -77,14 +77,14 @@ function Business() {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((each) => (
-                        <tr>
+                    {data.map((each, index) => (
+                        <tr key={index}>
                             <th scope="row">{each._id}</th>
-                            <td>{each.restaurant}</td>
-                            <td>{each.date}</td>
-                            <td>{each.time}</td>
-                            <td>{each.no_of_pax}</td>
-                            <td>{formatStatus(each.paid_status)}</td>
+                            <td >{each.restaurant}</td>
+                            <td >{each.date}</td>
+                            <td >{each.time}</td>
+                            <td >{each.no_of_pax}</td>
+                            <td >{formatStatus(each.paid_status)}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -102,7 +102,7 @@ function Business() {
             <div className="business">
                 <div className="container">
                     {/* drop down */}
-                    <div className="dropdown"><select onChange={getBookings}><option disabled selected>Choose a restaurant</option>{dropdown()}</select></div>
+                    <div className="dropdown"><select defaultValue={'first'} onChange={getBookings}><option disabled value={'first'}>Choose a restaurant</option>{dropdown()}</select></div>
                     <div id="bookings">{printBookings()}</div>
                 </div>
             </div>
