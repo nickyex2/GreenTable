@@ -40,7 +40,7 @@ function Checkout() {
         var items = [];
         // loop through dict
         for (var key in ppl) {
-            inputs.innerHTML += `<div class="row">
+            inputs.innerHTML += `<div class="row" key=${key}>
             <div class="col">
                 <p class="card-text cn names" value=${ppl[key]}>${ppl[key]}</p>
             </div>
@@ -65,7 +65,7 @@ function Checkout() {
         }
         // loop through dict
         for (var key in ppl) {
-            inputs.innerHTML += `<div class="row">
+            inputs.innerHTML += `<div class="row" key=${key}>
             <div class="col">
                 <p class="card-text cn names" value=${ppl[key]}>${ppl[key]}</p>
             </div>
@@ -132,7 +132,7 @@ function Checkout() {
         var items = [];
         for (var key in dict) {
             items.push(
-                <div className="row">
+                <div className="row" key={key}>
                     <div className="col-8">
                         <p className="card-text">{key}</p>
                     </div>
@@ -175,7 +175,7 @@ function Checkout() {
         // loop through dict
         for (var key in ppl) {
             items.push(
-                <div className="row">
+                <div className="row" key={key}>
                     <div className="col">
                         <p className="card-text cn names" value={ppl[key]}>{ppl[key]}</p>
                     </div>
@@ -226,7 +226,7 @@ function Checkout() {
             navigate("/pconfirm/" + booking_id);
         })
         .catch((err) => {
-            console.log('hi');
+            console.log(err);
         })
     }
 

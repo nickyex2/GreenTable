@@ -97,7 +97,7 @@ function Paid() {
         var items = [];
         for (var key in dict) {
             items.push(
-                <div className="row">
+                <div className="row" key={key}>
                     <div className="col-8">
                         <p className="card-text">{key}</p>
                     </div>
@@ -126,7 +126,7 @@ function Paid() {
         // loop through dict
         for (var key in ppl) {
             items.push(
-                <div className="row">
+                <div className="row" key={key}>
                     <div className="col">
                         <p className="card-text">{ppl[key]}</p>
                     </div>
