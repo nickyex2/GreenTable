@@ -72,7 +72,7 @@ function Home() {
                             <h5 className="card-title">{data[0]._id}</h5>
                             <p className="card-text">{data[0].location.formatted_address}</p>
                             <p className="card-desc">{limitDesc(data[0].description)}</p>
-                            <Link to={`/pdp/${data[0]._id}`}>
+                            <Link to={`/pdp/${data[0]._id}`} id="no">
                                 <button type="submit" className="search-button align-self-end mt-auto">Find out more</button>
                             </Link>
                         </div>

@@ -206,9 +206,28 @@ def processUpdateAvailability(obj):
     collection.update_one({"_id": restaurant_name}, {"$set": {"availability": doc["availability"]}})
     return jsonify({"code": 200, "data": {"message": "Availability updated", "new_avail": add_message}}), 200
         
-
+"""
+data = {
+    "restaurant_name": "Elemen",
+    "rating": 5
+}
+"""
 # rating to be updated in the database (shelved)
-
+@Catalog.route('/catalog/updateRating', methods=['PUT'])
+def updateRating():
+    json = request.get_json()
+    doc = collection.find_one({"_id": json["restaurant_name"]})
+    curr_avg = doc["avg_rating"]
+    no_of_curr_rating = doc["number_of_ratings"]
+    total = float(curr_avg) * float(no_of_curr_rating)
+    total += float(json["rating"])
+    no_of_curr_rating = no_of_curr_rating + 1
+    avg_rating = round(total / no_of_curr_rating, 2)
+    try:
+        collection.find_one_and_update({"_id": json["restaurant_name"]}, {"$set": {"avg_rating": avg_rating, "number_of_ratings": no_of_curr_rating}})
+        return jsonify({"code": 200, "data": {"message": "Rating updated"}}), 200
+    except Exception as e:
+        return jsonify({"code": 500, "data": {"message": str(e)}}), 500
 
 if __name__ == '__main__':
     Catalog.run(port=5002, debug=True, host="0.0.0.0")

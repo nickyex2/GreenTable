@@ -4,8 +4,6 @@ import {useParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 
-
-
 function Pdp() {
 
     const booking_url = "http://localhost:5002/catalog/find";
@@ -44,17 +42,17 @@ function Pdp() {
 
     function renderDates(){
         return Object.keys(data.availability).map((key, index) => {
-           return <option value={key}>{formatDate(key)}</option>
+           return <option value={key} key={index}>{formatDate(key)}</option>
         })
     }
 
     function renderTimes(check){
         if (check !== '')
             return Object.keys(data.availability[chosenDate]).map((key, index) => {
-                return <option value={key}>{key}</option>
+                return <option value={key} key={index}>{key}</option>
         })
         else{
-            return <option selected value="null" disabled>Please Select A Time</option>
+            return <option value="null" disabled>Please Select A Time</option>
         }
     }
 
@@ -161,6 +159,10 @@ function Pdp() {
        // get value if input id = pax and put the number of input fields within the div id = customerfields
          // if pax = 3, then 3 input fields
         var pax = document.getElementById("pax").value;
+        if (pax > 10){
+            pax = 10;
+        }
+        
         var customerfields = document.getElementById("customerfields");
         if (pax>0){
             customerfields.innerHTML = "";
@@ -173,12 +175,12 @@ function Pdp() {
                 input.style = "width: 80%;"
                 customerfields.appendChild(input);
             for (var i = 1; i < pax; i++){
-                var input = document.createElement("input");
-                input.type = "text";
-                input.className = "form-control customerids";
-                input.placeholder = `Name ${i+1}`;
-                input.style = "width: 80%;"
-                customerfields.appendChild(input);
+                var minput = document.createElement("input");
+                minput.type = "text";
+                minput.className = "form-control customerids";
+                minput.placeholder = `Name ${i+1}`;
+                minput.style = "width: 80%;"
+                customerfields.appendChild(minput);
             }
         }
     }
@@ -228,14 +230,14 @@ function Pdp() {
                                 <h5>Find a table</h5>
                                 <div className="pdpbox">
                                     <form className="search-form">
-                                        <select onChange={handleChange} id='date'>
-                                            <option selected value="null" disabled>Please Select A Date</option>
+                                        <select onChange={handleChange} id='date' defaultValue={'null'}>
+                                            <option value="null" disabled>Please Select A Date</option>
                                             {renderDates()}
                                         </select>
-                                        <select id="time">
+                                        <select id="time" defaultValue={'null'}>
                                             {renderTimes(chosenDate)}
                                         </select>
-                                        <input type='number' placeholder="No. of Pax" id="pax" onChange={customerFields}/>
+                                        <input type='number' placeholder="No. of Pax" id="pax" max='8' onChange={customerFields}/>
                                         <div id="customerfields"></div>
                                         <div id="error1"></div>
                                         <div id="error2"></div>
