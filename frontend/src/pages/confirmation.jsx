@@ -43,7 +43,7 @@ function Confirmation() {
              }
         }
         all();
-    }, [data.customer]);
+    }, [data.customer, data.length]);
 
     useEffect(() => {
         const all = async () => {
@@ -54,7 +54,7 @@ function Confirmation() {
             }
         }
         all();
-    }, [data.restaurant]);
+    }, [data.restaurant, data.length]);
 
     function formatDate (date) {
         const day = date.slice(0,2);   

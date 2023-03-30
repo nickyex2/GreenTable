@@ -33,7 +33,7 @@ function Browse() {
                 return ( 
                     <div className="col-4" key={index}>
                     <div className="card card-smaller" >
-                        <img src={item.image[0]} />
+                        <img src={item.image[0]} alt='browse card pics'/>
                         <div className="card-body">
                             <div className="row w-100 m-0">
                                 <div className="col-6 p-0">
@@ -54,6 +54,9 @@ function Browse() {
                     </div>
                 )
             }
+            else {
+                return null;
+            }
         }
         )
     }
@@ -70,12 +73,12 @@ function Browse() {
         // setPax("");
     }
 
-    if (data[0] != undefined) {
+    if (data[0] !== undefined) {
         var id_list = [];
         //get all id in data
         data.map((each, index) => {
             //add eac._id to idlist
-            id_list.push(each._id);
+            return id_list.push(each._id);
         })
 
         data.map((item, index) => {
@@ -90,8 +93,8 @@ function Browse() {
             var cuisine_string = item.cuisine.toString();
             var cuisine_lowercase = cuisine_string.toLowerCase();
             if (!cuisine_lowercase.includes(cuisine.toLowerCase())){
-                var temp = id_list.indexOf(item._id);
-                id_list.splice(temp, 1)
+                var temp2 = id_list.indexOf(item._id);
+                id_list.splice(temp2, 1)
             }
 
             var availability_keys = Object.keys(item.availability);
@@ -99,10 +102,12 @@ function Browse() {
             date_format = date_format[2] + date_format[1] + date_format[0][2] + date_format[0][3]
             if (date_format){
                 if (!availability_keys.includes(date_format)){
-                    var temp = id_list.indexOf(item._id);
-                    id_list.splice(temp, 1)
+                    var temp3 = id_list.indexOf(item._id);
+                    id_list.splice(temp3, 1)
                 }
             } 
+
+            return null;
         })
 
         return (

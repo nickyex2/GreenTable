@@ -26,7 +26,7 @@ function Checkout() {
             });
         }
         all();
-    }, [booking_id]);
+    }, [booking_id, booking_url]);
 
     function changeDisabledTrue() {
         var inputs = document.getElementById("inputfields")
@@ -37,10 +37,9 @@ function Checkout() {
         }
         console.log(ppl);
         var indiv = getTotal(data.items_ordered.total) / ppl.length;
-        var items = [];
         // loop through dict
         for (var key in ppl) {
-            inputs.innerHTML += `<div class="row">
+            inputs.innerHTML += `<div class="row" key=${key}>
             <div class="col">
                 <p class="card-text cn names" value=${ppl[key]}>${ppl[key]}</p>
             </div>
@@ -65,7 +64,7 @@ function Checkout() {
         }
         // loop through dict
         for (var key in ppl) {
-            inputs.innerHTML += `<div class="row">
+            inputs.innerHTML += `<div class="row" key=${key}>
             <div class="col">
                 <p class="card-text cn names" value=${ppl[key]}>${ppl[key]}</p>
             </div>
@@ -122,8 +121,8 @@ function Checkout() {
     }
 
     function formatPrice(price) {
-        var price = parseFloat(price).toFixed(2);
-        return price;
+        var pricee = parseFloat(price).toFixed(2);
+        return pricee;
     }
 
     function getItems(){
@@ -132,7 +131,7 @@ function Checkout() {
         var items = [];
         for (var key in dict) {
             items.push(
-                <div className="row">
+                <div className="row" key={key}>
                     <div className="col-8">
                         <p className="card-text">{key}</p>
                     </div>
@@ -175,7 +174,7 @@ function Checkout() {
         // loop through dict
         for (var key in ppl) {
             items.push(
-                <div className="row">
+                <div className="row" key={key}>
                     <div className="col">
                         <p className="card-text cn names" value={ppl[key]}>{ppl[key]}</p>
                     </div>
@@ -223,10 +222,11 @@ function Checkout() {
        await axios.post(pay_url, info)
         .then((res) => {
             console.log(res.data);
+            console.log('SUCCESS');
             navigate("/pconfirm/" + booking_id);
         })
         .catch((err) => {
-            console.log('hi');
+            console.log(err);
         })
     }
 

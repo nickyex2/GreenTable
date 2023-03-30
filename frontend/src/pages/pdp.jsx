@@ -42,10 +42,10 @@ function Pdp() {
 
     function renderDates(){
         return Object.keys(data.availability).map((key, index) => {
+            console.log(formatDate(key));
            return <option value={key} key={index}>{formatDate(key)}</option>
         })
     }
-
     function renderTimes(check){
         if (check !== '')
             return Object.keys(data.availability[chosenDate]).map((key, index) => {
@@ -162,7 +162,7 @@ function Pdp() {
         if (pax > 10){
             pax = 10;
         }
-        
+
         var customerfields = document.getElementById("customerfields");
         if (pax>0){
             customerfields.innerHTML = "";
