@@ -159,6 +159,10 @@ function Pdp() {
        // get value if input id = pax and put the number of input fields within the div id = customerfields
          // if pax = 3, then 3 input fields
         var pax = document.getElementById("pax").value;
+        if (pax > 10){
+            pax = 10;
+        }
+        
         var customerfields = document.getElementById("customerfields");
         if (pax>0){
             customerfields.innerHTML = "";
@@ -233,7 +237,7 @@ function Pdp() {
                                         <select id="time" defaultValue={'null'}>
                                             {renderTimes(chosenDate)}
                                         </select>
-                                        <input type='number' placeholder="No. of Pax" id="pax" onChange={customerFields}/>
+                                        <input type='number' placeholder="No. of Pax" id="pax" max='8' onChange={customerFields}/>
                                         <div id="customerfields"></div>
                                         <div id="error1"></div>
                                         <div id="error2"></div>
