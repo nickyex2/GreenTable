@@ -181,6 +181,9 @@ def processPayment(data):
         "booking_id": booking_id,
         "payment_status": True
     }
+    failed_payments = []
+    if "failed_payments" in payment["data"].keys():
+        failed_payments = payment["data"]["failed_payments"]
     #7. Update Booking with Successful Payment
     updatePaymentStatus = invoke_http(f"{booking_url}/updatePaymentStatus", method='PUT', json=booking_data)
     # this block of code should never happen because the booking has already been checked
@@ -216,7 +219,7 @@ def processPayment(data):
             "code": 200,
             "data": {
                 "message": "Payment successful but update payment status failed",
-                "failed_payments": payment["data"]["failed_payments"]
+                "failed_payments": failed_payments
             }
         }
     #9. Return payment status
@@ -224,7 +227,7 @@ def processPayment(data):
         "code": 200,
         "data": {
             "message": payment["data"]["message"],
-            "failed_payments": payment["data"]["failed_payments"]
+            "failed_payments": failed_payments
         }
     }
 
