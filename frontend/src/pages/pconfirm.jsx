@@ -8,6 +8,12 @@ function Paid() {
     const {booking_id} = useParams();
     const [data, setData] = useState([]);
 
+    const paid = sessionStorage.getItem('paid');
+    var paid_array = paid.split(",");
+    for (var i = 0; i < paid_array.length; i++) {
+        paid_array[i] = parseFloat(paid_array[i]);
+    }
+
     const navigate = useNavigate();
 
     var booking_url = "http://localhost:5003/booking/getBooking/";
@@ -66,7 +72,7 @@ function Paid() {
     }
 
     function formatPrice(price) {
-        var price = price.toFixed(2);
+        var price = parseFloat(price).toFixed(2);
         return price;
     }
 
@@ -109,24 +115,28 @@ function Paid() {
     }
 
     function getIndividualPrice(){
-        var ppl = data.pax_details;
-        ppl.unshift(data.customer)
-        var indiv = getTotal(data.items_ordered.total) / ppl.length;
+
+        var ppl = [data.customer]
+        for (var key in data.pax_details) {
+            ppl.push(data.pax_details[key])
+        }
         var items = [];
+        var count = 0;
+        console.log(paid);
         // loop through dict
         for (var key in ppl) {
             items.push(
-
                 <div className="row">
                     <div className="col">
                         <p className="card-text">{ppl[key]}</p>
                     </div>
                     <div className="col">
-                        <p className="card-text float-end">${formatPrice(indiv)}</p>
+                        <p className="card-text float-end">${formatPrice(paid_array[count])}</p>
                     </div>
                 </div>
 
             );
+            count++;
         }
         return items;
     }

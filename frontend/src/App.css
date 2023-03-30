@@ -50,6 +50,10 @@ html, div{
   position: absolute;
 }
 
+#no{
+  text-decoration: none;
+}
+
 .banner-text h1{
   font-size: 50px;
   font-weight: 700;
@@ -864,7 +868,7 @@ html, div{
   padding: 100px;
 }
 
-.history table{
+.history table, .business table, .add table{
   color: black;
   height: 50px;
   overflow-y: auto;
@@ -929,4 +933,94 @@ html, div{
   font-size: 20px;
   font-weight: 700;
   margin-top: 50px;
+}
+
+/* BUSINESS */
+.business{
+  padding: 100px;
+}
+
+.business .dropdown{
+  text-align: center;
+}
+
+.business thead th, .business tbody td, .business tbody th{
+  padding: 20px;
+}
+
+.business select{
+  padding: 8px;
+  font-weight: 700;
+  border: none;
+  opacity: 0.9;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* ADD */
+
+.add thead th, .add tbody td, .add tbody th{
+  padding: 20px;
+}
+
+.add{
+  padding: 100px;
+}
+
+.add h1{
+  font-size: 35px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.add input {
+  padding: 8px;
+}
+
+.addbtns{
+  margin-left: 60px;
+  margin-top: 20px;
+  margin-right: 60px;
+}
+
+.add button{
+  background-color: #122526;
+  color: #fff;
+  border: #fff solid 1px !important;
+}
+
+.add button:hover{
+  background-color: #fff;
+  color: #122526;
+  border: #fff solid 1px !important;
+}
+
+.add button{
+  border-radius: 10px !important;
+  font-size: large;
+  font-weight: 700;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#msgs{
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+/* MAP */
+
+#map{
+  height:500px; 
+  width:500px;
+}
+
+#inputfields, #inputfields div, #inputfields .col{
+  background-color: #fff !important;
+  color: #000;
 }
