@@ -30,41 +30,41 @@ Restore the services first then restore the routes
 Backend Microservices are hosted on Google Kubernetes Engine with Kong as the API Gateway
 
 ### Kubernetes endpoints
-All microservices:  http://34.124.236.222:8000/api/v1/...
+All microservices:  http://34.124.236.222:8000/api/v1/... <br>
 RabbitMQ:           http://34.87.124.206:15672/#/
 
 #### Paths
-Booking:        /api/v1/booking ==> Resolves as /booking
-Customer:       /api/v1/customer ==> Resolves as /customer
-Catalog:        /api/v1/catalog ==> Resolves as /catalog
-Waitlist:       /api/v1/waitlist ==> Resolves as /waitlist
-Make-Payment:   /api/v1/pay ==> Resolves as /make_payment
-Place-Booking:  /api/v1/place ==> Resolves as /booking/place_booking
-Cancel-Booking: /api/v1/cancel ==> Resolves as /booking/cancel
+Booking:        /api/v1/booking ==> Resolves as /booking <br>
+Customer:       /api/v1/customer ==> Resolves as /customer <br>
+Catalog:        /api/v1/catalog ==> Resolves as /catalog <br>
+Waitlist:       /api/v1/waitlist ==> Resolves as /waitlist <br>
+Make-Payment:   /api/v1/pay ==> Resolves as /make_payment <br>
+Place-Booking:  /api/v1/place ==> Resolves as /booking/place_booking <br>
+Cancel-Booking: /api/v1/cancel ==> Resolves as /booking/cancel <br>
 
 ## Use application from Netlify
 https://green-table.netlify.app/
 
 #### Test customer login
-username: nicholas
-password: test
+username: nicholas <br>
+password: test <br>
 
 #### Test business login
-Username: Business
-Password: test
+Username: Business <br>
+Password: test <br>
 
 #### on the database side customers have been created
-username: nicholas
-credit card: set to pass
+username: nicholas <br>
+credit card: set to pass <br><br>
 
-username: chiok
-credit card: set to pass
+username: chiok <br>
+credit card: set to pass <br><br>
 
-username: daryl
-credit card: set to pass
+username: daryl <br>
+credit card: set to pass <br><br>
 
-username: daniel
-credit card: set to fail
+username: daniel <br>
+credit card: set to fail <br><br>
 
-username: colin
-credit card: set to fail
+username: colin <br>
+credit card: set to fail 
