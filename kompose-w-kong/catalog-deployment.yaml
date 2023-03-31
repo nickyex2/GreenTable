@@ -33,6 +33,7 @@ spec:
             - name: PYTHONUNBUFFERED
               value: "1"
           image: nickyex2/catalog:latest
+          imagePullPolicy: Always
           name: catalog
           ports:
             - containerPort: 5002

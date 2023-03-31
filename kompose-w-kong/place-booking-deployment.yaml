@@ -41,6 +41,7 @@ spec:
             - name: waitlist_url
               value: http://10.24.12.191:5010/waitlist
           image: nickyex2/place-booking:latest
+          imagePullPolicy: Always
           name: place-booking
           ports:
             - containerPort: 5006

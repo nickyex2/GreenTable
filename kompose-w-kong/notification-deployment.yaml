@@ -37,6 +37,7 @@ spec:
             - name: twilio_url
               value: http://10.24.5.87:5014
           image: nickyex2/notification:latest
+          imagePullPolicy: Always
           name: notification
           resources: {}
       restartPolicy: Always

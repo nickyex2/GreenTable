@@ -33,6 +33,7 @@ spec:
             - name: rabbit_port
               value: "5672"
           image: nickyex2/error:latest
+          imagePullPolicy: Always
           name: error
           resources: {}
       restartPolicy: Always

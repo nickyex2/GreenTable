@@ -31,6 +31,7 @@ spec:
             - name: SENDGRID_API_KEY
               value: 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
           image: nickyex2/twilio-sendgrid-api:latest
+          imagePullPolicy: Always
           name: twilio-sendgrid-api
           ports:
             - containerPort: 5014

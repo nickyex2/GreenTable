@@ -31,6 +31,7 @@ spec:
             - name: WAITLIST_DB_URL
               value: mongodb+srv://WaitList:waitlist@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority
           image: nickyex2/waitlist:latest
+          imagePullPolicy: Always
           name: waitlist
           ports:
             - containerPort: 5010

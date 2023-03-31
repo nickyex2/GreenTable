@@ -31,6 +31,7 @@ spec:
             - name: stripe_url
               value: http://10.24.2.198:5016/api/stripepay
           image: nickyex2/payment:latest
+          imagePullPolicy: Always
           name: payment
           ports:
             - containerPort: 5004
