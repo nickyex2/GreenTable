@@ -222,7 +222,9 @@ function Checkout() {
        await axios.post(pay_url, info)
         .then((res) => {
             console.log(res.data);
-            console.log('SUCCESS');
+            var failed = res.data.data.failed_payments
+            console.log(failed);
+            sessionStorage.setItem("failed", failed)
             navigate("/pconfirm/" + booking_id);
         })
         .catch((err) => {
