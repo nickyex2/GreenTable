@@ -8,6 +8,7 @@ TELEGRAM_API_ID="***********************"
 TELEGRAM_API_HASH="********************************"
 SENDGRID_API_KEY="********************************"
 STRIPE_SECRET_KEY="********************************"
+GOOGLE_API_KEY="************************************"
 CATALOG_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority"
 CUSTOMER_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority"
 BOOKING_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority"
@@ -20,3 +21,7 @@ WAITLIST_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retry
 
 ### start docker compose
 ``` docker compose up ```
+
+### Kubernetes Deployment
+Website is hosted on Netlify
+Backend Microservices are hosted on Google Cloud
