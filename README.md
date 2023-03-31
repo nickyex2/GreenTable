@@ -18,9 +18,16 @@ WAITLIST_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retry
 ## To host all microservices locally on docker (windows only)
 Navigate to cmd prompt and run the run-docker.bat file
 
+### start docker compose manually
+``` docker-compose --env-file .env convert ```
+``` docker-compose up ```
+
 ### Use snapshot to get kong running seamlessly
 Navigate to Konga UI and import the snapshot in
 Restore the services first then restore the routes
+
+## Kubernetes Deployment
+Backend Microservices are hosted on Google Kubernetes Engine with Kong as the API Gateway
 
 ### Kubernetes endpoints
 All microservices:  http://34.124.236.222:8000/api/v1/...
@@ -61,10 +68,3 @@ credit card: set to fail
 
 username: colin
 credit card: set to fail
-
-### start docker compose
-``` docker compose up ```
-
-### Kubernetes Deployment
-Website is hosted on Netlify
-Backend Microservices are hosted on Google Cloud
