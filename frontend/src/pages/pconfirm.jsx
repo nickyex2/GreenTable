@@ -9,10 +9,21 @@ function Paid() {
     const [data, setData] = useState([]);
 
     const paid = sessionStorage.getItem('paid');
-    var paid_array = paid.split(",");
+    var paid_array = null;
+    // check if paid has ','
+    if (paid.includes(',')){
+        paid_array = paid.split(",");
+    } 
+    else {
+        paid_array = [paid];
+    }
     for (var i = 0; i < paid_array.length; i++) {
         paid_array[i] = parseFloat(paid_array[i]);
     }
+
+    console.log(paid_array);
+
+    var failed = sessionStorage.getItem('failed');
 
     // const navigate = useNavigate();
 
@@ -120,9 +131,33 @@ function Paid() {
         for (var key in data.pax_details) {
             ppl.push(data.pax_details[key])
         }
+
         var items = [];
         var count = 0;
-        console.log(paid);
+
+        // check type of failed
+
+
+        console.log(failed);
+        console.log(ppl);
+        
+        if (failed !== null){
+            if (failed.includes(',')){
+                failed = failed.split(",");
+            } 
+            else {
+                failed = [failed];
+            }
+            for (var person in ppl){
+                if (failed.includes(ppl[person])){
+                    var index = ppl.indexOf(ppl[person]);
+                    var toAdd = paid_array[index];
+                    paid_array[0] += toAdd;
+                    paid_array[index] = 0;
+                }
+            }
+        }
+
         // loop through dict
         for (var keyy in ppl) {
             items.push(
@@ -248,8 +283,8 @@ function Paid() {
                         <div className="card">
                         <div className="card-body">
                         <h3 className="card-title text-center">Payment Receipt</h3>
+                            
                             <hr/>
-                
                             <div className="row receiptbold">
                                 <div className="col">
                                     <p className="card-text">Customer Name</p>
