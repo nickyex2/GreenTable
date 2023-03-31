@@ -21,3 +21,7 @@ WAITLIST_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retry
 
 ### start docker compose
 ``` docker compose up ```
+
+### Kubernetes Deployment
+Website is hosted on Netlify
+Backend Microservices are hosted on Google Cloud
