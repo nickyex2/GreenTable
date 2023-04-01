@@ -2,16 +2,17 @@ import React from "react";
 import axios from "axios";
 import {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
-import { useSessionStorage } from 'react-storage-complete';
 
 function Home() {
 
+    // API URLS
     const booking_url = "http://localhost:5002/catalog/all";
-    
-    const [data, setData] = useState([]);
 
-    // call out username from session storage
+    // SETTING USERNAME
     var username = sessionStorage.getItem('name');
+
+    // SETTING DATA
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         const all = async () => {
@@ -22,6 +23,11 @@ function Home() {
         all();
     }, []);
 
+    // FUNCTIONS
+    // 1. limitDesc
+    // 2. ShowPosts
+
+    // function to limit description
     function limitDesc(desc) {
         if (desc.length > 100) {
             return desc.substring(0, 200) + "...";
@@ -29,12 +35,11 @@ function Home() {
         return desc;
     }
     
+    // function to show posts
     const ShowPosts = () => {
-
         if (data[0] !== undefined) {
             return ( 
                 <div className="row">
-    
                     <div className="col">
                     <div className="card card-smaller" >
                         <img src={data[1].image[0]} alt=""/>
@@ -106,6 +111,7 @@ function Home() {
         }
     }
 
+    // RENDER
     return (
         <div className="home">
             <div className="home-banner">

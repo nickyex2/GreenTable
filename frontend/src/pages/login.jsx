@@ -7,12 +7,21 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
 
-    const username = useRef("");
-    const password = useRef("");
+    // API URLS
     const booking_url = "http://localhost:5001/customer/login";
 
+    // SETTING NAVIGATE
     var navigate = useNavigate();
 
+    // SETTING REF
+    const username = useRef("");
+    const password = useRef("");
+
+    // FUNCTIONS
+    // 1. storeRedirect
+    // 2. handleSubmit
+    
+    // function to store username in session storage and redirect to business page if username is business
     function storeRedirect() {
         sessionStorage.setItem('name', username.current.value)
         if (sessionStorage.getItem('name') !== 'Business') {
@@ -23,6 +32,7 @@ function Login() {
         }
     }
 
+    // function to handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -49,9 +59,9 @@ function Login() {
         errormsg.style.marginTop = "10px";
         errormsg.style.marginBottom = "10px";
     }
-    
-
     };
+
+    // RENDER
     return (
         <div className="login">
             <img src={require('../images/login-signup.jpeg')} alt="makan logo" />
