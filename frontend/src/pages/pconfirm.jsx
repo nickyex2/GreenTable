@@ -9,8 +9,8 @@ function Paid() {
     const {booking_id} = useParams();
 
     // API URLS
-    const booking_url = "http://localhost:5003/booking/getBooking/";
-    const rating_url = "http://localhost:5002/catalog/updateRating";
+    const booking_url = "http://34.124.236.222:8000/api/v1/booking/getBooking/";
+    const rating_url = "http://34.124.236.222:8000/api/v1/catalog/updateRating";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();

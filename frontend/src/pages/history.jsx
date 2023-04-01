@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function History() {
 
     // API URLS
-    const booking_url = "http://localhost:5003/booking/getBookings/";
+    const booking_url = "http://34.124.236.222:8000/api/v1/booking/getBookings/";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();

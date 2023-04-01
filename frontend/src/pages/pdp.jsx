@@ -10,10 +10,10 @@ function Pdp() {
     const {restaurant_name} = useParams();
 
     // API URLS
-    const booking_url = "http://localhost:5002/catalog/find";
-    const add_url = "http://localhost:5006/booking/place_booking";
-    const cus_url = "http://localhost:5001/customer";
-    const check_url = "http://localhost:5003/booking";
+    const booking_url = "http://34.124.236.222:8000/api/v1/catalog/find";
+    const add_url = "http://34.124.236.222:8000/api/v1/place";
+    const cus_url = "http://34.124.236.222:8000/api/v1/customer";
+    const check_url = "http://34.124.236.222:8000/api/v1/booking";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();

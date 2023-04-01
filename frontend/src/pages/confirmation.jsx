@@ -9,10 +9,10 @@ function Confirmation() {
     const {booking_id} = useParams();
 
     // API URLS
-    const booking_url = "http://localhost:5003/booking/getBooking";
-    const customer_url = "http://localhost:5001/customer";
-    const place_url = "http://localhost:5002/catalog/find";
-    const cancel_url = "http://localhost:5005/cancel";
+    const booking_url = "http://34.124.236.222:8000/api/v1/booking/getBooking";
+    const customer_url = "http://34.124.236.222:8000/api/v1/customer";
+    const place_url = "http://34.124.236.222:8000/api/v1/catalog/find";
+    const cancel_url = "http://34.124.236.222:8000/api/v1/cancel";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();
