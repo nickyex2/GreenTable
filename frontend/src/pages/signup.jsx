@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import {useRef} from "react";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
     const firstname = useRef("");
@@ -14,6 +15,8 @@ function Signup() {
     const expiry = useRef("");
     const cvv = useRef("");
     const booking_url = "http://localhost:5001/customer/add";
+
+    var navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -38,7 +41,7 @@ function Signup() {
             axios.post(booking_url, data)
                 .then((res) => {
                     console.log(res);
-                    window.location.href = "http://localhost:3000/login"
+                    navigate("/login");
                 })
                 .catch((err) => {
                     console.log(err);

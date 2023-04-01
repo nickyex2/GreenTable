@@ -188,6 +188,7 @@ function Checkout() {
     }
 
     async function makePayment(){
+        document.getElementById("errormsg").innerHTML = "";
         var amounts = []
         var temp = [];
         var names = document.getElementsByClassName("names");
@@ -199,6 +200,12 @@ function Checkout() {
             }
             temp.push(obj);
             amounts.push(parseFloat(topays[i].value));
+        }
+
+        pError();
+
+        if (document.getElementById("errormsg").innerHTML !== "") {
+            return;
         }
 
         amounts.unshift(parseFloat(document.getElementsByClassName("topays")[0].value));
@@ -230,6 +237,20 @@ function Checkout() {
         .catch((err) => {
             console.log(err);
         })
+    }
+
+    function pError(){
+        // if topays total != total_amount return error in div id=errormsg
+        var topays = document.getElementsByClassName("topays");
+        var total = 0;
+        for (var i = 0; i < topays.length; i++) {
+            total += parseFloat(topays[i].value);
+        }
+        if (total !== parseFloat(formatPrice(getTotal(data.items_ordered.total)))) {
+            return (
+                document.getElementById("errormsg").innerHTML = "Total amount paid does not match total amount due."
+            );
+        }
     }
 
 
@@ -357,6 +378,10 @@ function Checkout() {
                             <div id="inputfields">
                                 {getIndividualPrice()}
                             </div>
+
+                            <div id="errormsg">
+                            </div>
+
                             <div className="btndiv text-center">
                                 <button type="button" className="btn paybtn" onClick={async (e) => {
                                     e.preventDefault();

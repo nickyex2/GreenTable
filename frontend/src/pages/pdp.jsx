@@ -11,6 +11,8 @@ function Pdp() {
     const add_url = "http://localhost:5006/booking/place_booking";
 
     const cus_url = "http://localhost:5001/customer";
+
+    const check_url = "http://localhost:5003/booking";
     
     const {restaurant_name} = useParams();
 
@@ -24,6 +26,17 @@ function Pdp() {
             await axios.get(booking_url + '/' + restaurant_name)
             .then(
             response => setData(response.data.data))
+        }
+        all();
+    }, [restaurant_name]);
+
+    const [check, setCheck] = useState([]);
+    
+    useEffect(() => {
+        const all = async () => {
+            await axios.get(check_url + '/' + restaurant_name)
+            .then(
+            response => setCheck(response.data.data))
         }
         all();
     }, [restaurant_name]);
@@ -42,7 +55,6 @@ function Pdp() {
 
     function renderDates(){
         return Object.keys(data.availability).map((key, index) => {
-            console.log(formatDate(key));
            return <option value={key} key={index}>{formatDate(key)}</option>
         })
     }
@@ -96,6 +108,24 @@ function Pdp() {
                 no_of_pax: document.getElementById("pax").value,
                 pax_details: customerids
             }
+
+            var all_pax = [sessionStorage.getItem("name")]
+            for (var x = 0; x < customerids.length; x++){
+                all_pax.push(customerids[x]);
+            }
+
+            if (checkBooked(document.getElementById("date").value, document.getElementById("time").value, all_pax)){
+                document.getElementById("error2").innerHTML = "One of the pax is already booked for this time slot";
+                return;
+            }
+
+            console.log(booking);
+            // check if date, time, pax is empty
+            if (booking.date === "null" || booking.time === "null" || booking.no_of_pax === "null"){
+                errorMsg(2);
+                return;
+            }
+
             sessionStorage.setItem("booking_data", JSON.stringify(booking));
             axios.post(add_url, booking)
             .then(
@@ -105,7 +135,12 @@ function Pdp() {
                 }
             )
             .catch(
-                error => console.log(error)
+                error => {console.log(error.message)
+                if (error.message === "Request failed with status code 406"){
+                    document.getElementById("error2").innerHTML = "Sorry but the restaurant is fully booked for this time slot<br/><br/>But don't worry we have put you on a waitlist and will notify you if there is an availability!<br/>";
+                }
+                console.log("error")
+            }
             )
         }
     }
@@ -159,18 +194,23 @@ function Pdp() {
        // get value if input id = pax and put the number of input fields within the div id = customerfields
          // if pax = 3, then 3 input fields
         var pax = document.getElementById("pax").value;
-        if (pax > 10){
-            pax = 10;
+        if (pax > 7){
+            pax = 7;
         }
 
         var customerfields = document.getElementById("customerfields");
         if (pax>0){
             customerfields.innerHTML = "";
+            var bname = sessionStorage.getItem("name")
+            if (bname === null){
+                bname = "Click below";
+                pax = 0;
+            }
             var input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control customerids";
-                input.placeholder = `${sessionStorage.getItem("name")}`;
-                input.value = `${sessionStorage.getItem("name")}`;
+                input.placeholder = bname;
+                input.value = bname;
                 input.disabled = true;
                 input.style = "width: 80%;"
                 customerfields.appendChild(input);
@@ -181,6 +221,31 @@ function Pdp() {
                 minput.placeholder = `Name ${i+1}`;
                 minput.style = "width: 80%;"
                 customerfields.appendChild(minput);
+            }
+        }
+    }
+
+    function checkBooked(date, time, pax){
+        for (var z = 0; z < check.length; z++){
+
+            var all_pax_check = [check[z].customer];
+
+            for (var i = 0; i < check[z].pax_details.length; i++){
+                all_pax_check.push(check[z].pax_details[i]);
+            }
+
+            console.log(all_pax_check);
+
+            var see = false;
+
+            for (var j = 0; j < pax.length; j++){
+                if (all_pax_check.includes(pax[j])){
+                    see = true;
+                }
+            }
+
+            if (check[z].date === date && check[z].time === time && see === true){
+                return true;
             }
         }
     }
@@ -237,7 +302,7 @@ function Pdp() {
                                         <select id="time" defaultValue={'null'}>
                                             {renderTimes(chosenDate)}
                                         </select>
-                                        <input type='number' placeholder="No. of Pax" id="pax" max='8' onChange={customerFields}/>
+                                        <input type='number' placeholder="No. of Pax (Max 7)" id="pax" max={7} step={1} min={1} onChange={customerFields}/>
                                         <div id="customerfields"></div>
                                         <div id="error1"></div>
                                         <div id="error2"></div>

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState , useEffect} from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function Add() {
     const {booking_id} = useParams();
@@ -129,8 +129,8 @@ function Add() {
             <div className="add">
                 <h1>Booking ID: {booking_id}</h1>
                 <div id="msgs"></div>
-                <div class="table-responsive">
-                    <table class="table" id="table">
+                <div className="table-responsive">
+                    <table className="table" id="table">
                         <thead>
                             <tr>
                                 <th scope="col">Item</th>

@@ -2,9 +2,8 @@ import React from "react";
 
 // axios to make http requests to Customer API
 import axios from "axios";
-import {useRef, useState} from "react";
-
-import { useSessionStorage } from 'react-storage-complete';
+import {useRef} from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
@@ -12,13 +11,15 @@ function Login() {
     const password = useRef("");
     const booking_url = "http://localhost:5001/customer/login";
 
+    var navigate = useNavigate();
+
     function storeRedirect() {
         sessionStorage.setItem('name', username.current.value)
         if (sessionStorage.getItem('name') !== 'Business') {
-            window.location.href = "http://localhost:3000/";
+           navigate("/");
         }
         else {
-            window.location.href = "http://localhost:3000/business";
+            navigate("/business");
         }
     }
 
