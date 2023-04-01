@@ -1,16 +1,14 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 
 function Navbar() {
-    const location = useLocation()
-
+    
     var username = sessionStorage.getItem('name');
 
     function history(username){
       if (username === 'Business') {
         return(
           <div className="links">
-          <a className="navbar-brand" href="">GreenTable</a>
+          <a className="navbar-brand" href=".">GreenTable</a>
           <a className="navbarlinks" href="/business">Home</a>
           <a className="navbarlinks" href="/logout">Logout</a>
           </div>
