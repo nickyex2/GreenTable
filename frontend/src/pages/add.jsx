@@ -6,9 +6,9 @@ import { useParams } from "react-router-dom";
 function Add() {
     const {booking_id} = useParams();
 
-    var get_url = "http://34.124.236.222:8000/api/v1/booking/getBooking/";
+    var get_url = "http://localhost:5003/booking/getBooking/";
 
-    var add_url = "http://34.124.236.222:8000/api/v1/booking/updateOrder";
+    var add_url = "http://localhost:5003/booking/updateOrder";
 
     const [data, setData] = useState([]);
 

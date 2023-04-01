@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 function Browse() {
 
-    const booking_url = "http://34.124.236.222:8000/api/v1/catalog/all";
+    const booking_url = "http://localhost:5002/catalog/all";
 
     const [data, setData] = useState([]);
 

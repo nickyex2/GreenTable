@@ -9,7 +9,7 @@ function Login() {
 
     const username = useRef("");
     const password = useRef("");
-    const booking_url = "http://34.124.236.222:8000/api/v1/customer/login";
+    const booking_url = "http://localhost:5001/customer/login";
 
     var navigate = useNavigate();
 

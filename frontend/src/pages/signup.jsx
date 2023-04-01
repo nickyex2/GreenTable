@@ -14,7 +14,7 @@ function Signup() {
     const cardno = useRef("");
     const expiry = useRef("");
     const cvv = useRef("");
-    const booking_url = "http://34.124.236.222:8000/api/v1/customer/add";
+    const booking_url = "http://localhost:5001/customer/add";
 
     var navigate = useNavigate();
 

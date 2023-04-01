@@ -31,9 +31,9 @@ function Paid() {
 
     // const navigate = useNavigate();
 
-    var booking_url = "http://34.124.236.222:8000/api/v1/booking/getBooking/";
+    var booking_url = "http://localhost:5003/booking/getBooking/";
 
-    var rating_url = "http://34.124.236.222:8000/api/v1/catalog/updateRating";
+    var rating_url = "http://localhost:5002/catalog/updateRating";
 
     useEffect(() => {
         const all = async () => {
