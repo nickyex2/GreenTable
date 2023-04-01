@@ -28,7 +28,8 @@ function Home() {
 
     // FUNCTIONS
     // 1. limitDesc
-    // 2. ShowPosts
+    // 2. homeSearch
+    // 3. ShowPosts
 
     // function to limit description
     function limitDesc(desc) {
