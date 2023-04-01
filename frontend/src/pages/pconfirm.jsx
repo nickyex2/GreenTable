@@ -205,6 +205,8 @@ function Paid() {
             })
             .then((response) => {
                 console.log(response.data);
+                sessionStorage.removeItem('failed');
+                sessionStorage.removeItem('paid');
                 navigate('/');
             }
             )

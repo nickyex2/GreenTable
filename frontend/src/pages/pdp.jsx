@@ -119,6 +119,13 @@ function Pdp() {
                 return;
             }
 
+            console.log(booking);
+            // check if date, time, pax is empty
+            if (booking.date === "null" || booking.time === "null" || booking.no_of_pax === "null"){
+                errorMsg(2);
+                return;
+            }
+
             sessionStorage.setItem("booking_data", JSON.stringify(booking));
             axios.post(add_url, booking)
             .then(
@@ -187,18 +194,23 @@ function Pdp() {
        // get value if input id = pax and put the number of input fields within the div id = customerfields
          // if pax = 3, then 3 input fields
         var pax = document.getElementById("pax").value;
-        if (pax > 10){
-            pax = 10;
+        if (pax > 7){
+            pax = 7;
         }
 
         var customerfields = document.getElementById("customerfields");
         if (pax>0){
             customerfields.innerHTML = "";
+            var bname = sessionStorage.getItem("name")
+            if (bname === null){
+                bname = "Click below";
+                pax = 0;
+            }
             var input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control customerids";
-                input.placeholder = `${sessionStorage.getItem("name")}`;
-                input.value = `${sessionStorage.getItem("name")}`;
+                input.placeholder = bname;
+                input.value = bname;
                 input.disabled = true;
                 input.style = "width: 80%;"
                 customerfields.appendChild(input);
@@ -290,7 +302,7 @@ function Pdp() {
                                         <select id="time" defaultValue={'null'}>
                                             {renderTimes(chosenDate)}
                                         </select>
-                                        <input type='number' placeholder="No. of Pax" id="pax" max='8' onChange={customerFields}/>
+                                        <input type='number' placeholder="No. of Pax (Max 7)" id="pax" max={7} step={1} min={1} onChange={customerFields}/>
                                         <div id="customerfields"></div>
                                         <div id="error1"></div>
                                         <div id="error2"></div>
