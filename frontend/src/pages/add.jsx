@@ -4,12 +4,15 @@ import { useState , useEffect} from "react";
 import { useParams } from "react-router-dom";
 
 function Add() {
+
+    // GET INFO FROM URL
     const {booking_id} = useParams();
 
+    // API URLS
     var get_url = "http://localhost:5003/booking/getBooking/";
-
     var add_url = "http://localhost:5003/booking/updateOrder";
 
+    // SETTING DATA
     const [data, setData] = useState([]);
 
     useEffect(() => {
@@ -28,11 +31,17 @@ function Add() {
         all();
     }, [booking_id, get_url]);
 
+    // FUNCTIONS
+    // 1. addtoTable
+    // 2. insertRow
+    // 3. updateItems
+    // 4. putMsgs
+    
+    // function to add exisiting items to table
     function addtoTable () {
         var exisiting = data.items_ordered;
         var table = [];
         if (exisiting.length !== 0) {
-            // loop through dictionary exisitng.items key value and add to table using map
             for (const [key, value] of Object.entries(exisiting.items)) {
                 table.push(
                     <tr>
@@ -58,7 +67,6 @@ function Add() {
     // function to insert new row as input fields
     function insertRow () {
         var table = document.getElementById("table");
-        console.log(table);
         var row = table.insertRow(1);
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
@@ -68,20 +76,7 @@ function Add() {
         cell3.innerHTML = "<input type='number' step='0.01' name='price' placeholder='Price'></input>";
     }
 
-   
-// data = {
-//     "booking_id": "1",
-//     "order": {
-//         "items": {
-//             "item1": ["quantity", "price"],
-//             "item2": ["quantity", "price"],
-//             "item3": ["quantity", "price"]
-//         }
-//         "total": "total price"
-//     }
-// }
-
-
+    // function to update items in database
     async function updateItems () {    
         var table = document.getElementById("table");
         var totalprice = 0;
@@ -94,7 +89,6 @@ function Add() {
             totalprice += parseFloat(price);
         }
 
-        // check if any of the fields are empty
         for (const [key, value] of Object.entries(items)) {
             if (key === "" || value[0] === "" || value[1] === "") {
                 putMsgs("Please fill all the fields");
@@ -119,11 +113,13 @@ function Add() {
         });
     }
 
+    // function to put messages
     function putMsgs (msg) {
         var msgs = document.getElementById("msgs");
         msgs.innerHTML = msg;
     }
 
+    // RENDERING
     if (data.length !== 0) {
         return (
             <div className="add">
