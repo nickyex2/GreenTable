@@ -176,6 +176,11 @@ function Paid() {
         return items;
     }
 
+    async function updateFeedback() {
+        return console.log("update feedback");
+    }
+
+
     console.log(data);
     if (data.length !== 0) {
         return (
@@ -298,10 +303,11 @@ function Paid() {
 
                         </div>
                         </div>
-                    </div>
 
                     </div>
+                    </div>
                 </div>
+                <button type="submit" className="cancelbooking" onClick={updateFeedback}>Submit</button>
             </div>
         );
     }
