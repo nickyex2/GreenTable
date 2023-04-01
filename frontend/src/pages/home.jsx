@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 function Home() {
 
     // API URLS
-    const booking_url = "https://34.124.236.222:8443/api/v1/catalog/all";
+    const booking_url = "/api/v1/catalog/all";
 
     // SETTING USERNAME
     var username = sessionStorage.getItem('name');
