@@ -23,6 +23,8 @@ function Paid() {
 
     console.log(paid_array);
 
+    var name = sessionStorage.getItem('name');
+
     var failed = sessionStorage.getItem('failed');
 
     // const navigate = useNavigate();
@@ -125,6 +127,8 @@ function Paid() {
         return items;
     }
 
+    var errormsgs = [];
+
     function getIndividualPrice(){
 
         var ppl = [data.customer]
@@ -150,6 +154,7 @@ function Paid() {
             }
             for (var person in ppl){
                 if (failed.includes(ppl[person])){
+                    errormsgs.push('There is a credit card error for account ' + ppl[person]);
                     var index = ppl.indexOf(ppl[person]);
                     var toAdd = paid_array[index];
                     paid_array[0] += toAdd;
@@ -178,6 +183,20 @@ function Paid() {
 
     async function updateFeedback() {
         return console.log("update feedback");
+    }
+
+    function pError(){
+        if (errormsgs.length !== 0){
+            return (
+                <div id="errormsg">
+                    {/* error msgs with <br> in between */}
+                    {errormsgs.map((msg) => (
+                        <p className="mb-1">{msg}</p>
+                    ))}
+                    <p className="mb-1">Their respective amounts have been credited to the main booker {name}</p>
+                </div>
+            )
+        }
     }
 
 
@@ -300,6 +319,8 @@ function Paid() {
                             </div>
 
                             {getIndividualPrice()}
+
+                            {pError()}
 
                         </div>
                         </div>
