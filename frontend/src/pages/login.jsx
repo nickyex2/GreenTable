@@ -1,6 +1,4 @@
 import React from "react";
-
-// axios to make http requests to Customer API
 import axios from "axios";
 import {useRef} from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +9,7 @@ function Login() {
     const booking_url = "http://localhost:5001/customer/login";
 
     // SETTING NAVIGATE
-    var navigate = useNavigate();
+    const navigate = useNavigate();
 
     // SETTING REF
     const username = useRef("");

@@ -9,7 +9,7 @@ function Signup() {
     const booking_url = "http://localhost:5001/customer/add";
 
     // SETTING NAVIGATE
-    var navigate = useNavigate();
+    const navigate = useNavigate();
 
     // SETTING REF
     const firstname = useRef("");
