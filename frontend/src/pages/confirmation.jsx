@@ -19,7 +19,7 @@ function Confirmation() {
 
     const place_url = "http://localhost:5002//catalog/find";
 
-    const cancel_url = "http://localhost:5003/booking/delete";
+    const cancel_url = "http://localhost:5005/cancel";
 
     const navigate = useNavigate();
 
@@ -68,7 +68,7 @@ function Confirmation() {
     }
 
     function cancelBooking(){
-        axios.delete(cancel_url + '/' + booking_id)
+        axios.post(cancel_url + '/' + booking_id, {restaurant_name: data.restaurant, time: data.time, date: data.date})
         .then(
             response => {
                 console.log(response.data.data);
