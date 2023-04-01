@@ -42,7 +42,6 @@ function Pdp() {
 
     function renderDates(){
         return Object.keys(data.availability).map((key, index) => {
-            console.log(formatDate(key));
            return <option value={key} key={index}>{formatDate(key)}</option>
         })
     }
@@ -105,7 +104,12 @@ function Pdp() {
                 }
             )
             .catch(
-                error => console.log(error)
+                error => {console.log(error.message)
+                if (error.message === "Request failed with status code 406"){
+                    document.getElementById("error2").innerHTML = "Sorry but the restaurant is fully booked for this time slot<br/><br/>But don't worry we have put you on a waitlist and will notify you if there is an availability!<br/>";
+                }
+                console.log("error")
+            }
             )
         }
     }
