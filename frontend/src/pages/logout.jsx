@@ -1,8 +1,10 @@
 import React from "react";
+import {useNavigate} from "react-router-dom";
 
 function Logout() {
     sessionStorage.clear();
-    window.location.href = "/";
+    const navigate = useNavigate();
+    navigate("/");
     return (
         <div className="logout">
         </div>
