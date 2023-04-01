@@ -528,6 +528,10 @@ html, div{
   padding: 50px;
 }
 
+.pdp a{
+  text-decoration: none;
+}
+
 .pdprow{
   display: flex;
   justify-content: center;

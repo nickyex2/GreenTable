@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState , useEffect} from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function Paid() {
 
@@ -9,12 +9,23 @@ function Paid() {
     const [data, setData] = useState([]);
 
     const paid = sessionStorage.getItem('paid');
-    var paid_array = paid.split(",");
+    var paid_array = null;
+    // check if paid has ','
+    if (paid.includes(',')){
+        paid_array = paid.split(",");
+    } 
+    else {
+        paid_array = [paid];
+    }
     for (var i = 0; i < paid_array.length; i++) {
         paid_array[i] = parseFloat(paid_array[i]);
     }
 
-    const navigate = useNavigate();
+    console.log(paid_array);
+
+    var failed = sessionStorage.getItem('failed');
+
+    // const navigate = useNavigate();
 
     var booking_url = "http://localhost:5003/booking/getBooking/";
 
@@ -31,7 +42,7 @@ function Paid() {
             });
         }
         all();
-    }, [booking_id]);
+    }, [booking_id,booking_url]);
 
     function formatDate (date) {
         const day = date.slice(0,2);   
@@ -72,8 +83,8 @@ function Paid() {
     }
 
     function formatPrice(price) {
-        var price = parseFloat(price).toFixed(2);
-        return price;
+        var pricee = parseFloat(price).toFixed(2);
+        return pricee;
     }
 
     function getGST(price){
@@ -97,7 +108,7 @@ function Paid() {
         var items = [];
         for (var key in dict) {
             items.push(
-                <div className="row">
+                <div className="row" key={key}>
                     <div className="col-8">
                         <p className="card-text">{key}</p>
                     </div>
@@ -120,15 +131,39 @@ function Paid() {
         for (var key in data.pax_details) {
             ppl.push(data.pax_details[key])
         }
+
         var items = [];
         var count = 0;
-        console.log(paid);
+
+        // check type of failed
+
+
+        console.log(failed);
+        console.log(ppl);
+        
+        if (failed !== null){
+            if (failed.includes(',')){
+                failed = failed.split(",");
+            } 
+            else {
+                failed = [failed];
+            }
+            for (var person in ppl){
+                if (failed.includes(ppl[person])){
+                    var index = ppl.indexOf(ppl[person]);
+                    var toAdd = paid_array[index];
+                    paid_array[0] += toAdd;
+                    paid_array[index] = 0;
+                }
+            }
+        }
+
         // loop through dict
-        for (var key in ppl) {
+        for (var keyy in ppl) {
             items.push(
-                <div className="row">
+                <div className="row" key={keyy}>
                     <div className="col">
-                        <p className="card-text">{ppl[key]}</p>
+                        <p className="card-text">{ppl[keyy]}</p>
                     </div>
                     <div className="col">
                         <p className="card-text float-end">${formatPrice(paid_array[count])}</p>
@@ -248,8 +283,8 @@ function Paid() {
                         <div className="card">
                         <div className="card-body">
                         <h3 className="card-title text-center">Payment Receipt</h3>
+                            
                             <hr/>
-                
                             <div className="row receiptbold">
                                 <div className="col">
                                     <p className="card-text">Customer Name</p>
