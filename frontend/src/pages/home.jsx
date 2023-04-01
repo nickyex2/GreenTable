@@ -136,7 +136,7 @@ function Home() {
             </div>
             <div className="banner-text">
                 <h1>Welcome, {username}</h1>
-                <p>This is a mini description of what<br/>this website does and our purpose etc</p>
+                <p>GreenTable is a bridge between sustainable restaurants and consumers<br/>who wish to make environmentally conscious choices for what they eat</p>
             </div>
             <div className="searchbox">
                 <p>Make a booking now!</p>
@@ -154,7 +154,7 @@ function Home() {
 
                 <div className="who">
                     <p className="header">Who are we?</p>
-                    <p className="header-desc">This is a mini description of what our team is blah blah something cute bah</p>
+                    <p className="header-desc">5 students barely surviving</p>
                     <div className="row">
                         <div className="col">
                             <img src={require('../images/nicky.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>

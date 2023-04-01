@@ -13,6 +13,11 @@ function Browse() {
     var rcuisine = sessionStorage.getItem('rcuisine');
     var rdate = sessionStorage.getItem('rdate');
 
+    // remove data
+    sessionStorage.removeItem('rname');
+    sessionStorage.removeItem('rcuisine');
+    sessionStorage.removeItem('rdate');
+
     // SETTING DATA
     const [data, setData] = useState([]);
 
@@ -61,6 +66,17 @@ function Browse() {
     }
 
     // SET FILTERS
+
+    if (rname === null) {
+        rname = "";
+    }
+    if (rcuisine === null) {
+        rcuisine = "";
+    }
+    if (rdate === null) {
+        rdate = "";
+    }
+
     const [cuisine, setCuisine] = useState(rcuisine);
     const [date, setDate] = useState(rdate);
     const [name, setName] = useState(rname);
