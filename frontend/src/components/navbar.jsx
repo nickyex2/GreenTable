@@ -32,7 +32,7 @@ function Navbar() {
       else {
         return(
         <div className="links">
-          <a className="navbar-brand" href="">GreenTable</a>
+          <a className="navbar-brand" href="/">GreenTable</a>
           <a className="navbarlinks" href="/">Home</a>
           <a className="navbarlinks" href="/browse">Booking</a>
           <a className="navbarlinks" href="/login">Login</a>
