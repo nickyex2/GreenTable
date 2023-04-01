@@ -3,6 +3,8 @@ import axios from "axios";
 import {useParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
+import Map from "../components/map";
+// import getLocation from '../initMap.js'
 
 function Pdp() {
 
@@ -271,7 +273,7 @@ function Pdp() {
                             <div className="pdpmain">
                                 <div className="tt row">
                                     <div className="col">
-                                        <h4 className="pdpheaders">{data._id}</h4>
+                                        <h4 className="pdpheaders" id="id">{data._id}</h4>
                                     </div>
                                     <div className="col">
                                         <p className="float-end pdpmoney">$$</p>
@@ -291,6 +293,8 @@ function Pdp() {
                                         <p className="pdpdesc-desc">{data.website}</p>
                                         <p className="pdpdesc-title">Description</p>
                                         <p className="pdpdesc-desc">{data.description}</p>
+                                        <p className="pdpdesc-title">Find us!</p>
+                                        <Map name={data._id}/>
                                     </div>
                                     <div className="col-4">
                                         <p className="pdpdesc-title">Opening Hours</p>

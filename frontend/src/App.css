@@ -1041,3 +1041,9 @@ html, div{
   margin-bottom: 50px;
   font-weight: 600;
 }
+
+/* MAP */
+.map div{
+  background-color: none !important;
+  background: none !important;
+}
