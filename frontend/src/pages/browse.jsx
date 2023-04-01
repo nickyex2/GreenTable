@@ -8,6 +8,16 @@ function Browse() {
     // API URLS
     const booking_url = "http://34.124.236.222:8000/api/v1/catalog/all";
 
+    // SETTING FILTER FROM SESSION
+    var rname = sessionStorage.getItem('rname');
+    var rcuisine = sessionStorage.getItem('rcuisine');
+    var rdate = sessionStorage.getItem('rdate');
+
+    // remove data
+    sessionStorage.removeItem('rname');
+    sessionStorage.removeItem('rcuisine');
+    sessionStorage.removeItem('rdate');
+
     // SETTING DATA
     const [data, setData] = useState([]);
 
@@ -56,9 +66,20 @@ function Browse() {
     }
 
     // SET FILTERS
-    const [cuisine, setCuisine] = useState("");
-    const [date, setDate] = useState("");
-    const [name, setName] = useState("");
+
+    if (rname === null) {
+        rname = "";
+    }
+    if (rcuisine === null) {
+        rcuisine = "";
+    }
+    if (rdate === null) {
+        rdate = "";
+    }
+
+    const [cuisine, setCuisine] = useState(rcuisine);
+    const [date, setDate] = useState(rdate);
+    const [name, setName] = useState(rname);
 
     // FUNCTIONS
     // 1. clearAll

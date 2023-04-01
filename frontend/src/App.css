@@ -78,7 +78,7 @@ html, div{
 
 .searchbox{
   position: absolute;
-  top: 70%;
+  top: 72%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
@@ -1040,4 +1040,10 @@ html, div{
   border-radius: 5px;
   margin-bottom: 50px;
   font-weight: 600;
+}
+
+/* MAP */
+.map div{
+  background-color: none !important;
+  background: none !important;
 }
