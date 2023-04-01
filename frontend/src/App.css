@@ -1028,3 +1028,16 @@ html, div{
   background-color: #fff !important;
   color: #000;
 }
+
+.submitbooking{
+  background-color: green;
+  color: white;
+  padding: 10px;
+  opacity: 0.9;
+  width: 22%;
+  right: 0;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 50px;
+  font-weight: 600;
+}
