@@ -9,9 +9,9 @@ function Checkout() {
 
     const navigate = useNavigate();
 
-    var booking_url = "http://localhost:5003/booking/getBooking/";
+    var booking_url = "http://34.124.236.222:8000/api/v1/booking/getBooking/";
 
-    var pay_url = "http://localhost:5007/make_payment";
+    var pay_url = "http://34.124.236.222:8000/api/v1/pay";
 
     useEffect(() => {
         const all = async () => {

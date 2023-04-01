@@ -7,7 +7,7 @@ function History() {
 
     var username = sessionStorage.getItem('name');
 
-    var booking_url = "http://localhost:5003/booking/getBookings/";
+    var booking_url = "http://34.124.236.222:8000/api/v1/booking/getBookings/";
 
     const [data, setData] = useState([]);
 

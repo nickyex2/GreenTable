@@ -13,13 +13,13 @@ function Confirmation() {
 
     const [info, setInfo] = useState([]);
 
-    const booking_url = "http://localhost:5003/booking/getBooking";
+    const booking_url = "http://34.124.236.222:8000/api/v1/booking/getBooking";
 
-    const customer_url = "http://localhost:5001/customer";
+    const customer_url = "http://34.124.236.222:8000/api/v1/customer";
 
-    const place_url = "http://localhost:5002//catalog/find";
+    const place_url = "http://34.124.236.222:8000/api/v1/catalog/find";
 
-    const cancel_url = "http://localhost:5005/cancel";
+    const cancel_url = "http://34.124.236.222:8000/api/v1/cancel";
 
     const navigate = useNavigate();
 
