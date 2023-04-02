@@ -10,7 +10,7 @@ function History() {
 
     // SETTING NAVIGATE
     const navigate = useNavigate();
-    
+
     // GETTING USERNAME
     var username = sessionStorage.getItem('name');
 

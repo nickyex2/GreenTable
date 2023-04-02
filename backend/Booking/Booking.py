@@ -84,7 +84,7 @@ def getBooking(booking_id):
         if len(result) > 0:
             return jsonify({"code": 200, "data": result[0]}), 200
         else:
-            return jsonify({"code": 404, "data": {"message": "Invalid Customer ID"}}), 404
+            return jsonify({"code": 404, "data": {"message": "Invalid Booking ID"}}), 404
         
     except Exception as e:
         return jsonify({"code": 500, "data":{'message': str(e)}}), 500

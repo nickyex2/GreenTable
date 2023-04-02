@@ -7,7 +7,7 @@ import Map from "../components/map";
 // import getLocation from '../initMap.js'
 
 function Pdp() {
-
+    
     // GET INFO FROM URL
     const {restaurant_name} = useParams();
 
