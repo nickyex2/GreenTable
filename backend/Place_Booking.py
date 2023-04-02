@@ -191,7 +191,7 @@ def processPlaceBooking(booking):
             }
         
         return {
-            "code": 200,
+            "code": 406,
             "data": {
                 "waitlist_result": post_waitlist_result,
                 "message": "Booking unsuccessful, added to waitlist"
