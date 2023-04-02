@@ -6,7 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 function Home() {
 
     // API URLS
-    const booking_url = "http://localhost:5002/catalog/all";
+    const booking_url = "http://localhost:8000/api/v1/catalog/all";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();

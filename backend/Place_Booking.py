@@ -73,13 +73,6 @@ def processPlaceBooking(booking):
     date = booking["date"]
     time = booking["time"]
 
-    # # Check restaurant availability
-    # availability = invoke_http(f'{catalog_url}/find/{restaurant_name}', "GET")
-
-    # if availability["data"]["availability"][date][time] > 0:
-        
-    # Table available, update availability -1
-    print("\n\n ----- Table available, updating availability -----")
     update_availability_data = {
         "restaurant_name": restaurant_name,
         "date": date,
@@ -92,7 +85,7 @@ def processPlaceBooking(booking):
     # this happens when the restaurant has no availability for the given date and time
     if update_availability_code not in range(200, 300):
         # Update availability unsuccessful, inform error microservice
-        print("\n\n ----- Update availability unsuccessful, sending error message -----")
+        print("\n\n ----- Update availability unsuccessful, table unavailable, sending error message -----")
         amqp_setup.channel.basic_publish(exchange=amqp_setup.exchangename, routing_key="greentable.error", body=message, properties=pika.BasicProperties(delivery_mode=2))
         # Print status even if invocation fails
         print("\nUpdate availability status ({:d}) published to the RabbitMQ Exchange:".format(update_availability_code), update_availability_result)
@@ -124,6 +117,8 @@ def processPlaceBooking(booking):
                     "message": "Booking and Waitlist unsuccessful"
                 }
             }
+        
+        print("\n\n ----- Waitlist successful -----")
         return {
             "code": update_availability_code,
             "data": {
@@ -136,6 +131,7 @@ def processPlaceBooking(booking):
 
     # Update availability successful, add booking to database
     
+    print("\n\n ----- Update availability successful, table available -----")
     # Generate 8 digit booking id and check if it is unique
     int_id = 0
     while True:

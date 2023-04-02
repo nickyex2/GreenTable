@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function Login() {
 
     // API URLS
-    const booking_url = "http://localhost:5001/customer/login";
+    const booking_url = "http://localhost:8000/api/v1/customer/login";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();
@@ -14,6 +14,7 @@ function Login() {
     // SETTING REF
     const username = useRef("");
     const password = useRef("");
+
 
     // FUNCTIONS
     // 1. storeRedirect

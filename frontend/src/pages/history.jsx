@@ -5,14 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 function History() {
 
-    // API URLS
-    const booking_url = "http://localhost:5003/booking/getBookings/";
+    var username = sessionStorage.getItem('name');
+    
+    var booking_url = "http://localhost:8000/api/v1/booking/getBookings/";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();
-    
-    // GETTING USERNAME
-    var username = sessionStorage.getItem('name');
 
     // SETTING DATA
     const [data, setData] = useState([]);
