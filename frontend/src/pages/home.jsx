@@ -66,7 +66,7 @@ function Home() {
                                     <p className="card-text hi">{data[1].avg_rating} &#9733;</p>
                                 </div>
                                 <div className="col-6 float-end p-0 hi">
-                                    <p className="card-text float-end hi">$$</p>
+                                    <p className="card-text float-end hi"></p>
                                 </div>
                             </div>
                             <h5 className="card-title">{data[1]._id}</h5>
@@ -88,7 +88,7 @@ function Home() {
                                     <p className="card-text hi">{data[0].avg_rating} &#9733;</p>
                                 </div>
                                 <div className="col-6 float-end p-0 hi">
-                                    <p className="card-text float-end hi">$$</p>
+                                    <p className="card-text float-end hi"></p>
                                 </div>
                             </div>
                             <h5 className="card-title">{data[0]._id}</h5>
@@ -110,7 +110,7 @@ function Home() {
                                     <p className="card-text hi">{data[2].avg_rating} &#9733;</p>
                                 </div>
                                 <div className="col-6 float-end p-0 hi">
-                                    <p className="card-text float-end hi">$$</p>
+                                    <p className="card-text float-end hi"></p>
                                 </div>
                             </div>
                             <h5 className="card-title">{data[2]._id}</h5>
