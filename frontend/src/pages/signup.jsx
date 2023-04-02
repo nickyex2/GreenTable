@@ -87,9 +87,16 @@ function Signup() {
             allmsg += " Please enter a valid phone number<br/>";
         }
         // check if cvv is 3 digits
-        if (cvv.current.value.length !== 3){
+        if (cvv.current.value.length < 3 || cvv.current.value.length > 4){
             allmsg += " Please enter a valid cvv<br/>";
         }
+        // check expiry date make sure 'mm/yy' format
+        if (isNaN(expiry.current.value[0]) || isNaN(expiry.current.value[1]) || expiry.current.value[2] !== "/" || isNaN(expiry.current.value[3]) || isNaN(expiry.current.value[4])){
+            allmsg += " Please enter a valid expiry date<br/>";
+        }
+
+        console.log(isNaN(expiry.current.value[0]));
+
         errormsg.innerHTML = allmsg;
         errormsg.style.color = "red";
         errormsg.style.fontSize = "15px";
@@ -130,7 +137,7 @@ function Signup() {
                             <input className="form-control" type="tel" placeholder="Credit Card No." minLength={16} ref={cardno}/>
                             <div className="row">
                                 <div className="col-6">
-                                    <input className="form-control" type="tel" placeholder="Expiry Date" ref={expiry}/>
+                                    <input className="form-control" type="tel" placeholder="Expiry Date eg. 01/23" ref={expiry}/>
                                 </div>
                                 <div className="col-6">
                                     <input className="form-control" type="tel" placeholder="CVV" ref={cvv}/>

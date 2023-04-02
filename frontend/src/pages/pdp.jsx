@@ -16,6 +16,7 @@ function Pdp() {
     const add_url = "http://34.124.236.222:8000/api/v1/place";
     const cus_url = "http://34.124.236.222:8000/api/v1/customer";
     const check_url = "http://34.124.236.222:8000/api/v1/booking";
+    const waitlist_url = "http://34.124.236.222:8000/api/v1/waitlist";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();
@@ -41,6 +42,17 @@ function Pdp() {
             await axios.get(check_url + '/' + restaurant_name)
             .then(
             response => setCheck(response.data.data))
+        }
+        all();
+    }, [restaurant_name]);
+
+    const [waitlist, setWaitlist] = useState([]);
+    
+    useEffect(() => {
+        const all = async () => {
+            await axios.get(waitlist_url + '/' + restaurant_name)
+            .then(
+            response => setWaitlist(response.data.data))
         }
         all();
     }, [restaurant_name]);
@@ -118,6 +130,11 @@ function Pdp() {
 
             if (booking.date === "null" || booking.time === "null" || booking.no_of_pax === "null"){
                 errorMsg(2);
+                return;
+            }
+
+            if (checkWaitlist(document.getElementById("date").value, document.getElementById("time").value)){
+                document.getElementById("error1").innerHTML = "Booker is already in waitlist";
                 return;
             }
 
@@ -221,6 +238,25 @@ function Pdp() {
             if (check[z].date === date && check[z].time === time && see === true){
                 return true;
             }
+        }
+    }
+
+
+    function checkWaitlist(date, time){
+        var all_bookers = [];
+        // loop through key and values of waitlist
+        for (var [key, value] of Object.entries(waitlist)){
+            // if date and time match
+            if (value.date === date && value.time === time){
+                // push key into all bookers
+                all_bookers.push(key);
+            }
+        }
+        if (all_bookers.includes(sessionStorage.getItem("name"))){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
