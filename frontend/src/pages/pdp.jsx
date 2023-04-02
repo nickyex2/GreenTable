@@ -293,7 +293,9 @@ function Pdp() {
                                         <p className="pdpdesc-desc">{data.website}</p>
                                         <p className="pdpdesc-title">Description</p>
                                         <p className="pdpdesc-desc">{data.description}</p>
-                                        <p className="pdpdesc-title">Find us!</p>
+                                        <p className="pdpdesc-title">Sustainability Awards</p>
+                                        <img src={require('../images/ecobadge.png')} alt='badge' id="ecobadge"/>
+                                        <p className="pdpdesc-title mb-2">Find us!</p>
                                         <Map name={data._id}/>
                                     </div>
                                     <div className="col-4">

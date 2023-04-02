@@ -644,6 +644,14 @@ html, div{
   text-align: center;
 }
 
+#ecobadge{
+  width: 120px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 30px;
+}
+
 /* CONFIRMATION */
 .confirmation{
   text-align: center;
@@ -1042,7 +1050,6 @@ html, div{
   font-weight: 600;
 }
 
-/* MAP */
 .map div{
   background-color: none !important;
   background: none !important;
