@@ -1,6 +1,6 @@
 # ESD-Group6
 
-## set environ variables into a .env file
+## set environ variables into a .env file for microservices to use
 
 ``` 
 TELEGRAM_API_SESSION="********************************"
@@ -23,13 +23,18 @@ Navigate to cmd prompt and run the run-docker.bat file
 ``` docker-compose up ```
 
 ### Use snapshot to get kong running seamlessly
-Navigate to Konga UI and import the snapshot in
-Restore the services first then restore the routes
+Navigate to Konga UI and import the snapshot (snapshot_4.json) in <br>
+Click on the snapshot and click on the restore button <br>
+Restore the services first then restore the routes 
 
 ## Use web application build into Docker with Nginx (all API calls are proxied to the backend microservices hosted on GKE)
 ``` cd /frontend ```<br>
 ``` docker build -t nickyex2/greentable_web:latest . ```<br>
 ``` docker run -p 80:80 --name greentable_web nickyex2/greentable_web:latest ```<br>
+
+### src folder
+By default the src folder is using kubernetes endpoints to access the backend microservices. <br>
+To use local endpoints, unzip the src-localhost.zip and overwrite the default src folder <br>
 
 ## Kubernetes Deployment (valid till 28th June 2023)
 Backend Microservices are hosted on Google Kubernetes Engine with Kong as the API Gateway
@@ -83,3 +88,12 @@ credit card: set to fail <br><br>
 
 username: colin <br>
 credit card: set to fail 
+
+## Postman Collection
+The Postman-API-calls.zip contains all the API calls used in the web application (localhost). <br>
+
+## Kompose with Kong
+The folder kompose with kong contains the deployment and service files that are used to deploy the backend microservices on GKE. <br>
+
+## Database Attributes and Return Formats
+The file attributes.txt contains the database attributes and return formats for microservices. <br>
