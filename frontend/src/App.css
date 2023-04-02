@@ -1054,3 +1054,10 @@ html, div{
   background-color: none !important;
   background: none !important;
 }
+
+.logout h1{
+  font-size: 35px;
+  font-weight: 700;
+  text-align: center;
+  padding-top: 150px;
+}
