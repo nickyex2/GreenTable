@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState , useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function History() {
 
@@ -140,7 +140,7 @@ function History() {
                 <tbody>
                     {newArray.map((each, index) => (
                         <tr key={index}>
-                            <th scope="row">{each._id}</th>
+                            <th scope="row"><Link to={"/confirmation/" + each._id}>{each._id}</Link></th>
                             <td>{each.restaurant}</td>
                             <td>{formatDate(each.date)}</td>
                             <td>{each.time}</td>
