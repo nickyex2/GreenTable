@@ -29,7 +29,7 @@ Restore the services first then restore the routes
 ## Use web application build into Docker with Nginx (all API calls are proxied to the backend microservices hosted on GKE)
 ``` cd /frontend ```<br>
 ``` docker build -t nickyex2/greentable_web:latest . ```<br>
-``` docker run -p 80:80 --name greentable_web nickyex2/greentable_front:latest ```<br>
+``` docker run -p 80:80 --name greentable_web nickyex2/greentable_web:latest ```<br>
 
 ## Kubernetes Deployment (valid till 28th June 2023)
 Backend Microservices are hosted on Google Kubernetes Engine with Kong as the API Gateway
