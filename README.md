@@ -17,10 +17,10 @@ WAITLIST_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retry
 
 ## To host all microservices locally on docker (windows only)
 ### Windows
-Navigate to cmd prompt and run the run-docker.bat file <br>
+Navigate to cmd prompt and run the run-docker.bat file at the root directory <br>
 ``` run-docker.bat ```
 ### Linux and Mac
-Navigate to terminal and run the run-docker.sh file <br>
+Navigate to terminal and run the run-docker.sh file at the root directory <br>
 ``` chmod +x run-docker.sh ``` <br>
 ``` run-docker.sh ```
 
