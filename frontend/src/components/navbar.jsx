@@ -1,9 +1,10 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 function Navbar() {
     
     var username = sessionStorage.getItem('name');
-
+    useLocation();
     function history(username){
       if (username === 'Business') {
         return(
