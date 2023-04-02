@@ -3,20 +3,26 @@ import axios from "axios";
 import {useParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
+import Map from "../components/map";
+// import getLocation from '../initMap.js'
 
 function Pdp() {
 
-    const booking_url = "http://localhost:5002/catalog/find";
-
-    const add_url = "http://localhost:5006/booking/place_booking";
-
-    const cus_url = "http://localhost:5001/customer";
-    
+    // GET INFO FROM URL
     const {restaurant_name} = useParams();
 
-    const navigate = useNavigate();
-    // take data from backend with restaurant_name using axios get
+    // API URLS
+    const booking_url = "http://localhost:5002/catalog/find";
+    const add_url = "http://localhost:5006/booking/place_booking";
+    const cus_url = "http://localhost:5001/customer";
+    const check_url = "http://localhost:5003/booking";
 
+    // SETTING NAVIGATE
+    const navigate = useNavigate();
+
+    // SETTING DATA
+    const [chosenDate, setChosenDate] = useState('');
+    
     const [data, setData] = useState([]);
     
     useEffect(() => {
@@ -28,24 +34,39 @@ function Pdp() {
         all();
     }, [restaurant_name]);
 
-    // format date to dd/mm/yyyy
-    const formatDate = (date) => {
-        const day = date.slice(0,2);   
-        const month = date.slice(2,4);
-        const year = date.slice(4,6);
-        return day + '/' + month + '/' + year;
-    }
+    const [check, setCheck] = useState([]);
+    
+    useEffect(() => {
+        const all = async () => {
+            await axios.get(check_url + '/' + restaurant_name)
+            .then(
+            response => setCheck(response.data.data))
+        }
+        all();
+    }, [restaurant_name]);
 
-    const [chosenDate, setChosenDate] = useState('');
+    // FUNCTIONS
+    // 1. renderDates
+    // 2. renderTimes
+    // 3. addBooking
+    // 4. errorMsg
+    // 5. customerFields
+    // 6. checkLogin
+    // 7. checkBooked
+    // 8. checkName
+    // 9. handleChange
+    // 10. splitPhone
+    // 11. formatBD
+    // 12. formatDate
 
-    // functions to render time based on the date selected
-
+    // render booking dates
     function renderDates(){
         return Object.keys(data.availability).map((key, index) => {
-            console.log(formatDate(key));
            return <option value={key} key={index}>{formatDate(key)}</option>
         })
     }
+
+    // render booking times
     function renderTimes(check){
         if (check !== '')
             return Object.keys(data.availability[chosenDate]).map((key, index) => {
@@ -56,18 +77,10 @@ function Pdp() {
         }
     }
 
-    function handleChange(e){
-        setChosenDate(e.target.value);
-    }
-
-    function splitPhone(phone){
-        return phone.slice(0,4) + ' ' + phone.slice(4,8);
-    }
-
+    // function add booking
     async function addBooking(){
         document.getElementById("error1").innerHTML = "";
         document.getElementById("error2").innerHTML = "";
-        // get elemtns from class name customerids and put into an array
         var temp = document.getElementsByClassName("customerids");
         var customerids = [];
         for (var i = 1; i < temp.length; i++){
@@ -76,26 +89,38 @@ function Pdp() {
             }
             else{
                 const result = await checkName(temp[i].value);
-                console.log(result);
                 if (result !== '' && result.code === 200){
-                    console.log(temp[i].value);
                     customerids.push(temp[i].value);
                 }
             }
         }
 
-        // if either error1 or error2 is not empty, exit function addBooking
         if (document.getElementById("error1").innerHTML === "" && document.getElementById("error2").innerHTML === ""){
             const booking = {
                 restaurant: data._id,
                 customer: sessionStorage.getItem("name"),
-                // date DDMMYY
                 date_created: formatBD(new Date().toLocaleDateString()),
                 date: document.getElementById("date").value,
                 time: document.getElementById("time").value,
                 no_of_pax: document.getElementById("pax").value,
                 pax_details: customerids
             }
+
+            var all_pax = [sessionStorage.getItem("name")]
+            for (var x = 0; x < customerids.length; x++){
+                all_pax.push(customerids[x]);
+            }
+
+            if (checkBooked(document.getElementById("date").value, document.getElementById("time").value, all_pax)){
+                document.getElementById("error2").innerHTML = "One of the pax is already booked for this time slot";
+                return;
+            }
+
+            if (booking.date === "null" || booking.time === "null" || booking.no_of_pax === "null"){
+                errorMsg(2);
+                return;
+            }
+
             sessionStorage.setItem("booking_data", JSON.stringify(booking));
             axios.post(add_url, booking)
             .then(
@@ -105,25 +130,16 @@ function Pdp() {
                 }
             )
             .catch(
-                error => console.log(error)
+                error => {console.log(error.message)
+                if (error.message === "Request failed with status code 406"){
+                    document.getElementById("error2").innerHTML = "Sorry but the restaurant is fully booked for this time slot<br/><br/>But don't worry we have put you on a waitlist and will notify you if there is an availability!<br/>";
+                }
+            }
             )
         }
     }
 
-    async function checkName(name){
-        var temp = ''
-        await axios.get(cus_url + '/' + name)
-        .then((res) => {
-            console.log(res.data);
-            temp = res.data;
-        })
-        .catch((err) => {
-            console.log(err);
-            errorMsg(1);
-        })
-        return temp;
-    }
-
+    // print error msgs
     function errorMsg(num){
         if (num === 1){
             if (document.getElementById("error1").innerHTML === ""){
@@ -137,40 +153,26 @@ function Pdp() {
         }
     }
 
-    function checkLogin(){
-        if (!sessionStorage.getItem("name")){
-            return <Link to={"/login"}><button type="submit" className="search-button align-self-end mt-auto">Login to Book</button></Link>
-        }
-        else{
-            return <button type="submit" className="search-button align-self-end mt-auto" onClick={async (e) => {
-                e.preventDefault();
-                await addBooking();
-            }}>Book Now</button>
-        }
-    }
-
-
-    function formatBD(date){
-        var temp = date.split('/');
-        return temp[0] + temp[1] + temp[2][2]+ temp[2][3];
-    }
-
+    // customer fields to put in
     function customerFields(){
-       // get value if input id = pax and put the number of input fields within the div id = customerfields
-         // if pax = 3, then 3 input fields
         var pax = document.getElementById("pax").value;
-        if (pax > 10){
-            pax = 10;
+        if (pax > 7){
+            pax = 7;
         }
 
         var customerfields = document.getElementById("customerfields");
         if (pax>0){
             customerfields.innerHTML = "";
+            var bname = sessionStorage.getItem("name")
+            if (bname === null){
+                bname = "Click below";
+                pax = 0;
+            }
             var input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control customerids";
-                input.placeholder = `${sessionStorage.getItem("name")}`;
-                input.value = `${sessionStorage.getItem("name")}`;
+                input.placeholder = bname;
+                input.value = bname;
                 input.disabled = true;
                 input.style = "width: 80%;"
                 customerfields.appendChild(input);
@@ -185,7 +187,83 @@ function Pdp() {
         }
     }
 
+    // check if booker is logged in
+    function checkLogin(){
+        if (!sessionStorage.getItem("name")){
+            return <Link to={"/login"}><button type="submit" className="search-button align-self-end mt-auto">Login to Book</button></Link>
+        }
+        else{
+            return <button type="submit" className="search-button align-self-end mt-auto" onClick={async (e) => {
+                e.preventDefault();
+                await addBooking();
+            }}>Book Now</button>
+        }
+    }
 
+    // check if pax is already booked
+    function checkBooked(date, time, pax){
+        for (var z = 0; z < check.length; z++){
+
+            var all_pax_check = [check[z].customer];
+
+            for (var i = 0; i < check[z].pax_details.length; i++){
+                all_pax_check.push(check[z].pax_details[i]);
+            }
+
+            var see = false;
+
+            for (var j = 0; j < pax.length; j++){
+                if (all_pax_check.includes(pax[j])){
+                    see = true;
+                }
+            }
+
+            if (check[z].date === date && check[z].time === time && see === true){
+                return true;
+            }
+        }
+    }
+
+    // function to check if pax is already booked
+    async function checkName(name){
+        var temp = ''
+        await axios.get(cus_url + '/' + name)
+        .then((res) => {
+            console.log(res.data);
+            temp = res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+            errorMsg(1);
+        })
+        return temp;
+    }
+
+    // handle change of date
+    function handleChange(e){
+        setChosenDate(e.target.value);
+    }
+
+    // format phone number
+    function splitPhone(phone){
+        return phone.slice(0,4) + ' ' + phone.slice(4,8);
+    }
+
+    // formate date
+    function formatBD(date){
+        var temp = date.split('/');
+        return temp[0] + temp[1] + temp[2][2]+ temp[2][3];
+    }
+
+    // format date
+    const formatDate = (date) => {
+        const day = date.slice(0,2);   
+        const month = date.slice(2,4);
+        const year = date.slice(4,6);
+        return day + '/' + month + '/' + year;
+    }
+
+    // RENDER
     if (data.length !== 0) {
         return (
             <div className="pdp">
@@ -195,7 +273,7 @@ function Pdp() {
                             <div className="pdpmain">
                                 <div className="tt row">
                                     <div className="col">
-                                        <h4 className="pdpheaders">{data._id}</h4>
+                                        <h4 className="pdpheaders" id="id">{data._id}</h4>
                                     </div>
                                     <div className="col">
                                         <p className="float-end pdpmoney">$$</p>
@@ -215,6 +293,8 @@ function Pdp() {
                                         <p className="pdpdesc-desc">{data.website}</p>
                                         <p className="pdpdesc-title">Description</p>
                                         <p className="pdpdesc-desc">{data.description}</p>
+                                        <p className="pdpdesc-title">Find us!</p>
+                                        <Map name={data._id}/>
                                     </div>
                                     <div className="col-4">
                                         <p className="pdpdesc-title">Opening Hours</p>
@@ -237,7 +317,7 @@ function Pdp() {
                                         <select id="time" defaultValue={'null'}>
                                             {renderTimes(chosenDate)}
                                         </select>
-                                        <input type='number' placeholder="No. of Pax" id="pax" max='8' onChange={customerFields}/>
+                                        <input type='number' placeholder="No. of Pax (Max 7)" id="pax" max={7} step={1} min={1} onChange={customerFields}/>
                                         <div id="customerfields"></div>
                                         <div id="error1"></div>
                                         <div id="error2"></div>

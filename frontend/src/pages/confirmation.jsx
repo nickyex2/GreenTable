@@ -5,23 +5,24 @@ import {useState, useEffect} from "react";
 
 function Confirmation() {
 
+    // GET INFO FROM URL
     const {booking_id} = useParams();
 
+    // API URLS
+    const booking_url = "http://localhost:5003/booking/getBooking";
+    const customer_url = "http://localhost:5001/customer";
+    const place_url = "http://localhost:5002/catalog/find";
+    const cancel_url = "http://localhost:5005/cancel";
+
+    // SETTING NAVIGATE
+    const navigate = useNavigate();
+
+    // SETTING STATES
     const [data, setData] = useState([]);
 
     const [cus, setCus] = useState([]);
 
     const [info, setInfo] = useState([]);
-
-    const booking_url = "http://localhost:5003/booking/getBooking";
-
-    const customer_url = "http://localhost:5001/customer";
-
-    const place_url = "http://localhost:5002//catalog/find";
-
-    const cancel_url = "http://localhost:5003/booking/delete";
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         const all = async () => {
@@ -56,19 +57,14 @@ function Confirmation() {
         all();
     }, [data.restaurant, data.length]);
 
-    function formatDate (date) {
-        const day = date.slice(0,2);   
-        const month = date.slice(2,4);
-        const year = date.slice(4,6);
-        return day + '/' + month + '/' + year;
-    }
+    // FUNCTIONS
+    // 1. cancelBooking
+    // 2. formatDate
+    // 3. splitPhone
 
-    function splitPhone(phone){
-        return phone.slice(0,4) + ' ' + phone.slice(4,8);
-    }
-
+    // cancel booking
     function cancelBooking(){
-        axios.delete(cancel_url + '/' + booking_id)
+        axios.post(cancel_url + '/' + booking_id, {restaurant_name: data.restaurant, time: data.time, date: data.date})
         .then(
             response => {
                 console.log(response.data.data);
@@ -77,6 +73,20 @@ function Confirmation() {
         )
     }
 
+    // format date
+    function formatDate (date) {
+        const day = date.slice(0,2);   
+        const month = date.slice(2,4);
+        const year = date.slice(4,6);
+        return day + '/' + month + '/' + year;
+    }
+
+    // format phone number
+    function splitPhone(phone){
+        return phone.slice(0,4) + ' ' + phone.slice(4,8);
+    }
+    
+    // RENDER
     if (data.length !== 0 && cus.length !== 0 && info.length !== 0) {
         return (
             <div className="confirmation">

@@ -1,17 +1,21 @@
 import React from "react";
 import axios from "axios";
 import {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
-import { useSessionStorage } from 'react-storage-complete';
+import {Link, useNavigate} from "react-router-dom";
 
 function Home() {
 
+    // API URLS
     const booking_url = "http://localhost:5002/catalog/all";
-    
-    const [data, setData] = useState([]);
 
-    // call out username from session storage
+    // SETTING NAVIGATE
+    const navigate = useNavigate();
+
+    // SETTING USERNAME
     var username = sessionStorage.getItem('name');
+
+    // SETTING DATA
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         const all = async () => {
@@ -22,19 +26,37 @@ function Home() {
         all();
     }, []);
 
+    // FUNCTIONS
+    // 1. limitDesc
+    // 2. homeSearch
+    // 3. ShowPosts
+
+    // function to limit description
     function limitDesc(desc) {
         if (desc.length > 100) {
             return desc.substring(0, 200) + "...";
         }
         return desc;
     }
-    
-    const ShowPosts = () => {
 
+    // function to browse from searchbox
+    function homeSearch() {
+        var name = document.getElementsByClassName("form-control")[0].value;
+        var cuisine = document.getElementsByClassName("form-control")[1].value;
+        var date = document.getElementsByClassName("form-control")[2].value;
+
+        sessionStorage.setItem('rname', name);
+        sessionStorage.setItem('rcuisine', cuisine);
+        sessionStorage.setItem('rdate', date);
+
+        navigate("/browse");
+    }
+    
+    // function to show posts
+    const ShowPosts = () => {
         if (data[0] !== undefined) {
             return ( 
                 <div className="row">
-    
                     <div className="col">
                     <div className="card card-smaller" >
                         <img src={data[1].image[0]} alt=""/>
@@ -106,6 +128,7 @@ function Home() {
         }
     }
 
+    // RENDER
     return (
         <div className="home">
             <div className="home-banner">
@@ -113,16 +136,15 @@ function Home() {
             </div>
             <div className="banner-text">
                 <h1>Welcome, {username}</h1>
-                <p>This is a mini description of what<br/>this website does and our purpose etc</p>
+                <p>GreenTable is a bridge between sustainable restaurants and consumers<br/>who wish to make environmentally conscious choices for what they eat</p>
             </div>
             <div className="searchbox">
                 <p>Make a booking now!</p>
                 <form className="search-form">
+                    <input className="form-control" type="text" placeholder="Name"/>
                     <input className="form-control" type="text" placeholder="Type of cuisine"/>
                     <input className="form-control" type="date" placeholder="Date"/>
-                    <input className="form-control" type="text" placeholder="Time"/>
-                    <input className="form-control" type="select" placeholder="No. of pax"/>
-                    <button type="submit" className="search-button">Search</button>
+                    <button type="submit" className="search-button" onClick={homeSearch}>Search</button>
                 </form>
             </div>
             <div className="latest">
@@ -132,7 +154,7 @@ function Home() {
 
                 <div className="who">
                     <p className="header">Who are we?</p>
-                    <p className="header-desc">This is a mini description of what our team is blah blah something cute bah</p>
+                    <p className="header-desc">5 students barely surviving</p>
                     <div className="row">
                         <div className="col">
                             <img src={require('../images/nicky.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>

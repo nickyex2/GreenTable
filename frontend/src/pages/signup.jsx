@@ -1,8 +1,17 @@
 import React from "react";
 import axios from "axios";
 import {useRef} from "react";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+
+    // API URLS
+    const booking_url = "http://localhost:5001/customer/add";
+
+    // SETTING NAVIGATE
+    const navigate = useNavigate();
+
+    // SETTING REF
     const firstname = useRef("");
     const lastname = useRef("");
     const username = useRef("");
@@ -13,8 +22,12 @@ function Signup() {
     const cardno = useRef("");
     const expiry = useRef("");
     const cvv = useRef("");
-    const booking_url = "http://localhost:5001/customer/add";
 
+    // FUNCTIONS
+    // 1. handleSubmit
+    // 2. errormsg
+
+    // function to handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
         if (errormsg() === false) {
@@ -38,7 +51,7 @@ function Signup() {
             axios.post(booking_url, data)
                 .then((res) => {
                     console.log(res);
-                    window.location.href = "http://localhost:3000/login"
+                    navigate("/login");
                 })
                 .catch((err) => {
                     console.log(err);
@@ -54,16 +67,18 @@ function Signup() {
 
     };
 
+    // function for error message
     function errormsg() {
         const errormsg = document.querySelector(".errormsg");
         var allmsg = '';
         if (firstname.current.value === "" || lastname.current.value === "" || username.current.value === "" || password.current.value === "" || email.current.value === "" || phone.current.value === "" || telegram.current.value === "" || cardno.current.value === "" || expiry.current.value === "" || cvv.current.value === ""){
             allmsg += "Please fill in all the fields<br/>";
         }
-        // check if email and telegram inputs include @
+        // check if email inputs include @
         if (email.current.value.includes("@") === false){
             allmsg += " Please enter a valid email<br/>";
         }
+        // check if telegram inputs include @
         if (telegram.current.value.includes("@") === false){
             allmsg += " Please enter a valid telegram username<br/>";
         }
@@ -88,6 +103,7 @@ function Signup() {
         }
     }
 
+    // RENDER
     return (
         <div className="signup">
             <img src={require('../images/login-signup.jpeg')} alt="makan logo" />

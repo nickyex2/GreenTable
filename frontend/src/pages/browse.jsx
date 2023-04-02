@@ -5,8 +5,20 @@ import {Link} from "react-router-dom";
 
 function Browse() {
 
+    // API URLS
     const booking_url = "http://localhost:5002/catalog/all";
 
+    // SETTING FILTER FROM SESSION
+    var rname = sessionStorage.getItem('rname');
+    var rcuisine = sessionStorage.getItem('rcuisine');
+    var rdate = sessionStorage.getItem('rdate');
+
+    // remove data
+    sessionStorage.removeItem('rname');
+    sessionStorage.removeItem('rcuisine');
+    sessionStorage.removeItem('rdate');
+
+    // SETTING DATA
     const [data, setData] = useState([]);
 
         useEffect(() => {
@@ -17,17 +29,9 @@ function Browse() {
             }
             all();
         }, []);
-
-    function limitDesc(desc) {
-        if (desc.length > 100) {
-            return desc.substring(0, 150) + "...";
-        }
-        return desc;
-    }
         
-    
+    // RENDER ALL CARDS
     const ShowPosts = () => {
-        // for each item in array data return one card
         return data.map((item, index) => {
             if (id_list.includes(item._id)) {
                 return ( 
@@ -61,28 +65,50 @@ function Browse() {
         )
     }
 
-    const [cuisine, setCuisine] = useState("");
-    const [date, setDate] = useState("");
-    const [name, setName] = useState("");
-    // const [pax, setPax] = useState("");
+    // SET FILTERS
 
+    if (rname === null) {
+        rname = "";
+    }
+    if (rcuisine === null) {
+        rcuisine = "";
+    }
+    if (rdate === null) {
+        rdate = "";
+    }
+
+    const [cuisine, setCuisine] = useState(rcuisine);
+    const [date, setDate] = useState(rdate);
+    const [name, setName] = useState(rname);
+
+    // FUNCTIONS
+    // 1. clearAll
+    // 2. limitDesc
+
+    // function to clear all filters
     function clearAll() {
         setCuisine("");
         setDate("");
         setName("");
-        // setPax("");
     }
 
+    // function to limit description length
+    function limitDesc(desc) {
+        if (desc.length > 100) {
+            return desc.substring(0, 150) + "...";
+        }
+        return desc;
+    }
+
+    // RENDER
     if (data[0] !== undefined) {
         var id_list = [];
-        //get all id in data
         data.map((each, index) => {
-            //add eac._id to idlist
             return id_list.push(each._id);
         })
 
+        // FILTERING
         data.map((item, index) => {
-
             if (name){
                 if (!item._id.toLowerCase().includes(name.toLowerCase())){
                     var temp = id_list.indexOf(item._id);

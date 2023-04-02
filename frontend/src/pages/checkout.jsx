@@ -4,14 +4,20 @@ import { useState , useEffect} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function Checkout() {
-    const {booking_id} = useParams();
-    const [data, setData] = useState([]);
 
+    // GET INFO FROM URL
+    const {booking_id} = useParams();
+
+    // API URLS
+    const booking_url = "http://localhost:5003/booking/getBooking/";
+    const pay_url = "http://localhost:5007/make_payment";
+
+    // SETTING NAVIGATE
     const navigate = useNavigate();
 
-    var booking_url = "http://localhost:5003/booking/getBooking/";
 
-    var pay_url = "http://localhost:5007/make_payment";
+    // SETTING DATA
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         const all = async () => {
@@ -28,6 +34,21 @@ function Checkout() {
         all();
     }, [booking_id, booking_url]);
 
+    // FUNCTIONS
+    // 1. changeDisabledTrue
+    // 2. changeDisabled
+    // 3. getIndividualPrice
+    // 4. getItems
+    // 5. makePayment
+    // 6. formatDate
+    // 7. formatTime
+    // 8. formatPrice
+    // 9. getGST
+    // 10. getSC
+    // 11. getTotal
+    // 12. pError
+
+    // function when click auto pay
     function changeDisabledTrue() {
         var inputs = document.getElementById("inputfields")
         inputs.innerHTML = "";
@@ -35,9 +56,7 @@ function Checkout() {
         for (var i = 0; i <  data.pax_details.length; i++) {
             ppl.push(data.pax_details[i]);
         }
-        console.log(ppl);
         var indiv = getTotal(data.items_ordered.total) / ppl.length;
-        // loop through dict
         for (var key in ppl) {
             inputs.innerHTML += `<div class="row" key=${key}>
             <div class="col">
@@ -55,6 +74,7 @@ function Checkout() {
         document.getElementById("splitbtn2").style.setProperty ("background-color", "white", "important");
     }
 
+    // function when click manual pay
     function changeDisabled() {
         var inputs = document.getElementById("inputfields")
         inputs.innerHTML = "";
@@ -62,7 +82,6 @@ function Checkout() {
         for (var i = 0; i <  data.pax_details.length; i++) {
             ppl.push(data.pax_details[i]);
         }
-        // loop through dict
         for (var key in ppl) {
             inputs.innerHTML += `<div class="row" key=${key}>
             <div class="col">
@@ -72,7 +91,6 @@ function Checkout() {
                 <input class="card-text float-end topays headache" type='number' step='0.01'/>
             </div>
         </div> `
-                
         }
   
         document.getElementById("splitbtn2").style.setProperty ("color", "white", "important");
@@ -82,52 +100,32 @@ function Checkout() {
 
     }
 
-    function formatDate (date) {
-        const day = date.slice(0,2);   
-        const month = date.slice(2,4);
-        const year = date.slice(4,6);
-        // get month name
-        var monthNames = [
-            "January", "February", "March",
-            "April", "May", "June", "July",
-            "August", "September", "October",
-            "November", "December"
-        ];
-        var monthIndex = month - 1;
-        var monthName = monthNames[monthIndex];
-        //get day of the week
-        var d = new Date(year, month, day);
-        var weekday = new Array(7);
-        weekday[0] = "Sunday";
-        weekday[1] = "Monday";
-        weekday[2] = "Tuesday";
-        weekday[3] = "Wednesday";
-        weekday[4] = "Thursday";
-        weekday[5] = "Friday";
-        weekday[6] = "Saturday";
-        var n = weekday[d.getDay()];
-        return day + ' ' + monthName + ' 20' + year + ', ' + n;
+    // function to get price to pay for each person
+    function getIndividualPrice(){
+        var ppl = [data.customer];
+        for (var i = 0; i <  data.pax_details.length; i++) {
+            ppl.push(data.pax_details[i]);
+        }
+        var indiv = getTotal(data.items_ordered.total) / ppl.length;
+        var items = [];
+        for (var key in ppl) {
+            items.push(
+                <div className="row" key={key}>
+                    <div className="col">
+                        <p className="card-text cn names" value={ppl[key]}>{ppl[key]}</p>
+                    </div>
+                    <div className="col">
+                        <input className="card-text float-end topays" type='number' step='0.01' value={formatPrice(indiv)} placeholder={formatPrice(indiv)} disabled/>
+                    </div>
+                </div> 
+            );
+        }
+        return items;
     }
 
-    function formatTime (time) {
-        // am pm time
-        const hour = time.slice(0,2);
-        const min = time.slice(2,4);
-        var ampm = hour >= 12 ? 'pm' : 'am';
-        var hour12 = hour % 12;
-        hour12 = hour12 ? hour12 : 12; // the hour '0' should be '12'
-        var strTime = hour12 + ':' + min + ' ' + ampm;
-        return strTime;
-    }
-
-    function formatPrice(price) {
-        var pricee = parseFloat(price).toFixed(2);
-        return pricee;
-    }
-
+    // function to get items ordered
     function getItems(){
         var dict = data.items_ordered.items;
-        // loop through dict
         var items = [];
         for (var key in dict) {
             items.push(
@@ -144,50 +142,12 @@ function Checkout() {
                 </div>
             );
         }
-
         return items;
     }
 
-    function getGST(price){
-        var gst = price * 0.08;
-        return gst;
-    }
-
-    function getSC(price){
-        var sc = price * 0.1;
-        return sc;
-    }
-
-    function getTotal(price){
-        var total = parseFloat(price) + parseFloat(getGST(price)) + parseFloat(getSC(price));
-        return total;
-    }
-
-    function getIndividualPrice(){
-        var ppl = [data.customer];
-        for (var i = 0; i <  data.pax_details.length; i++) {
-            ppl.push(data.pax_details[i]);
-        }
-        console.log(ppl);
-        var indiv = getTotal(data.items_ordered.total) / ppl.length;
-        var items = [];
-        // loop through dict
-        for (var key in ppl) {
-            items.push(
-                <div className="row" key={key}>
-                    <div className="col">
-                        <p className="card-text cn names" value={ppl[key]}>{ppl[key]}</p>
-                    </div>
-                    <div className="col">
-                        <input className="card-text float-end topays" type='number' step='0.01' value={formatPrice(indiv)} placeholder={formatPrice(indiv)} disabled/>
-                    </div>
-                </div> 
-            );
-        }
-        return items;
-    }
-
+    // function to make payement
     async function makePayment(){
+        document.getElementById("errormsg").innerHTML = "";
         var amounts = []
         var temp = [];
         var names = document.getElementsByClassName("names");
@@ -201,9 +161,13 @@ function Checkout() {
             amounts.push(parseFloat(topays[i].value));
         }
 
-        amounts.unshift(parseFloat(document.getElementsByClassName("topays")[0].value));
+        pError();
 
-        console.log(amounts);
+        if (document.getElementById("errormsg").innerHTML !== "") {
+            return;
+        }
+
+        amounts.unshift(parseFloat(document.getElementsByClassName("topays")[0].value));
 
         sessionStorage.setItem('paid', amounts);
 
@@ -217,13 +181,10 @@ function Checkout() {
             other_customers: temp
         }
 
-        console.log(info);
-
-       await axios.post(pay_url, info)
+        await axios.post(pay_url, info)
         .then((res) => {
             console.log(res.data);
             var failed = res.data.data.failed_payments
-            console.log(failed);
             sessionStorage.setItem("failed", failed)
             navigate("/pconfirm/" + booking_id);
         })
@@ -232,7 +193,82 @@ function Checkout() {
         })
     }
 
+    // function to format date
+    function formatDate (date) {
+        const day = date.slice(0,2);   
+        const month = date.slice(2,4);
+        const year = date.slice(4,6);
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+        var monthIndex = month - 1;
+        var monthName = monthNames[monthIndex];
+        var d = new Date(year, month, day);
+        var weekday = new Array(7);
+        weekday[0] = "Sunday";
+        weekday[1] = "Monday";
+        weekday[2] = "Tuesday";
+        weekday[3] = "Wednesday";
+        weekday[4] = "Thursday";
+        weekday[5] = "Friday";
+        weekday[6] = "Saturday";
+        var n = weekday[d.getDay()];
+        return day + ' ' + monthName + ' 20' + year + ', ' + n;
+    }
 
+    // function to format time
+    function formatTime (time) {
+        const hour = time.slice(0,2);
+        const min = time.slice(2,4);
+        var ampm = hour >= 12 ? 'pm' : 'am';
+        var hour12 = hour % 12;
+        hour12 = hour12 ? hour12 : 12; 
+        var strTime = hour12 + ':' + min + ' ' + ampm;
+        return strTime;
+    }
+
+    // function to format price
+    function formatPrice(price) {
+        var pricee = parseFloat(price).toFixed(2);
+        return pricee;
+    }
+
+    // function to get GST
+    function getGST(price){
+        var gst = price * 0.08;
+        return gst;
+    }
+
+    // function to get service charge
+    function getSC(price){
+        var sc = price * 0.1;
+        return sc;
+    }
+
+    // function to get total price
+    function getTotal(price){
+        var total = parseFloat(price) + parseFloat(getGST(price)) + parseFloat(getSC(price));
+        return total;
+    }
+
+    // function to check if total amount paid is equal to total amount due
+    function pError(){
+        var topays = document.getElementsByClassName("topays");
+        var total = 0;
+        for (var i = 0; i < topays.length; i++) {
+            total += parseFloat(topays[i].value);
+        }
+        if (total !== parseFloat(formatPrice(getTotal(data.items_ordered.total)))) {
+            return (
+                document.getElementById("errormsg").innerHTML = "Total amount paid does not match total amount due."
+            );
+        }
+    }
+
+    // RENDERING
     if (data.length !== 0) {
         return (
             <div className="checkout py-5">
@@ -357,6 +393,10 @@ function Checkout() {
                             <div id="inputfields">
                                 {getIndividualPrice()}
                             </div>
+
+                            <div id="errormsg">
+                            </div>
+
                             <div className="btndiv text-center">
                                 <button type="button" className="btn paybtn" onClick={async (e) => {
                                     e.preventDefault();

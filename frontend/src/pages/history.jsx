@@ -5,13 +5,17 @@ import { useNavigate } from "react-router-dom";
 
 function History() {
 
+    // API URLS
+    const booking_url = "http://localhost:5003/booking/getBookings/";
+
+    // SETTING NAVIGATE
+    const navigate = useNavigate();
+    
+    // GETTING USERNAME
     var username = sessionStorage.getItem('name');
 
-    var booking_url = "http://localhost:5003/booking/getBookings/";
-
+    // SETTING DATA
     const [data, setData] = useState([]);
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         const all = async () => {
@@ -29,41 +33,16 @@ function History() {
         all();
     }, [username, booking_url]);
 
-    // const goPayment = (booking_id) => {
-    //     navigate(`/checkout/${booking_id}`);
-    // }
+    // FUNCTIONS
+    // 1. getAll
+    // 2. getPaid
+    // 3. getPending
+    // 4. formatStatus
+    // 5. formatStatusPayment
+    // 6. formatDate
 
-    function formatStatus(status) {
-        if (status === false) {
-            return "Waiting for payment";
-        } else {
-            return "Paid";
-        }
-    }
-
-    function formatStatusPayment(status, booking_id, customer) {
-        if (JSON.stringify(status) === JSON.stringify([])) {
-            return "Food not ordered";
-        }
-        else if (customer === username) {
-            return <button type="button" className="btn btn-light" onClick={() => {
-                navigate(`/checkout/${booking_id}`)
-            }} >Ready For Payment!</button>;
-        }
-        else {
-            return "Waiting for booker to pay";
-        }
-    }
-
-    function formatDate (date){
-        const day = date.slice(0,2);   
-        const month = date.slice(2,4);
-        const year = date.slice(4,6);
-        return day + '/' + month + '/' + year;
-    }
-
+    // getting all bookings
     function getAll() {
-        // loop through data and display all bookings in a table
         return (
         <div className="table-responsive">
             <table className="table">
@@ -94,6 +73,7 @@ function History() {
         );
     }
 
+    // getting paid bookings
     function getPaid(){
         var newArray = data.filter(function (el) {
             return el.paid_status === true;
@@ -134,6 +114,7 @@ function History() {
         }
     }
 
+    // getting pending bookings
     function getPending(){
         var newArray = data.filter(function (el) {
             return el.paid_status === false;
@@ -172,6 +153,38 @@ function History() {
             </div>
             );
         }
+    }
+
+    // formatting of status
+    function formatStatus(status) {
+        if (status === false) {
+            return "Waiting for payment";
+        } else {
+            return "Paid";
+        }
+    }
+
+    // formatting of pending
+    function formatStatusPayment(status, booking_id, customer) {
+        if (JSON.stringify(status) === JSON.stringify([])) {
+            return "Food not ordered";
+        }
+        else if (customer === username) {
+            return <button type="button" className="btn btn-light" onClick={() => {
+                navigate(`/checkout/${booking_id}`)
+            }} >Ready For Payment!</button>;
+        }
+        else {
+            return "Waiting for booker to pay";
+        }
+    }
+
+    // formatting of date
+    function formatDate (date){
+        const day = date.slice(0,2);   
+        const month = date.slice(2,4);
+        const year = date.slice(4,6);
+        return day + '/' + month + '/' + year;
     }
 
     if (data.length === 0) {

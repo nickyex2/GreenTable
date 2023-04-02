@@ -5,14 +5,15 @@ import { useNavigate } from "react-router-dom";
 
 function Business() {
 
-    var booking_url = "http://localhost:5003/booking/";
-
+    // API URLS
+    const booking_url = "http://localhost:5003/booking/";
     const all_url = "http://localhost:5002/catalog/all";
 
+    // SETTING NAVIGATE
     const navigate = useNavigate();
 
+    // SETTING DATA
     const [all, setAll] = useState([]);
-
     const [data, setData] = useState([]);
 
         useEffect(() => {
@@ -24,6 +25,14 @@ function Business() {
             all();
         }, []);
 
+    // FUNCTIONS
+    // 1. dropdown
+    // 2. getBookings
+    // 3. goAdd
+    // 4. formatStatus
+    // 5. printBookings
+
+    // function to create dropdown
     function dropdown () {
         var dropdown = [];
         for (var i = 0; i < all.length; i++) {
@@ -32,6 +41,7 @@ function Business() {
         return dropdown;
     }
 
+    // function to get bookings
     async function getBookings (e) {
         var business_id = e.target.value;
         await axios.get(booking_url + business_id)
@@ -45,11 +55,13 @@ function Business() {
         });
     }
 
+    // function to go to add page
     function goAdd (e) {
         var booking_id = e.target.parentNode.parentNode.firstChild.innerHTML;
         navigate(`/add/${booking_id}`);
     }
 
+    // function to format status
     function formatStatus(status) {
         if (status === false) {
             return <button onClick={goAdd}>Add/Update Items</button>;
@@ -59,6 +71,7 @@ function Business() {
         }
     }
 
+    // function to print bookings table
     function printBookings () {
         if (data.length !== 0) {
             return (
@@ -95,6 +108,7 @@ function Business() {
         }
     }
 
+    // RENDER
     if (all.length !== 0) {
         return (
             <div className="business">

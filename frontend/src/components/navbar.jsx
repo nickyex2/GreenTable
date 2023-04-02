@@ -1,16 +1,14 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 
 function Navbar() {
-    const location = useLocation()
-
+    
     var username = sessionStorage.getItem('name');
 
     function history(username){
       if (username === 'Business') {
         return(
           <div className="links">
-          <a className="navbar-brand" href="">GreenTable</a>
+          <a className="navbar-brand" href=".">GreenTable</a>
           <a className="navbarlinks" href="/business">Home</a>
           <a className="navbarlinks" href="/logout">Logout</a>
           </div>
@@ -32,7 +30,7 @@ function Navbar() {
       else {
         return(
         <div className="links">
-          <a className="navbar-brand" href="">GreenTable</a>
+          <a className="navbar-brand" href="/">GreenTable</a>
           <a className="navbarlinks" href="/">Home</a>
           <a className="navbarlinks" href="/browse">Booking</a>
           <a className="navbarlinks" href="/login">Login</a>

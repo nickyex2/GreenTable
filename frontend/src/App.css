@@ -78,7 +78,7 @@ html, div{
 
 .searchbox{
   position: absolute;
-  top: 70%;
+  top: 72%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
@@ -633,10 +633,10 @@ html, div{
   padding-bottom: 10px;
 }
 
-#customerfields, #error1, #error2{
+#customerfields, #error1, #error2, #errormsg{
   background-color: white !important;
 }
-#error1, #error2{
+#error1, #error2, #errormsg{
   color: red !important;
   font-size: 12px;
   padding: 5px;
@@ -1027,4 +1027,23 @@ html, div{
 #inputfields, #inputfields div, #inputfields .col{
   background-color: #fff !important;
   color: #000;
+}
+
+.submitbooking{
+  background-color: green;
+  color: white;
+  padding: 10px;
+  opacity: 0.9;
+  width: 22%;
+  right: 0;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 50px;
+  font-weight: 600;
+}
+
+/* MAP */
+.map div{
+  background-color: none !important;
+  background: none !important;
 }

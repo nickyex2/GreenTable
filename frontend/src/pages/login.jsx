@@ -1,27 +1,36 @@
 import React from "react";
-
-// axios to make http requests to Customer API
 import axios from "axios";
-import {useRef, useState} from "react";
-
-import { useSessionStorage } from 'react-storage-complete';
+import {useRef} from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
-    const username = useRef("");
-    const password = useRef("");
+    // API URLS
     const booking_url = "http://localhost:5001/customer/login";
 
+    // SETTING NAVIGATE
+    const navigate = useNavigate();
+
+    // SETTING REF
+    const username = useRef("");
+    const password = useRef("");
+
+    // FUNCTIONS
+    // 1. storeRedirect
+    // 2. handleSubmit
+    
+    // function to store username in session storage and redirect to business page if username is business
     function storeRedirect() {
         sessionStorage.setItem('name', username.current.value)
         if (sessionStorage.getItem('name') !== 'Business') {
-            window.location.href = "http://localhost:3000/";
+           navigate("/");
         }
         else {
-            window.location.href = "http://localhost:3000/business";
+            navigate("/business");
         }
     }
 
+    // function to handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -48,9 +57,9 @@ function Login() {
         errormsg.style.marginTop = "10px";
         errormsg.style.marginBottom = "10px";
     }
-    
-
     };
+
+    // RENDER
     return (
         <div className="login">
             <img src={require('../images/login-signup.jpeg')} alt="makan logo" />
