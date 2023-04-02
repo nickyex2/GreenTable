@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@iconify/react": "^4.1.0",
-    "google-map-react": "^2.2.0",
-    "react-simple-star-rating": "^5.1.7"
-  }
-}
