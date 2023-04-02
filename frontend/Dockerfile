@@ -6,7 +6,7 @@ ARG REACT_APP_GOOGLE_MAPS_API_KEY="AIzaSyA6ju8_1Q2zuf3DomUOFVplprJHuKpJHtw"
 FROM node:16.15.1 as build
 WORKDIR /app
 ENV REACT_APP_GOOGLE_MAPS_API_KEY=${REACT_APP_GOOGLE_MAPS_API_KEY}
-COPY package*.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
 
