@@ -24,8 +24,8 @@ function Map(props) {
         getLocation();
     }, [query]);
 
-    console.log(data)
-    console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
+    // console.log(data)
+    // console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
     
     return (
         <div className="map">
