@@ -7,17 +7,17 @@ import Map from "../components/map";
 // import getLocation from '../initMap.js'
 
 function Pdp() {
-
-    const booking_url = "http://localhost:8000/api/v1/catalog/find";
-
-    const add_url = "http://localhost:8000/api/v1/place";
-
-    const cus_url = "http://localhost:8000/api/v1/customer";
     
-    const check_url = "http://localhost:8000/api/v1/booking";
-    
+    // GET INFO FROM URL
     const {restaurant_name} = useParams();
 
+    // API URLS
+    const booking_url = "http://34.124.236.222:8000/api/v1/catalog/find";
+    const add_url = "http://34.124.236.222:8000/api/v1/place";
+    const cus_url = "http://34.124.236.222:8000/api/v1/customer";
+    const check_url = "http://34.124.236.222:8000/api/v1/booking";
+
+    // SETTING NAVIGATE
     const navigate = useNavigate();
 
     // SETTING DATA

@@ -9,8 +9,8 @@ function Paid() {
     const {booking_id} = useParams();
 
     // API URLS
-    var booking_url = "http://localhost:8000/api/v1/booking/getBooking/";
-    const rating_url = "http://localhost:8000/api/v1/catalog/updateRating";
+    const booking_url = "http://34.124.236.222:8000/api/v1/booking/getBooking/";
+    const rating_url = "http://34.124.236.222:8000/api/v1/catalog/updateRating";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();
@@ -32,13 +32,6 @@ function Paid() {
     
     // SETTING DATA
     const [data, setData] = useState([]);
-
-    console.log(paid_array);
-
-    var failed = sessionStorage.getItem('failed');
-
-    // const navigate = useNavigate();
-
 
     useEffect(() => {
         const all = async () => {

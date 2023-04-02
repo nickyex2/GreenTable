@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 function Business() {
 
     // API URLS
-    var booking_url = "http://localhost:8000/api/v1/booking/";
-    const all_url = "http://localhost:8000/api/v1/catalog/all";
+    const booking_url = "http://34.124.236.222:8000/api/v1/booking/";
+    const all_url = "http://34.124.236.222:8000/api/v1/catalog/all";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();

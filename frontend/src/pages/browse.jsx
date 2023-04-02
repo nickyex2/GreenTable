@@ -5,7 +5,8 @@ import {Link} from "react-router-dom";
 
 function Browse() {
 
-    const booking_url = "http://localhost:8000/api/v1/catalog/all";
+    // API URLS
+    const booking_url = "http://34.124.236.222:8000/api/v1/catalog/all";
 
     // SETTING FILTER FROM SESSION
     var rname = sessionStorage.getItem('rname');

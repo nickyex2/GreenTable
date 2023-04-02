@@ -8,9 +8,9 @@ function Add() {
     // GET INFO FROM URL
     const {booking_id} = useParams();
 
-    var get_url = "http://localhost:8000/api/v1/booking/getBooking/";
-
-    var add_url = "http://localhost:8000/api/v1/booking/updateOrder";
+    // API URLS
+    const get_url = "http://34.124.236.222:8000/api/v1/booking/getBooking/";
+    const add_url = "http://34.124.236.222:8000/api/v1/booking/updateOrder";
 
     // SETTING DATA
     const [data, setData] = useState([]);

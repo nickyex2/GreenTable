@@ -17,7 +17,7 @@ function Map(props) {
 
     useEffect(() => {
         const getLocation = async () => {
-            await axios.get(`http://127.0.0.1:5002/catalog/map/` + query)
+            await axios.get(`http://34.124.236.222:8000/api/v1/catalog/map/` + query)
             .then(
             response => setData(response.data.geometry.location))
         }

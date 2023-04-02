@@ -9,9 +9,8 @@ function Checkout() {
     const {booking_id} = useParams();
 
     // API URLS
-    var booking_url = "http://localhost:8000/api/v1/booking/getBooking/";
-
-    var pay_url = "http://localhost:8000/api/v1/pay";
+    const booking_url = "http://34.124.236.222:8000/api/v1/booking/getBooking/";
+    const pay_url = "http://34.124.236.222:8000/api/v1/pay";
 
     // SETTING NAVIGATE
     const navigate = useNavigate();
