@@ -7,6 +7,7 @@ function Logout() {
     navigate("/");
     return (
         <div className="logout">
+            <h1>Successfully signed out</h1>
         </div>
     );
 }
