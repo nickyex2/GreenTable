@@ -19,14 +19,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Browse from './pages/browse';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 function App() {
+  const location = useLocation();
   return (
     <div>
-      <Navbar />
+      <Navbar location={location}/>
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route index element={<Home/>}/>
         <Route path="/browse" element={<Browse/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
