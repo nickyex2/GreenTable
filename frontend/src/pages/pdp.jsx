@@ -165,7 +165,7 @@ function Pdp() {
             customerfields.innerHTML = "";
             var bname = sessionStorage.getItem("name")
             if (bname === null){
-                bname = "Click below";
+                bname = "Click below to login";
                 pax = 0;
             }
             var input = document.createElement("input");
@@ -276,7 +276,7 @@ function Pdp() {
                                         <h4 className="pdpheaders" id="id">{data._id}</h4>
                                     </div>
                                     <div className="col">
-                                        <p className="float-end pdpmoney">$$</p>
+                                        <p className="float-end pdpmoney"></p>
                                     </div>
                                 </div>
                                 <img src={data.image[1]} className='pdpimg' alt="/"/>

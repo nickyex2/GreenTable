@@ -44,7 +44,7 @@ function Browse() {
                                     <p className="card-text">{item.avg_rating} &#9733;</p>
                                 </div>
                                 <div className="col-6 float-end p-0">
-                                    <p className="card-text float-end">$$</p>
+                                    <p className="card-text float-end"></p>
                                 </div>
                             </div>
                             <h5 className="card-title">{item._id}</h5>
