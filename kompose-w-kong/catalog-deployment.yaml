@@ -32,7 +32,7 @@ spec:
               value: AIzaSyA6ju8_1Q2zuf3DomUOFVplprJHuKpJHtw
             - name: PYTHONUNBUFFERED
               value: "1"
-          image: nickyex2/catalog:latest
+          image: nickyex2/catalog
           imagePullPolicy: Always
           name: catalog
           ports:

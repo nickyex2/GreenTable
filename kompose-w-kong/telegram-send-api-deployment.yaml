@@ -34,7 +34,7 @@ spec:
               value: "20480107"
             - name: TELEGRAM_API_SESSION
               value: s3ndm3@n0tif1cationf0rt3l3gr@m
-          image: nickyex2/telegram-send-api:latest
+          image: nickyex2/telegram-send-api
           imagePullPolicy: Always
           name: telegram-send-api
           ports:

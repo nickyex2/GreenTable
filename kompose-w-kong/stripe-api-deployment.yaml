@@ -30,7 +30,7 @@ spec:
               value: "1"
             - name: STRIPE_SECRET_KEY
               value: sk_test_51MjdbwKkGz7KVHvaysD9aV92Xibd5j2jX5yrCt2VK1bP5NB4xkqtQRv7pcbNPKV9O1jfi0LNUHyTIZbusVHGXG2K00ZtZZus1N
-          image: nickyex2/stripe-api:latest
+          image: nickyex2/stripe-api
           imagePullPolicy: Always
           name: stripe-api
           ports:

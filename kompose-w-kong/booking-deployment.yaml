@@ -30,7 +30,7 @@ spec:
               value: mongodb+srv://Booking:booking@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority
             - name: PYTHONUNBUFFERED
               value: "1"
-          image: nickyex2/booking:latest
+          image: nickyex2/booking
           imagePullPolicy: Always
           name: booking
           ports:

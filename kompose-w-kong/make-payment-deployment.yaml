@@ -38,7 +38,7 @@ spec:
               value: rabbitmq
             - name: rabbit_port
               value: "5672"
-          image: nickyex2/make-payment:latest
+          image: nickyex2/make-payment
           imagePullPolicy: Always
           name: make-payment
           ports:
