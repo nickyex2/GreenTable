@@ -36,7 +36,7 @@ spec:
               value: rabbitmq
             - name: rabbit_port
               value: "5672"
-          image: nickyex2/cancel-booking:latest
+          image: nickyex2/cancel-booking
           imagePullPolicy: Always
           name: cancel-booking
           ports:

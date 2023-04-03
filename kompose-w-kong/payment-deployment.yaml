@@ -30,7 +30,7 @@ spec:
               value: "1"
             - name: stripe_url
               value: http://10.24.2.198:5016/api/stripepay
-          image: nickyex2/payment:latest
+          image: nickyex2/payment
           imagePullPolicy: Always
           name: payment
           ports:

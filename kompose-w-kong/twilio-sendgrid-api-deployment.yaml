@@ -30,7 +30,7 @@ spec:
               value: "1"
             - name: SENDGRID_API_KEY
               value: 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
-          image: nickyex2/twilio-sendgrid-api:latest
+          image: nickyex2/twilio-sendgrid-api
           imagePullPolicy: Always
           name: twilio-sendgrid-api
           ports:

@@ -20,9 +20,11 @@ async def send_message(user_details, message_content):
         # Send the message
         await client.send_message(user_details, message_content)
     except Exception as e:
-        return {'message': e}, e['code']
+        print(e)
+        return {"code": 400, 'message': e}
     # Disconnect the client
-    client.disconnect()
+    await client.disconnect()
+    return {"code": 200, 'message': 'Message sent successfully'}
 
 """
     data = {
@@ -38,7 +40,9 @@ async def send_booking():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = f'Dear {data["name"]}, this message is to inform you that your booking {data["booking"]} is confirmed. \n Name of Restaurant: {data["restaurant_name"]} \n Date & Time: {data["date_time"]}'
-    await send_message(user_details, message_content)
+    result = await send_message(user_details, message_content)
+    if result["code"] != 200:
+        return jsonify({"code": 400, "data":{'message': 'Message sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
 """
@@ -55,7 +59,9 @@ async def send_noti():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = f'Dear {data["name"]}, \n\n There is a new availability for {data["restaurant_name"]} on {data["date_time"]}. \n\n Go and Book now before it gets taken up!'
-    await send_message(user_details, message_content)
+    result = await send_message(user_details, message_content)
+    if result["code"] != 200:
+        return jsonify({"code": 400, "data":{'message': 'Message sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
 """
@@ -74,7 +80,9 @@ async def send_payment():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = f'Dear {data["name"]}, \n\n your booking {data["booking"]} payment is successful. \n Name of Restaurant: {data["restaurant_name"]} \n Date & Time: {data["date_time"]} \n Amount Paid: {data["amount"]}'
-    await send_message(user_details, message_content)
+    result = await send_message(user_details, message_content)
+    if result["code"] != 200:
+        return jsonify({"code": 400, "data":{'message': 'Message sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
 if __name__ == '__main__':
