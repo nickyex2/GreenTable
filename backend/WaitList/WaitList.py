@@ -25,6 +25,8 @@ collection = db["WaitList"]
 def getWaitList(restaurant_name):
     items = collection.find({"_id": restaurant_name})
     result = loads(dumps(items))
+    if len(result) == 0:
+        return jsonify({"code": 404, "data":{'message': 'Restaurant WaitList not found'}}), 404
     return jsonify({"code": 200, "data": result[0]["customers"]}), 200
 
 """
