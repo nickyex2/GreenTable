@@ -97,8 +97,8 @@ function Add() {
         }
 
         for (const [key, value] of Object.entries(items)) {
-            if (Number.isInteger(parseFloat(value[0])) === false || parseFloat(value[1]) < 0) {
-                putMsgs("Quantity must be an integer and price must be non-negative");
+            if (Number.isInteger(parseFloat(value[0])) === false || parseFloat(value[1]) < 0 || parseFloat(value[0]) < 0) {
+                putMsgs("Quantity must be an integer and non-negative and price must be non-negative");
                 console.log(key)
                 return;
             }
