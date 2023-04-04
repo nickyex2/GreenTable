@@ -46,8 +46,8 @@ function Add() {
                 table.push(
                     <tr>
                         <td><input type="text" name="item" placeholder={key}></input></td>
-                        <td><input type="text" name="item" placeholder={value[0]}></input></td>
-                        <td><input type="text" name="item" placeholder={value[1]}></input></td>
+                        <td><input type="number" name="item" placeholder={value[0]} min={0} max={5000} step={1}></input></td>
+                        <td><input type="number" name="item" placeholder={value[1]} min={0} max={5000} step={0.01}></input></td>
                     </tr>
                 );
             }          
@@ -56,8 +56,8 @@ function Add() {
             table.push(
                 <tr>
                     <td><input type="text" name="item" placeholder="Item"></input></td>
-                    <td><input type='number' step='1' name="quantity" placeholder="Quantity"></input></td>
-                    <td><input type='number' step='0.01' name="price" placeholder="Price"></input></td>
+                    <td><input type='number' step={1} name="quantity" placeholder="Quantity" min={0} max={5000}></input></td>
+                    <td><input type='number' step={0.01} name="price" placeholder="Price" min={0} max={5000}></input></td>
                 </tr>
             );
         }
@@ -72,8 +72,8 @@ function Add() {
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
         cell1.innerHTML = "<input type='text' name='item' placeholder='Item'></input>";
-        cell2.innerHTML = "<input type='number' step='1' placeholder='Quantity'></input>";
-        cell3.innerHTML = "<input type='number' step='0.01' name='price' placeholder='Price'></input>";
+        cell2.innerHTML = "<input type='number' step='1' min='0' max='5000' placeholder='Quantity'></input>";
+        cell3.innerHTML = "<input type='number' step='0.01' min='0' max='5000' name='price' placeholder='Price'></input>";
     }
 
     // function to update items in database
@@ -95,6 +95,15 @@ function Add() {
                 return;
             }
         }
+
+        for (const [key, value] of Object.entries(items)) {
+            if (Number.isInteger(parseFloat(value[0])) === false || parseFloat(value[1]) < 0) {
+                putMsgs("Quantity must be an integer and price must be non-negative");
+                console.log(key)
+                return;
+            }
+        }
+
         console.log(items);
         await axios.post(add_url, {
             booking_id: booking_id,

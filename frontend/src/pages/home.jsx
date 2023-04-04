@@ -159,27 +159,27 @@ function Home() {
                         <div className="col">
                             <img src={require('../images/nicky.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Nicholas Goh</p>
-                            <p className="role">Role</p>
+                            <p className="role">Backend Developer</p>
                         </div>
                         <div className="col">
                             <img src={require('../images/daniel.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Daniel Lai</p>
-                            <p className="role">Role</p>
+                            <p className="role">Microservice Developer</p>
                         </div>
                         <div className="col">
                             <img src={require('../images/daryl.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Daryl Yoon</p>
-                            <p className="role">Role</p>
+                            <p className="role">Frontend Developer</p>
                         </div>
                         <div className="col">
                             <img src={require('../images/chiok.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Nicklaus Chiok</p>
-                            <p className="role">Role</p>
+                            <p className="role">Microservice Developer</p>
                         </div>
                         <div className="col">
                             <img src={require('../images/mok.jpeg')} alt="" className="rounded-circle" width="150" height="150"/>
                             <p className="name">Colin Mok</p>
-                            <p className="role">Role</p>
+                            <p className="role">Microservice Developer</p>
                         </div>
                     </div>
                 </div>
