@@ -956,6 +956,10 @@ html, div{
   text-align: center;
 }
 
+.add input{
+  width: 60%;
+}
+
 .business thead th, .business tbody td, .business tbody th{
   padding: 20px;
 }
