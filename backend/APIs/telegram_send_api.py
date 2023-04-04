@@ -1,4 +1,6 @@
 from telethon import TelegramClient, events, sync
+from telethon.tl.types import InputPhoneContact
+from telethon.tl.functions.contacts import ImportContactsRequest, DeleteContactsRequest
 from dotenv import load_dotenv
 import os
 from quart import Quart, request, jsonify
@@ -8,23 +10,40 @@ load_dotenv()
 
 app = Quart(__name__)
 cors(app)
+api_id = os.getenv("TELEGRAM_API_ID")
+api_hash = os.getenv("TELEGRAM_API_HASH")
+# Initialise telegram client with API codes
+client = TelegramClient(os.getenv("TELEGRAM_API_SESSION"), api_id, api_hash)
 
-async def send_message(user_details, message_content):
-    api_id = os.getenv("TELEGRAM_API_ID")
-    api_hash = os.getenv("TELEGRAM_API_HASH")
-    # Initialise telegram client with API codes
-    client = TelegramClient(os.getenv("TELEGRAM_API_SESSION"), api_id, api_hash)
+async def send_message(user_details, message_content, name):
+    new_contact = ""
+    entity = ""
     try:
         # Start the process
         await client.start()
-        # Send the message
-        await client.send_message(user_details, message_content)
+        entity = await client.get_entity(user_details)
+        print(entity)
     except Exception as e:
         print(e)
+        new_contact = InputPhoneContact(client_id=0, phone=user_details, first_name=name, last_name="")
+    try:
+        # Send the message
+        if new_contact != "":
+            await client(ImportContactsRequest([new_contact])) # error occurs here if too many requests
+            entity = await client.get_entity(user_details)
+        await client.send_message(user_details, message_content)
+        if new_contact != "":
+            await client(DeleteContactsRequest(id=[entity]))
+        # Disconnect the client
+        await client.disconnect()
+        return {"code": 200, 'message': 'Message sent successfully'}
+    except Exception as e:
+        print(e)
+        # Disconnect the client
+        if client.is_connected():
+            await client.disconnect()
         return {"code": 400, 'message': e}
-    # Disconnect the client
-    await client.disconnect()
-    return {"code": 200, 'message': 'Message sent successfully'}
+    
 
 """
     data = {
@@ -40,7 +59,7 @@ async def send_booking():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = f'Dear {data["name"]}, this message is to inform you that your booking {data["booking"]} is confirmed. \n Name of Restaurant: {data["restaurant_name"]} \n Date & Time: {data["date_time"]}'
-    result = await send_message(user_details, message_content)
+    result = await send_message(user_details, message_content, data["name"])
     if result["code"] != 200:
         return jsonify({"code": 400, "data":{'message': 'Message sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
