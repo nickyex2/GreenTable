@@ -18,14 +18,20 @@ client = TelegramClient(os.getenv("TELEGRAM_API_SESSION"), api_id, api_hash)
 async def send_message(user_details, message_content, name):
     new_contact = ""
     entity = ""
+    # Start the process
     try:
-        # Start the process
         await client.start()
+    except Exception as e:
+        print(e)
+        return {"code": 400, 'message': e}
+    # Get the entity of the user, if not found, create a new contact
+    try:
         entity = await client.get_entity(user_details)
         print(entity)
     except Exception as e:
         print(e)
         new_contact = InputPhoneContact(client_id=0, phone=user_details, first_name=name, last_name="")
+    # Send the message and delete the contact if it is a new contact
     try:
         # Send the message
         if new_contact != "":
@@ -41,6 +47,8 @@ async def send_message(user_details, message_content, name):
         print(e)
         # Disconnect the client
         if client.is_connected():
+            if new_contact != "":
+                await client(DeleteContactsRequest(id=[entity]))
             await client.disconnect()
         return {"code": 400, 'message': e}
     
