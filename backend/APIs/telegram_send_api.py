@@ -47,7 +47,7 @@ async def send_message(user_details, message_content, name):
         print(e)
         # Disconnect the client
         if client.is_connected():
-            if new_contact != "":
+            if new_contact != "" and entity != "":
                 await client(DeleteContactsRequest(id=[entity]))
             await client.disconnect()
         return {"code": 400, 'message': e}
