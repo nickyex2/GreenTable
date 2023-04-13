@@ -14,7 +14,11 @@ CUSTOMER_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retry
 BOOKING_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority"
 WAITLIST_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retryWrites=true&w=majority"  
 ```
-
+## Navigate to Dockerfile on frontend
+Change Google_API_Key to your own Google API Key <br>
+```
+ENV GOOGLE_API_KEY="************************************"
+```
 ## To host all microservices locally on docker (windows only)
 ### Windows
 Navigate to cmd prompt and run the run-docker.bat file at the root directory <br>
