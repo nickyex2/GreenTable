@@ -102,8 +102,5 @@ credit card: set to fail
 ## Postman Collection
 The Postman-API-calls.zip contains all the API calls used in the web application (localhost). <br>
 
-## Kompose with Kong
-The folder kompose with kong contains the deployment and service files that are used to deploy the backend microservices on GKE. <br>
-
 ## Database Attributes and Return Formats
 The file attributes.txt contains the database attributes and return formats for microservices. <br>
