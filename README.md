@@ -17,7 +17,7 @@ WAITLIST_DB_URL="mongodb+srv://<user>:<pass>@cluster0.cljlebi.mongodb.net/?retry
 ## Navigate to Dockerfile on frontend
 Change Google_API_Key to your own Google API Key <br>
 ```
-ENV GOOGLE_API_KEY="************************************"
+ENV REACT_APP_GOOGLE_MAPS_API_KEY="************************************"
 ```
 ## To host all microservices locally on docker (windows only)
 ### Windows
