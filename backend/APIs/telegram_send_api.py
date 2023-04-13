@@ -86,7 +86,7 @@ async def send_noti():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = f'Dear {data["name"]}, \n\n There is a new availability for {data["restaurant_name"]} on {data["date_time"]}. \n\n Go and Book now before it gets taken up!'
-    result = await send_message(user_details, message_content)
+    result = await send_message(user_details, message_content, data['name'])
     if result["code"] != 200:
         return jsonify({"code": 400, "data":{'message': 'Message sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
@@ -107,7 +107,7 @@ async def send_payment():
     data = await request.get_json()
     user_details = "+65" + data['phone']
     message_content = f'Dear {data["name"]}, \n\n your booking {data["booking"]} payment is successful. \n Name of Restaurant: {data["restaurant_name"]} \n Date & Time: {data["date_time"]} \n Amount Paid: {data["amount"]}'
-    result = await send_message(user_details, message_content)
+    result = await send_message(user_details, message_content, data['name'])
     if result["code"] != 200:
         return jsonify({"code": 400, "data":{'message': 'Message sent failed'}}), 400
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
