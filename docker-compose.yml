@@ -226,8 +226,8 @@ services:
   ###################################################
   telegram-send-api:
     build:
-      context: ./backend
-      dockerfile: ./APIs/telegram_send_api.Dockerfile
+      context: ./
+      dockerfile: ./backend/APIs/telegram_send_api.Dockerfile
     image: nickyex2/telegram-send-api:latest
     restart: always
     depends_on:

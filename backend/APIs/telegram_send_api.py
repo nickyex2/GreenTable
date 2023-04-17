@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 import os
 from quart import Quart, request, jsonify
 from quart_cors import cors 
+from hypercorn import Config
+from hypercorn.asyncio import serve
+import asyncio
 
 load_dotenv()
 
@@ -14,6 +17,11 @@ api_id = os.getenv("TELEGRAM_API_ID")
 api_hash = os.getenv("TELEGRAM_API_HASH")
 # Initialise telegram client with API codes
 client = TelegramClient(os.getenv("TELEGRAM_API_SESSION"), api_id, api_hash)
+
+async def run_server():
+    config = {"certfile": "./certs/cert.crt", "keyfile": "./certs/certkey.key", "bind": ['0.0.0.0:5015'], "use_reloader": True}
+    config_file = Config.from_mapping(config)
+    await serve(app, config_file)
 
 async def send_message(user_details, message_content, name):
     new_contact = ""
@@ -113,5 +121,6 @@ async def send_payment():
     return jsonify({"code": 200, "data":{'message': 'Message sent successfully'}}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5015, host='0.0.0.0', use_reloader=True)
+    asyncio.run(run_server())
+    # app.run(debug=True, port=5015, host='0.0.0.0', use_reloader=True)
 

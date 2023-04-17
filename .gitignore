@@ -3,3 +3,4 @@
 /backend/*.session
 /backend/APIs/*.session
 /node_modules
+/certs

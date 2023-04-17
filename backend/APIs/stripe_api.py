@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
+# use /cert/cert.crt and /cert/certkey.key for ssl_context
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
 app = Flask(__name__)
@@ -51,5 +52,5 @@ def stripepay():
         return jsonify({"code":400, "data":{"message": f'{e}', "status": "failed"}}), 400
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5016, host='0.0.0.0')
+    app.run(debug=True, port=5016, host='0.0.0.0', ssl_context=('./certs/cert.crt', './certs/certkey.key'), use_reloader=True)
 

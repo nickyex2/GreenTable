@@ -1,5 +1,13 @@
 # ESD-Group6
 
+## Tech Stack: FReMP (Flask, React, MongoDB, Python)
+
+## Team Members
+Nicholas Goh <br>
+Colin Mok <br>
+Daniel Lai <br>
+Nicklaus Chiok <br>
+Daryl Yoon <br>
 ## set environ variables into a .env file for microservices to use
 
 ``` 
