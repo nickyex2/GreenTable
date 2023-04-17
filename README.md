@@ -1,4 +1,4 @@
-# ESD-Group6
+# GreenTable (An ESD Project)
 
 ## Tech Stack: FReMP (Flask, React, MongoDB, Python)
 
