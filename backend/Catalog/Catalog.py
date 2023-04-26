@@ -230,4 +230,4 @@ def updateRating():
         return jsonify({"code": 500, "data": {"message": str(e)}}), 500
 
 if __name__ == '__main__':
-    Catalog.run(port=5002, debug=True, host="0.0.0.0")
+    Catalog.run(port=5002, debug=True, host="0.0.0.0", ssl_context=('./certs/cert.crt', './certs/certkey.key'))

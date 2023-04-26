@@ -97,4 +97,4 @@ def cancelBooking(booking_id):
     #     return jsonify({"code": 500, "data":{'message': "Error deleting booking"}}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5005)
+    app.run(debug=True, host='0.0.0.0', port=5005, ssl_context=('./certs/cert.crt', './certs/certkey.key'))

@@ -77,4 +77,4 @@ def postWaitList():
     return jsonify({"code": 200, "data": {'message': 'WaitList added successfully'}}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5010)
+    app.run(debug=True, host='0.0.0.0', port=5010, ssl_context=('./certs/cert.crt', './certs/certkey.key'))

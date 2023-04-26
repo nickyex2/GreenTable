@@ -97,4 +97,4 @@ def send_payment():
 
 # main driver function
 if __name__ == '__main__':
-    app.run(debug=True, port=5014, host='0.0.0.0')
+    app.run(debug=True, port=5014, host='0.0.0.0', ssl_context=('./certs/cert.crt', './certs/certkey.key'))

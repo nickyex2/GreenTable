@@ -103,8 +103,8 @@ services:
   #################################################
   customer:
     build:
-      context: ./backend
-      dockerfile: ./Customer/customer.Dockerfile
+      context: ./
+      dockerfile: ./backend/Customer/customer.Dockerfile
     image: nickyex2/customer:latest
     restart: always
     environment:
@@ -119,8 +119,8 @@ services:
   #################################################
   catalog:
     build:
-      context: ./backend
-      dockerfile: ./Catalog/catalog.Dockerfile
+      context: ./
+      dockerfile: ./backend/Catalog/catalog.Dockerfile
     image: nickyex2/catalog:latest
     restart: always
     environment:
@@ -136,8 +136,8 @@ services:
   #################################################
   booking:
     build:
-      context: ./backend
-      dockerfile: ./Booking/booking.Dockerfile
+      context: ./
+      dockerfile: ./backend/Booking/booking.Dockerfile
     image: nickyex2/booking:latest
     restart: always
     environment:
@@ -152,8 +152,8 @@ services:
   #################################################
   waitlist:
     build:
-      context: ./backend
-      dockerfile: ./WaitList/waitlist.Dockerfile
+      context: ./
+      dockerfile: ./backend/WaitList/waitlist.Dockerfile
     image: nickyex2/waitlist:latest
     restart: always
     environment:
@@ -168,13 +168,13 @@ services:
   #################################################
   payment:
     build:
-      context: ./backend
-      dockerfile: ./Payment/payment.Dockerfile
+      context: ./
+      dockerfile: ./backend/Payment/payment.Dockerfile
     image: nickyex2/payment:latest
     restart: always
     environment:
       PYTHONUNBUFFERED: 1
-      stripe_url: http://stripe-api:5016/api/stripepay
+      stripe_url: https://stripe-api:5016/api/stripepay
     # ports:
     #   - "5004:5004"
     expose:
@@ -186,8 +186,8 @@ services:
   #################################################
   notification:
     build:
-      context: ./backend
-      dockerfile: ./Notification/notification.Dockerfile
+      context: ./
+      dockerfile: ./backend/Notification/notification.Dockerfile
     image: nickyex2/notification:latest
     restart: always
     depends_on:
@@ -197,8 +197,8 @@ services:
       rabbit_host: rabbitmq
       rabbit_port: 5672
       PYTHONUNBUFFERED: 1
-      telegram_url: http://telegram-send-api:5015
-      twilio_url: http://twilio-sendgrid-api:5014
+      telegram_url: https://telegram-send-api:5015
+      twilio_url: https://twilio-sendgrid-api:5014
     networks:
       - kong-net
 
@@ -207,8 +207,8 @@ services:
   ###################################
   error:
     build:
-      context: ./backend
-      dockerfile: ./Error/error.Dockerfile
+      context: ./
+      dockerfile: ./backend/Error/error.Dockerfile
     image: nickyex2/error:latest
     restart: always
     depends_on:
@@ -250,8 +250,8 @@ services:
   ###################################################
   twilio-sendgrid-api:
     build:
-      context: ./backend
-      dockerfile: ./APIs/twilio_sendgrid_api.Dockerfile
+      context: ./
+      dockerfile: ./backend/APIs/twilio_sendgrid_api.Dockerfile
     image: nickyex2/twilio-sendgrid-api:latest
     restart: always
     depends_on:
@@ -272,8 +272,8 @@ services:
   ###################################################
   stripe-api:
     build:
-      context: ./backend
-      dockerfile: ./APIs/stripe_api.Dockerfile
+      context: ./
+      dockerfile: ./backend/APIs/stripe_api.Dockerfile
     image: nickyex2/stripe-api:latest
     restart: always
     # depends_on:
@@ -310,8 +310,8 @@ services:
   ###################################################
   cancel-booking:
     build:
-      context: ./backend
-      dockerfile: ./cancel_booking.Dockerfile
+      context: ./
+      dockerfile: ./backend/cancel_booking.Dockerfile
     image: nickyex2/cancel-booking:latest
     restart: always
     depends_on:
@@ -320,8 +320,8 @@ services:
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
-      booking_url: http://booking:5003/booking
-      catalog_url: http://catalog:5002/catalog
+      booking_url: https://booking:5003/booking
+      catalog_url: https://catalog:5002/catalog
       PYTHONUNBUFFERED: 1
     ports:
       - "5005:5005"
@@ -332,8 +332,8 @@ services:
   ####################################################
   notify-customer:
     build:
-      context: ./backend
-      dockerfile: ./notify_customer.Dockerfile
+      context: ./
+      dockerfile: ./backend/notify_customer.Dockerfile
     image: nickyex2/notify-customer:latest
     restart: always
     depends_on:
@@ -342,7 +342,7 @@ services:
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
-      waitlist_url: http://waitlist:5010/waitlist
+      waitlist_url: https://waitlist:5010/waitlist
       PYTHONUNBUFFERED: 1
     networks:
       - kong-net
@@ -351,8 +351,8 @@ services:
   ###################################################
   make-payment:
     build:
-      context: ./backend
-      dockerfile: ./make_payment.Dockerfile
+      context: ./
+      dockerfile: ./backend/make_payment.Dockerfile
     image: nickyex2/make-payment:latest
     restart: always
     depends_on:
@@ -361,9 +361,9 @@ services:
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
-      payment_url: http://payment:5004/payment
-      booking_url: http://booking:5003/booking
-      customer_url: http://customer:5001/customer
+      payment_url: https://payment:5004/payment
+      booking_url: https://booking:5003/booking
+      customer_url: https://customer:5001/customer
       PYTHONUNBUFFERED: 1
     ports:
       - "5007:5007"
@@ -374,8 +374,8 @@ services:
   ####################################################
   place-booking:
     build:
-      context: ./backend
-      dockerfile: ./place_booking.Dockerfile
+      context: ./
+      dockerfile: ./backend/place_booking.Dockerfile
     image: nickyex2/place-booking:latest
     restart: always
     depends_on:
@@ -384,10 +384,10 @@ services:
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
-      waitlist_url: http://waitlist:5010/waitlist
-      booking_url: http://booking:5003/booking
-      catalog_url: http://catalog:5002/catalog
-      customer_url: http://customer:5001/customer
+      waitlist_url: https://waitlist:5010/waitlist
+      booking_url: https://booking:5003/booking
+      catalog_url: https://catalog:5002/catalog
+      customer_url: https://customer:5001/customer
       PYTHONUNBUFFERED: 1
     ports:
       - "5006:5006"

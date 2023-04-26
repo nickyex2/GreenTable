@@ -170,4 +170,4 @@ def updatePaymentStatus():
 
 
 if __name__ == '__main__':
-    Booking.run(port=5003, debug=True, host="0.0.0.0")
+    Booking.run(port=5003, debug=True, host="0.0.0.0", ssl_context=('./certs/cert.crt', './certs/certkey.key'))
